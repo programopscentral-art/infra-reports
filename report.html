@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Infrastructure Report</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0f0f14;font-family:Arial,sans-serif;color:#e8e8f0;min-height:100vh;}
+.layout{display:grid;grid-template-columns:200px 1fr;min-height:100vh;}
+.sidebar{width:200px;background:#0c0c10;border-right:1px solid #1e1e2a;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;padding:20px 0;display:flex;flex-direction:column;}
+.sb-logo{padding:0 16px 16px;border-bottom:1px solid #1e1e2a;margin-bottom:12px;}
+.sb-logo-eye{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#5b7cfa;margin-bottom:4px;}
+.sb-logo-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;}
+.sb-logo-date{font-size:10px;color:#444;font-family:monospace;}
+.sb-section{padding:0 8px;margin-bottom:6px;}
+.sb-lbl{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#333;padding:0 8px;margin-bottom:5px;}
+.nb{display:flex;align-items:center;gap:8px;width:100%;padding:6px 8px;border-radius:6px;border:none;background:none;font-size:11px;color:#555;cursor:pointer;text-align:left;font-family:Arial,sans-serif;transition:all .15s;}
+.nb:hover{background:#141418;color:#aaa;}
+.nb.cur{background:rgba(91,124,250,.1);color:#8a99ff;}
+.nd{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.nc{margin-left:auto;font-size:9px;font-family:monospace;background:#1a1a20;padding:1px 5px;border-radius:8px;color:#444;}
+.sb-foot{margin-top:auto;padding:14px 16px;border-top:1px solid #1e1e2a;font-size:10px;color:#2a2a3a;line-height:1.7;}
+.main{margin-left:200px;padding:28px 32px;max-width:100%;}
+.page-eye{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#5b7cfa;margin-bottom:6px;}
+.page-h1{font-size:22px;font-weight:700;color:#fff;margin-bottom:4px;}
+.page-sub{font-size:11px;color:#444;font-family:monospace;margin-bottom:22px;}
+.btn-row{display:flex;gap:8px;margin-bottom:20px;}
+.hbtn{font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid #1e1e2a;background:none;color:#555;cursor:pointer;font-family:Arial,sans-serif;}
+.hbtn:hover{background:#141418;color:#aaa;}
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:22px;}
+.kpi{background:#141418;border:1px solid #1e1e2a;border-radius:9px;padding:14px;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.kpi-u::before{background:#5b7cfa;}.kpi-i::before{background:#ff5c5c;}.kpi-h::before{background:#ff5c5c;}.kpi-r::before{background:#4dcc88;}.kpi-p::before{background:#ffaa33;}
+.kpi-lbl{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#444;margin-bottom:6px;}
+.kpi-val{font-size:22px;font-weight:700;line-height:1;margin-bottom:3px;}
+.kpi-sub{font-size:10px;color:#444;}
+.charts-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px;margin-bottom:22px;}
+.chart-card{background:#141418;border:1px solid #1e1e2a;border-radius:9px;padding:14px;}
+.cc-title{font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;}
+.cc-sub{font-size:10px;color:#444;margin-bottom:12px;}
+.sec-lbl{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#333;margin-bottom:10px;}
+.toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.toolbar select{background:#141418;border:1px solid #1e1e2a;color:#aaa;font-size:11px;padding:5px 8px;border-radius:7px;font-family:Arial,sans-serif;}
+.toolbar input{background:#141418;border:1px solid #1e1e2a;color:#aaa;font-size:11px;padding:5px 8px;border-radius:7px;font-family:Arial,sans-serif;flex:1;min-width:120px;}
+.toolbar input::placeholder{color:#333;}
+.uni-block{margin-bottom:16px;}
+.uni-hdr{display:flex;align-items:center;gap:8px;padding:9px 12px;background:#141418;border:1px solid #1e1e2a;border-radius:8px 8px 0 0;border-bottom:none;}
+.uni-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.uni-name{font-size:12px;font-weight:700;color:#fff;flex:1;}
+.uni-stats{display:flex;gap:10px;font-size:10px;font-family:monospace;}
+.ush{color:#ff5c5c;}.usm{color:#ffaa33;}.usl{color:#4dcc88;}
+.issue-table-wrap{background:#141418;border:1px solid #1e1e2a;border-radius:0 0 8px 8px;overflow:hidden;}
+.itbl{width:100%;border-collapse:collapse;font-size:11px;}
+.itbl th{font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:#333;padding:7px 12px;border-bottom:1px solid #1e1e2a;text-align:left;background:#0f0f14;}
+.itbl td{padding:10px 12px;border-bottom:1px solid #141418;vertical-align:top;color:#ccc;}
+.itbl tr:last-child td{border-bottom:none;}
+.itbl tr:hover td{background:rgba(255,255,255,.02);}
+.issue-title{font-weight:700;color:#fff;margin-bottom:2px;font-size:12px;}
+.issue-desc{font-size:10px;color:#444;line-height:1.5;}
+.pri-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;}
+.pri-h{background:rgba(255,92,92,.12);color:#ff5c5c;}.pri-m{background:rgba(255,170,51,.12);color:#ffaa33;}.pri-l{background:rgba(77,204,136,.12);color:#4dcc88;}
+.type-tag{font-size:9px;background:rgba(255,255,255,.05);color:#444;padding:2px 6px;border-radius:4px;}
+.loc{font-size:10px;color:#333;font-family:monospace;}
+.time{font-size:10px;color:#2a2a3a;font-family:monospace;}
+.pt-wrap{background:#141418;border:1px solid #1e1e2a;border-radius:9px;overflow:hidden;margin-bottom:22px;}
+.ptbl{width:100%;border-collapse:collapse;font-size:11px;}
+.ptbl th{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#333;padding:8px 14px;border-bottom:1px solid #1e1e2a;text-align:left;background:#0f0f14;}
+.ptbl td{padding:10px 14px;border-bottom:1px solid #141418;color:#888;vertical-align:middle;}
+.ptbl tr:last-child td{border-bottom:none;}
+.ptbl tr:hover td{background:rgba(255,255,255,.015);}
+.st{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:2px 8px;border-radius:12px;}
+.st-sub{background:rgba(77,204,136,.1);color:#4dcc88;}.st-op{background:rgba(255,170,51,.1);color:#ffaa33;}.st-no{background:rgba(255,92,92,.1);color:#ff5c5c;}
+.ts{font-family:monospace;font-size:11px;}
+.uni-chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;font-size:10px;color:#444;}
+.leg{display:flex;align-items:center;gap:4px;}
+.leg-sq{width:8px;height:8px;border-radius:2px;}
+.empty{text-align:center;padding:24px;color:#2a2a3a;font-size:12px;}
+.footer{font-size:10px;color:#222;text-align:center;padding:16px;border-top:1px solid #1a1a20;}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-eye">Weekly digest</div>
+    <div class="sb-logo-title">Infrastructure report</div>
+    <div class="sb-logo-date" id="sb-date">Loading...</div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-lbl">Universities</div>
+    <button class="nb cur" id="nb-all" onclick="filterUni('all',this)">All universities</button>
+  </div>
+  <div class="sb-section" style="margin-top:12px;">
+    <div class="sb-lbl">Priority</div>
+    <button class="nb" onclick="filterPri('High')"><span class="nd" style="background:#ff5c5c;"></span>High</button>
+    <button class="nb" onclick="filterPri('Medium')"><span class="nd" style="background:#ffaa33;"></span>Medium</button>
+    <button class="nb" onclick="filterPri('Low')"><span class="nd" style="background:#4dcc88;"></span>Low</button>
+    <button class="nb" onclick="filterAll()" style="margin-top:4px;color:#333;">Show all</button>
+  </div>
+  <div class="sb-foot" id="sb-foot">Infrastructure Automation<br/>n8n · Google Sheets<br/>Gmail SMTP</div>
+</div>
+
+<div class="main">
+  <div class="page-eye">Infrastructure digest</div>
+  <h1 class="page-h1">Weekly issues report</h1>
+  <p class="page-sub" id="page-sub">Loading...</p>
+
+  <div class="btn-row">
+    <button class="hbtn" onclick="window.print()">Print</button>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi kpi-u"><div class="kpi-lbl">Universities</div><div class="kpi-val" style="color:#5b7cfa;" id="kpi-uni">0</div><div class="kpi-sub">reporting this week</div></div>
+    <div class="kpi kpi-i"><div class="kpi-lbl">Total issues</div><div class="kpi-val" style="color:#ff5c5c;" id="kpi-total">0</div><div class="kpi-sub">logged Saturday</div></div>
+    <div class="kpi kpi-h"><div class="kpi-lbl">High priority</div><div class="kpi-val" style="color:#ff5c5c;" id="kpi-high">0</div><div class="kpi-sub">need urgent action</div></div>
+    <div class="kpi kpi-r"><div class="kpi-lbl">Response rate</div><div class="kpi-val" style="color:#4dcc88;" id="kpi-rate">0%</div><div class="kpi-sub" id="kpi-rate-sub">of students</div></div>
+    <div class="kpi kpi-p"><div class="kpi-lbl">Not opened</div><div class="kpi-val" style="color:#ffaa33;" id="kpi-notopen">0</div><div class="kpi-sub">email not seen</div></div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="cc-title">Issues by university</div>
+      <div class="cc-sub">Priority breakdown per university</div>
+      <div class="legend">
+        <span class="leg"><span class="leg-sq" style="background:#ff5c5c;"></span>High</span>
+        <span class="leg"><span class="leg-sq" style="background:#ffaa33;"></span>Medium</span>
+        <span class="leg"><span class="leg-sq" style="background:#4dcc88;"></span>Low</span>
+      </div>
+      <div style="position:relative;height:160px;"><canvas id="uniChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-title">Issue types</div>
+      <div class="cc-sub">Distribution by category</div>
+      <div style="position:relative;height:160px;"><canvas id="typeChart"></canvas></div>
+      <div class="legend" style="margin-top:8px;" id="type-legend"></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-title">Priority split</div>
+      <div class="cc-sub">Overall severity</div>
+      <div style="position:relative;height:160px;"><canvas id="priChart"></canvas></div>
+      <div class="legend" style="margin-top:8px;justify-content:center;" id="pri-legend"></div>
+    </div>
+  </div>
+
+  <div class="sec-lbl">All issues</div>
+  <div class="toolbar">
+    <select id="f-uni" onchange="applyF()"><option value="all">All universities</option></select>
+    <select id="f-pri" onchange="applyF()"><option value="all">All priorities</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select>
+    <select id="f-type" onchange="applyF()"><option value="all">All types</option></select>
+    <input id="f-q" placeholder="Search issues, location, student…" oninput="applyF()"/>
+  </div>
+  <div id="issues-container"></div>
+
+  <div class="sec-lbl" style="margin-top:22px;">Student participation</div>
+  <div class="pt-wrap">
+    <table class="ptbl">
+      <thead><tr><th>Student</th><th>University</th><th>Email opened</th><th>Form submitted</th><th>Issues</th><th>Status</th></tr></thead>
+      <tbody id="ptbl-body"></tbody>
+    </table>
+  </div>
+
+  <div class="footer" id="footer">Infrastructure digest · n8n + Google Sheets + Gmail SMTP</div>
+</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// DATA — n8n replaces everything between DATA_START and DATA_END
+// ══════════════════════════════════════════════════════════════════
+// DATA_START
+const REPORT_DATE = "2026-06-18";
+const ISSUES = [{"uni": "Aurora", "title": "Broken AC", "type": "HVAC", "pri": "High", "loc": "Lab 3", "student": "Test Student", "time": "10:00:00", "desc": "AC not cooling, room at 32\u00b0C"}];
+const PARTICIPATION = [{"name": "Test Student", "university": "Aurora", "openedAt": "9:14 AM", "submittedAt": "\u2014", "submitted": false, "issueCount": 0, "status": "Not opened"}, {"name": "Test Student", "university": "Aurora", "openedAt": "9:14 AM", "submittedAt": "\u2014", "submitted": false, "issueCount": 0, "status": "Opened only"}];
+const STATS = {"uniCount": 1, "totalIssues": 1, "highCount": 1, "totalStudents": 2, "submitted": 0, "notOpened": 1};
+// DATA_END
+// ══════════════════════════════════════════════════════════════════
+
+const UNI_COLORS={Aurora:'#5b7cfa',CDU:'#22c98a',KKH:'#f5a623',Chevella:'#c96dfa'};
+const TYPE_COLORS=['#5b7cfa','#22c98a','#f5a623','#c96dfa','#ff5c5c','#22d4e8','#ffaa33'];
+const priC={High:'pri-h',Medium:'pri-m',Low:'pri-l'};
+
+function getUniColor(u){return UNI_COLORS[u]||'#888';}
+
+function init(){
+  document.getElementById('sb-date').textContent='SAT '+REPORT_DATE;
+  document.getElementById('page-sub').textContent=REPORT_DATE+' · GENERATED 20:00 · '+STATS.uniCount+' UNIVERSITIES · '+STATS.totalIssues+' ISSUES';
+  document.getElementById('footer').textContent='Infrastructure digest · n8n + Google Sheets + Gmail SMTP · '+REPORT_DATE+' · Saved to Google Drive';
+  document.getElementById('kpi-uni').textContent=STATS.uniCount;
+  document.getElementById('kpi-total').textContent=STATS.totalIssues;
+  document.getElementById('kpi-high').textContent=STATS.highCount;
+  document.getElementById('kpi-rate').textContent=Math.round(STATS.submitted/STATS.totalStudents*100)+'%';
+  document.getElementById('kpi-rate-sub').textContent=STATS.submitted+' of '+STATS.totalStudents+' submitted';
+  document.getElementById('kpi-notopen').textContent=STATS.notOpened;
+
+  const unis=[...new Set(ISSUES.map(i=>i.uni))];
+  const fUni=document.getElementById('f-uni');
+  unis.forEach(u=>{const o=document.createElement('option');o.value=u;o.textContent=u;fUni.appendChild(o);});
+
+  const types=[...new Set(ISSUES.map(i=>i.type))];
+  const fType=document.getElementById('f-type');
+  types.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;fType.appendChild(o);});
+
+  const sbSec=document.querySelector('.sb-section');
+  unis.forEach(u=>{
+    const cnt=ISSUES.filter(i=>i.uni===u).length;
+    const col=getUniColor(u);
+    const btn=document.createElement('button');
+    btn.className='nb';
+    btn.innerHTML=`<span class="nd" style="background:${col};"></span>${u}<span class="nc">${cnt}</span>`;
+    btn.onclick=()=>filterUni(u,btn);
+    sbSec.appendChild(btn);
+  });
+
+  buildParticipation();
+  buildCharts(unis,types);
+  applyF();
+}
+
+function buildHTML(list){
+  if(!list.length)return'<div class="empty">No issues match filters.</div>';
+  const unis=[...new Set(list.map(i=>i.uni))];
+  return unis.map(u=>{
+    const ui=list.filter(i=>i.uni===u);
+    const col=getUniColor(u);
+    const h=ui.filter(i=>i.pri==='High').length;
+    const m=ui.filter(i=>i.pri==='Medium').length;
+    const l=ui.filter(i=>i.pri==='Low').length;
+    const rows=ui.map(i=>`<tr>
+      <td><div class="issue-title">${i.title}</div><div class="issue-desc">${i.desc}</div></td>
+      <td><span class="type-tag">${i.type}</span></td>
+      <td><span class="pri-badge ${priC[i.pri]}">${i.pri}</span></td>
+      <td><span class="loc">${i.loc}</span></td>
+      <td style="color:#555;">${i.student}</td>
+      <td><span class="time">${i.time||'—'}</span></td>
+    </tr>`).join('');
+    return`<div class="uni-block">
+      <div class="uni-hdr"><span class="uni-dot" style="background:${col};"></span><span class="uni-name">${u}</span>
+      <div class="uni-stats">${h?`<span class="ush">${h} high</span>`:''} ${m?`<span class="usm">${m} med</span>`:''} ${l?`<span class="usl">${l} low</span>`:''}</div></div>
+      <div class="issue-table-wrap"><table class="itbl">
+        <thead><tr><th style="width:32%">Issue</th><th style="width:10%">Type</th><th style="width:10%">Priority</th><th style="width:22%">Location</th><th style="width:14%">Student</th><th style="width:12%">Time</th></tr></thead>
+        <tbody>${rows}</tbody></table></div></div>`;
+  }).join('');
+}
+
+function buildParticipation(){
+  const body=document.getElementById('ptbl-body');
+  const uniColorMap={};
+  Object.assign(uniColorMap,UNI_COLORS);
+  body.innerHTML=PARTICIPATION.map(p=>{
+    const col=getUniColor(p.university);
+    const stCls=p.status==='Submitted'?'st-sub':p.status==='Opened only'?'st-op':'st-no';
+    const tsCol=p.openedAt&&p.openedAt!=='—'?'color:#4dcc88':'color:#333';
+    return`<tr>
+      <td style="color:#fff;font-weight:700;">${p.name}</td>
+      <td><span class="uni-chip" style="background:${col}22;color:${col};">${p.university}</span></td>
+      <td><span class="ts" style="${tsCol}">${p.openedAt||'—'}</span></td>
+      <td><span class="ts" style="color:${p.submitted?'#4dcc88':'#333'};">${p.submittedAt||'—'}</span></td>
+      <td style="color:${p.issueCount>0?'#fff':'#333'};">${p.issueCount||'—'}</td>
+      <td><span class="st ${stCls}"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;display:inline-block;"></span>${p.status}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function buildCharts(unis,types){
+  new Chart(document.getElementById('uniChart'),{type:'bar',data:{labels:unis,datasets:[
+    {label:'High',data:unis.map(u=>ISSUES.filter(i=>i.uni===u&&i.pri==='High').length),backgroundColor:'#ff5c5c',borderRadius:3,borderSkipped:false},
+    {label:'Medium',data:unis.map(u=>ISSUES.filter(i=>i.uni===u&&i.pri==='Medium').length),backgroundColor:'#ffaa33',borderRadius:3,borderSkipped:false},
+    {label:'Low',data:unis.map(u=>ISSUES.filter(i=>i.uni===u&&i.pri==='Low').length),backgroundColor:'#4dcc88',borderRadius:3,borderSkipped:false}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'#111'},ticks:{color:'#444',font:{size:10}}},y:{beginAtZero:true,ticks:{stepSize:1,color:'#444',font:{size:10}},grid:{color:'#111'}}}}});
+
+  const typeCounts=types.map(t=>ISSUES.filter(i=>i.type===t).length);
+  const typeColors=types.map((_,idx)=>TYPE_COLORS[idx%TYPE_COLORS.length]);
+  new Chart(document.getElementById('typeChart'),{type:'doughnut',data:{labels:types,datasets:[{data:typeCounts,backgroundColor:typeColors,borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false}}}});
+  const tLeg=document.getElementById('type-legend');
+  tLeg.innerHTML=types.map((t,i)=>`<span class="leg"><span class="leg-sq" style="background:${typeColors[i]};"></span>${t}</span>`).join('');
+
+  new Chart(document.getElementById('priChart'),{type:'doughnut',data:{labels:['High','Medium','Low'],datasets:[{data:[STATS.highCount,STATS.totalIssues-STATS.highCount-ISSUES.filter(i=>i.pri==='Low').length,ISSUES.filter(i=>i.pri==='Low').length],backgroundColor:['#ff5c5c','#ffaa33','#4dcc88'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false}}}});
+  const lCount=ISSUES.filter(i=>i.pri==='Low').length;
+  const mCount=ISSUES.filter(i=>i.pri==='Medium').length;
+  document.getElementById('pri-legend').innerHTML=`<span class="leg"><span class="leg-sq" style="background:#ff5c5c;"></span>High ${STATS.highCount}</span><span class="leg"><span class="leg-sq" style="background:#ffaa33;"></span>Med ${mCount}</span><span class="leg"><span class="leg-sq" style="background:#4dcc88;"></span>Low ${lCount}</span>`;
+}
+
+function applyF(){
+  const u=document.getElementById('f-uni').value;
+  const p=document.getElementById('f-pri').value;
+  const t=document.getElementById('f-type').value;
+  const q=document.getElementById('f-q').value.toLowerCase();
+  const f=ISSUES.filter(i=>(u==='all'||i.uni===u)&&(p==='all'||i.pri===p)&&(t==='all'||i.type===t)&&(!q||i.title.toLowerCase().includes(q)||i.loc.toLowerCase().includes(q)||i.student.toLowerCase().includes(q)||i.desc.toLowerCase().includes(q)));
+  document.getElementById('issues-container').innerHTML=buildHTML(f);
+}
+
+function filterUni(u,btn){
+  document.getElementById('f-uni').value=u;
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('cur'));
+  if(btn)btn.classList.add('cur');
+  else document.getElementById('nb-all').classList.add('cur');
+  applyF();
+}
+function filterPri(p){document.getElementById('f-pri').value=p;applyF();}
+function filterAll(){document.getElementById('f-uni').value='all';document.getElementById('f-pri').value='all';document.getElementById('f-type').value='all';document.getElementById('f-q').value='';document.querySelectorAll('.nb').forEach(b=>b.classList.remove('cur'));document.getElementById('nb-all').classList.add('cur');applyF();}
+
+init();
+</script>
+</body>
+</html>
