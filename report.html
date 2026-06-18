@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -172,12 +171,11 @@ body{background:#0f0f14;font-family:Arial,sans-serif;color:#e8e8f0;min-height:10
 // ══════════════════════════════════════════════════════════════════
 // DATA — n8n replaces everything between DATA_START and DATA_END
 // ══════════════════════════════════════════════════════════════════
-// DATA_START
 const REPORT_DATE = "2026-06-18";
-const ISSUES = [{"uni": "Aurora", "title": "Broken AC", "type": "HVAC", "pri": "High", "loc": "Lab 3", "student": "Test Student", "time": "10:00:00", "desc": "AC not cooling, room at 32\u00b0C"}];
-const PARTICIPATION = [{"name": "Test Student", "university": "Aurora", "openedAt": "9:14 AM", "submittedAt": "\u2014", "submitted": false, "issueCount": 0, "status": "Not opened"}, {"name": "Test Student", "university": "Aurora", "openedAt": "9:14 AM", "submittedAt": "\u2014", "submitted": false, "issueCount": 0, "status": "Opened only"}];
-const STATS = {"uniCount": 1, "totalIssues": 1, "highCount": 1, "totalStudents": 2, "submitted": 0, "notOpened": 1};
-// DATA_END
+const ISSUES = [{"uni":"Aurora","title":"Broken AC","type":"HVAC","pri":"High","loc":"Lab 3","student":"Test Student ","time":"2026-06-18 10:00:00","desc":"AC not cooling, room at 32°C"}];
+const PARTICIPATION = [{"name":"Test Student","university":"Aurora","openedAt":"—","submittedAt":"—","submitted":false,"issueCount":0,"status":"Not opened"},{"name":"Test Student","university":"Aurora","openedAt":"9:14 AM","submittedAt":"—","submitted":false,"issueCount":0,"status":"Opened only"}];
+const STATS = {"uniCount":1,"totalIssues":1,"highCount":1,"totalStudents":2,"submitted":0,"notOpened":1};
+
 // ══════════════════════════════════════════════════════════════════
 
 const UNI_COLORS={Aurora:'#5b7cfa',CDU:'#22c98a',KKH:'#f5a623',Chevella:'#c96dfa'};
