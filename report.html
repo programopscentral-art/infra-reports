@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Infrastructure Report</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── THEME TOKENS ───────────────────────────────────────── */
+:root {
+  --bg:        #f0f2f5;
+  --surface:   #ffffff;
+  --surface2:  #f8f9fb;
+  --border:    #e4e7ed;
+  --border2:   #d0d5df;
+  --text:      #111827;
+  --sub:       #6b7280;
+  --dim:       #9ca3af;
+  --red:       #dc2626;
+  --amber:     #d97706;
+  --green:     #059669;
+  --blue:      #2563eb;
+  --red-bg:    #fef2f2;
+  --amber-bg:  #fffbeb;
+  --green-bg:  #ecfdf5;
+  --blue-bg:   #eff6ff;
+  --red-border:    #fecaca;
+  --amber-border:  #fde68a;
+  --green-border:  #a7f3d0;
+  --blue-border:   #bfdbfe;
+  --shadow:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.05);
+}
+[data-theme="dark"] {
+  --bg:        #0a0a0f;
+  --surface:   #111117;
+  --surface2:  #0f0f14;
+  --border:    #1e1e2a;
+  --border2:   #2a2a38;
+  --text:      #e8e8f0;
+  --sub:       #6b6b88;
+  --dim:       #3a3a50;
+  --red:       #f05555;
+  --amber:     #f0a030;
+  --green:     #3ec87a;
+  --blue:      #5b8cfa;
+  --red-bg:    rgba(240,85,85,.10);
+  --amber-bg:  rgba(240,160,48,.10);
+  --green-bg:  rgba(62,200,122,.10);
+  --blue-bg:   rgba(91,140,250,.10);
+  --red-border:    rgba(240,85,85,.25);
+  --amber-border:  rgba(240,160,48,.25);
+  --green-border:  rgba(62,200,122,.25);
+  --blue-border:   rgba(91,140,250,.25);
+  --shadow:    0 1px 3px rgba(0,0,0,.4);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  transition: background .2s, color .2s;
+}
+
+/* ── HEADER ─────────────────────────────────────────────── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 16px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-icon {
+  width: 34px; height: 34px;
+  background: var(--blue-bg);
+  border: 1px solid var(--blue-border);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.brand-name  { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.brand-cycle { font-size: 10px; color: var(--sub); font-family: 'JetBrains Mono', monospace; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.date-chip {
+  font-size: 10px; font-family: 'JetBrains Mono', monospace;
+  color: var(--sub); background: var(--surface2);
+  border: 1px solid var(--border); padding: 4px 9px; border-radius: 6px;
+}
+.theme-btn {
+  width: 30px; height: 30px; border-radius: 7px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--sub); cursor: pointer; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.theme-btn:hover { border-color: var(--border2); color: var(--text); }
+
+/* pill filters */
+.pills { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.pills::-webkit-scrollbar { display: none; }
+.pill {
+  flex-shrink: 0; font-size: 11px; font-weight: 500;
+  padding: 5px 13px; border-radius: 20px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--sub); cursor: pointer;
+  font-family: 'Inter', sans-serif; transition: all .15s;
+  display: flex; align-items: center; gap: 5px;
+}
+.pill:hover { border-color: var(--border2); color: var(--text); }
+.pill.on       { background: var(--blue-bg);  border-color: var(--blue-border);  color: var(--blue); }
+.pill.on.red   { background: var(--red-bg);   border-color: var(--red-border);   color: var(--red); }
+.pill.on.amber { background: var(--amber-bg); border-color: var(--amber-border); color: var(--amber); }
+.pill.on.green { background: var(--green-bg); border-color: var(--green-border); color: var(--green); }
+.pdot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* ── LAYOUT ─────────────────────────────────────────────── */
+.main { padding: 20px 16px 48px; max-width: 680px; margin: 0 auto; }
+
+.sec-label {
+  font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--dim); font-family: 'JetBrains Mono', monospace;
+  margin: 22px 0 10px;
+}
+.sec-label:first-child { margin-top: 0; }
+
+/* ── KPI GRID ───────────────────────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.kpi {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 15px;
+  display: flex; align-items: center; gap: 11px;
+  box-shadow: var(--shadow); transition: border-color .15s;
+}
+.kpi:hover { border-color: var(--border2); }
+.kpi-ico {
+  width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.kpi-ico svg { width: 16px; height: 16px; stroke-width: 1.75; }
+.kpi-val { font-size: 22px; font-weight: 700; line-height: 1; font-family: 'JetBrains Mono', monospace; }
+.kpi-lbl { font-size: 10px; color: var(--sub); margin-top: 3px; }
+
+/* ── DIVIDER ─────────────────────────────────────────────── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+
+/* ── CHART CARDS ────────────────────────────────────────── */
+.cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px; box-shadow: var(--shadow);
+}
+.card-full { grid-column: span 2; }
+.card-title { font-size: 12px; font-weight: 600; color: var(--text); }
+.card-sub   { font-size: 10px; color: var(--sub); margin-bottom: 14px; margin-top: 2px; }
+.chart-wrap { position: relative; height: 140px; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 10px; color: var(--sub); }
+.leg { display: flex; align-items: center; gap: 5px; }
+.leg-sq { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── SEARCH ─────────────────────────────────────────────── */
+.search-wrap { position: relative; margin-bottom: 10px; }
+.search-ico {
+  position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+  color: var(--dim); font-size: 13px; pointer-events: none;
+}
+.search-input {
+  width: 100%; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 10px;
+  color: var(--text); font-size: 13px; font-family: 'Inter', sans-serif;
+  padding: 10px 12px 10px 33px; outline: none; transition: border-color .15s;
+  box-shadow: var(--shadow);
+}
+.search-input::placeholder { color: var(--dim); }
+.search-input:focus { border-color: var(--blue); }
+
+/* ── UNI SECTION ────────────────────────────────────────── */
+.uni-block { margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.uni-hdr {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; background: var(--surface);
+  border: 1px solid var(--border); border-bottom: none;
+  border-radius: 12px 12px 0 0;
+}
+.udot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.uname { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; }
+.utally { display: flex; gap: 6px; font-size: 10px; font-family: 'JetBrains Mono', monospace; }
+.ubadge {
+  font-size: 10px; font-family: 'JetBrains Mono', monospace;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--sub); padding: 2px 8px; border-radius: 10px;
+}
+
+/* ── ISSUE ITEMS ────────────────────────────────────────── */
+.issue-list {
+  background: var(--surface); border: 1px solid var(--border);
+  border-top: none; border-radius: 0 0 12px 12px; overflow: hidden;
+}
+.issue-item {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 10px; padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background .1s;
+}
+.issue-item:last-child { border-bottom: none; }
+.issue-item:hover { background: var(--surface2); }
+.i-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.i-desc  { font-size: 11px; color: var(--sub); line-height: 1.55; margin-bottom: 7px; }
+.i-meta  { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.tag {
+  font-size: 10px; padding: 2px 8px; border-radius: 5px;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--sub); font-family: 'JetBrains Mono', monospace;
+}
+.meta-loc, .meta-who {
+  font-size: 10px; color: var(--dim); font-family: 'JetBrains Mono', monospace;
+  display: inline-flex; align-items: center; gap: 3px;
+}
+.meta-loc svg, .meta-who svg { width: 10px; height: 10px; stroke: var(--dim); flex-shrink: 0; }
+.i-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.pri {
+  font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 6px;
+  letter-spacing: .02em; white-space: nowrap;
+}
+.pri-h { background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-border); }
+.pri-m { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+.pri-l { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.i-time { font-size: 10px; color: var(--dim); font-family: 'JetBrains Mono', monospace; }
+
+/* ── PARTICIPATION ──────────────────────────────────────── */
+.p-card {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 13px 14px; margin-bottom: 8px;
+  box-shadow: var(--shadow); transition: border-color .15s;
+}
+.p-card:hover { border-color: var(--border2); }
+.p-av {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.p-info { flex: 1; min-width: 0; }
+.p-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.p-uni  { font-size: 10px; color: var(--sub); margin-top: 1px; }
+.p-ts   {
+  font-size: 10px; color: var(--dim);
+  font-family: 'JetBrains Mono', monospace; margin-top: 5px; line-height: 1.8;
+}
+.p-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+.st {
+  font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 6px;
+}
+.st-sub { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.st-op  { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+.st-no  { background: var(--surface2); color: var(--sub);   border: 1px solid var(--border); }
+.p-cnt  { font-size: 10px; color: var(--dim); font-family: 'JetBrains Mono', monospace; }
+
+/* ── EMPTY STATE ────────────────────────────────────────── */
+.empty {
+  text-align: center; padding: 36px 20px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; color: var(--dim); font-size: 12px;
+}
+.empty-ico { color: var(--dim); margin-bottom: 8px; display: flex; justify-content: center; }
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+.footer {
+  text-align: center; padding: 20px 16px;
+  font-size: 10px; color: var(--dim);
+  font-family: 'JetBrains Mono', monospace;
+  border-top: 1px solid var(--border); line-height: 1.9;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 400px) {
+  .cards-row { grid-template-columns: 1fr; }
+  .card-full { grid-column: span 1; }
+  .kpi-grid  { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 480px) {
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .main { padding: 24px 20px 56px; }
+}
+@media print {
+  .header { position: static; }
+  .pills, .search-wrap, .theme-btn { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    </div>
+      <div>
+        <div class="brand-name">Infrastructure Report</div>
+        <div class="brand-cycle" id="hdr-cycle">Weekly digest</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="date-chip" id="hdr-date">—</div>
+      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">
+        <svg id="theme-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="pills" id="pills">
+    <button class="pill on"    onclick="setFilter('all',this)">All</button>
+    <button class="pill red"   onclick="setFilter('High',this)"><span class="pdot" style="background:var(--red);"></span>High</button>
+    <button class="pill amber" onclick="setFilter('Medium',this)"><span class="pdot" style="background:var(--amber);"></span>Medium</button>
+    <button class="pill green" onclick="setFilter('Low',this)"><span class="pdot" style="background:var(--green);"></span>Low</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="sec-label">Overview</div>
+  <div class="kpi-grid" id="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-ico" style="background:var(--red-bg);border:1px solid var(--red-border);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+      </div>
+      <div><div class="kpi-val" style="color:var(--red);" id="k-total">0</div><div class="kpi-lbl">Total issues</div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-ico" style="background:var(--red-bg);border:1px solid var(--red-border);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div><div class="kpi-val" style="color:var(--red);" id="k-high">0</div><div class="kpi-lbl">High priority</div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-ico" style="background:var(--blue-bg);border:1px solid var(--blue-border);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" xmlns="http://www.w3.org/2000/svg"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11"/></svg>
+      </div>
+      <div><div class="kpi-val" style="color:var(--blue);" id="k-unis">0</div><div class="kpi-lbl">Universities</div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-ico" style="background:var(--green-bg);border:1px solid var(--green-border);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" xmlns="http://www.w3.org/2000/svg"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <div><div class="kpi-val" style="color:var(--green);" id="k-rate">0%</div><div class="kpi-lbl" id="k-rate-lbl">Submitted</div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-ico" style="background:var(--amber-bg);border:1px solid var(--amber-border);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div><div class="kpi-val" style="color:var(--amber);" id="k-notopen">0</div><div class="kpi-lbl">Not opened</div></div>
+    </div>
+  </div>
+
+  <div class="sec-label">Breakdown</div>
+  <div class="cards-row">
+    <div class="card">
+      <div class="card-title">Priority split</div>
+      <div class="card-sub">Severity distribution</div>
+      <div class="chart-wrap"><canvas id="priChart"></canvas></div>
+      <div class="legend" id="pri-legend"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">By university</div>
+      <div class="card-sub">Issues per campus</div>
+      <div class="chart-wrap"><canvas id="uniChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="sec-label">Issues</div>
+  <div class="search-wrap">
+    <span class="search-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+    <input class="search-input" id="search" placeholder="Search title, location, student…" oninput="applyF()"/>
+  </div>
+  <div id="issues-out"></div>
+
+  <div class="sec-label">Student participation</div>
+  <div id="part-out"></div>
+
+</div>
+
+<div class="footer">
+  Infrastructure digest &nbsp;·&nbsp; n8n + Google Sheets + Gmail SMTP<br/>
+  <span id="footer-info">—</span>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// DATA — n8n replaces the 4 lines between the markers
+// ══════════════════════════════════════════════════════
+// DATA_START
+const REPORT_DATE   = "2026-06-18";
+const ISSUES        = [{"uni":"Aurora","title":"Broken AC","type":"HVAC","pri":"High","loc":"Lab 3","student":"Test Student","time":"2026-06-18 10:00:00","desc":"AC not cooling, room at 32°C"},{"uni":"Aurora","title":"Broken AC","type":"HVAC","pri":"High","loc":"room4","student":"Test Student","time":"2026-06-18 10:11:26","desc":"Ac isnt turning"},{"uni":"Aurora","title":"Broken light","type":"Electrical","pri":"Medium","loc":"block b, room 3","student":"Test Student","time":"2026-06-18 13:11:58","desc":"broken light"}];
+const PARTICIPATION = [{"name":"Test Student","university":"Aurora","openedAt":"—","submittedAt":"—","submitted":false,"issueCount":0,"status":"Not opened"},{"name":"Test Student","university":"Aurora","openedAt":"9:14 AM","submittedAt":"—","submitted":false,"issueCount":0,"status":"Opened only"}];
+const STATS         = {"uniCount":1,"totalIssues":3,"highCount":2,"totalStudents":2,"submitted":0,"notOpened":1};
+// DATA_END
+// ══════════════════════════════════════════════════════
+
+const UNI_COLORS = { Aurora:'#5b8cfa', CDU:'#22c98a', KKH:'#f5a623', Chevella:'#c96dfa' };
+let activePri = 'all';
+let charts = [];
+
+function uniColor(u){ return UNI_COLORS[u]||'#888'; }
+function initials(n){ return (n||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+function priCls(p){ return p==='High'?'pri-h':p==='Medium'?'pri-m':'pri-l'; }
+
+// ── theme ──────────────────────────────────────────────
+function toggleTheme(){
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-ico').innerHTML = dark
+    ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+    : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  rebuildCharts();
+}
+function isDark(){ return document.documentElement.dataset.theme === 'dark'; }
+
+// ── init ───────────────────────────────────────────────
+function init(){
+  const d = new Date(REPORT_DATE);
+  const fmt = d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+  document.getElementById('hdr-date').textContent     = REPORT_DATE;
+  document.getElementById('hdr-cycle').textContent    = fmt;
+  document.getElementById('footer-info').textContent  = REPORT_DATE + ' · Saved to GitHub Pages';
+  document.getElementById('k-total').textContent      = STATS.totalIssues;
+  document.getElementById('k-high').textContent       = STATS.highCount;
+  document.getElementById('k-unis').textContent       = STATS.uniCount;
+  document.getElementById('k-notopen').textContent    = STATS.notOpened;
+  const pct = STATS.totalStudents ? Math.round(STATS.submitted/STATS.totalStudents*100) : 0;
+  document.getElementById('k-rate').textContent       = pct+'%';
+  document.getElementById('k-rate-lbl').textContent   = STATS.submitted+' / '+STATS.totalStudents+' submitted';
+  rebuildCharts();
+  applyF();
+  buildPart();
+}
+
+function gridColor(){ return isDark() ? 'rgba(255,255,255,.05)' : 'rgba(0,0,0,.06)'; }
+function tickColor(){ return isDark() ? '#3a3a50' : '#9ca3af'; }
+
+function rebuildCharts(){
+  charts.forEach(c => c.destroy());
+  charts = [];
+  const unis = [...new Set(ISSUES.map(i=>i.uni))];
+  const hC = ISSUES.filter(i=>i.pri==='High').length;
+  const mC = ISSUES.filter(i=>i.pri==='Medium').length;
+  const lC = ISSUES.filter(i=>i.pri==='Low').length;
+
+  charts.push(new Chart(document.getElementById('priChart'),{
+    type:'doughnut',
+    data:{labels:['High','Medium','Low'],datasets:[{
+      data:[hC,mC,lC],
+      backgroundColor:['#f05555','#f0a030','#3ec87a'],
+      borderWidth:0, hoverOffset:4
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false}}}
+  }));
+  document.getElementById('pri-legend').innerHTML =
+    `<span class="leg"><span class="leg-sq" style="background:#f05555;"></span>High ${hC}</span>
+     <span class="leg"><span class="leg-sq" style="background:#f0a030;"></span>Med ${mC}</span>
+     <span class="leg"><span class="leg-sq" style="background:#3ec87a;"></span>Low ${lC}</span>`;
+
+  charts.push(new Chart(document.getElementById('uniChart'),{
+    type:'bar',
+    data:{
+      labels:unis,
+      datasets:[
+        {label:'High',   data:unis.map(u=>ISSUES.filter(i=>i.uni===u&&i.pri==='High').length),   backgroundColor:'#f05555',borderRadius:3},
+        {label:'Medium', data:unis.map(u=>ISSUES.filter(i=>i.uni===u&&i.pri==='Medium').length), backgroundColor:'#f0a030',borderRadius:3},
+        {label:'Low',    data:unis.map(u=>ISSUES.filter(i=>i.uni===u&&i.pri==='Low').length),    backgroundColor:'#3ec87a',borderRadius:3}
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{stacked:true,grid:{color:gridColor()},ticks:{color:tickColor(),font:{size:10}}},
+        y:{stacked:true,beginAtZero:true,ticks:{stepSize:1,color:tickColor(),font:{size:10}},grid:{color:gridColor()}}
+      }
+    }
+  }));
+}
+
+// ── issues ─────────────────────────────────────────────
+function applyF(){
+  const q = document.getElementById('search').value.toLowerCase();
+  const f = ISSUES.filter(i =>
+    (activePri==='all'||i.pri===activePri) &&
+    (!q||[i.title,i.loc,i.student,i.desc,i.uni].some(v=>(v||'').toLowerCase().includes(q)))
+  );
+  const out = document.getElementById('issues-out');
+  if(!f.length){
+    out.innerHTML='<div class="empty"><div class="empty-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>No issues match the current filters.</div>';
+    return;
+  }
+  const unis = [...new Set(f.map(i=>i.uni))];
+  out.innerHTML = unis.map(u=>{
+    const items=f.filter(i=>i.uni===u), col=uniColor(u);
+    const h=items.filter(i=>i.pri==='High').length;
+    const m=items.filter(i=>i.pri==='Medium').length;
+    const l=items.filter(i=>i.pri==='Low').length;
+    return `<div class="uni-block">
+      <div class="uni-hdr">
+        <span class="udot" style="background:${col};"></span>
+        <span class="uname">${u}</span>
+        <div class="utally">
+          ${h?`<span style="color:var(--red);">${h}H</span>`:''}
+          ${m?`<span style="color:var(--amber);">${m}M</span>`:''}
+          ${l?`<span style="color:var(--green);">${l}L</span>`:''}
+        </div>
+        <span class="ubadge">${items.length}</span>
+      </div>
+      <div class="issue-list">${items.map(i=>`
+        <div class="issue-item">
+          <div>
+            <div class="i-title">${i.title}</div>
+            <div class="i-desc">${i.desc||'No description'}</div>
+            <div class="i-meta">
+              <span class="tag">${i.type}</span>
+              <span class="meta-loc"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${i.loc}</span>
+              <span class="meta-who"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${i.student}</span>
+            </div>
+          </div>
+          <div class="i-right">
+            <span class="pri ${priCls(i.pri)}">${i.pri}</span>
+            <span class="i-time">${(i.time||'').split(' ')[1]||'—'}</span>
+          </div>
+        </div>`).join('')}
+      </div></div>`;
+  }).join('');
+}
+
+// ── participation ──────────────────────────────────────
+function buildPart(){
+  const out = document.getElementById('part-out');
+  if(!PARTICIPATION.length){
+    out.innerHTML='<div class="empty"><div class="empty-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>No participation data yet.</div>';
+    return;
+  }
+  out.innerHTML = PARTICIPATION.map(p=>{
+    const col  = uniColor(p.university);
+    const scls = p.status==='Submitted'?'st-sub':p.status==='Opened only'?'st-op':'st-no';
+    return `<div class="p-card">
+      <div class="p-av" style="background:${col}22;color:${col};">${initials(p.name)}</div>
+      <div class="p-info">
+        <div class="p-name">${p.name}</div>
+        <div class="p-uni">${p.university}</div>
+        <div class="p-ts">
+          ${p.openedAt&&p.openedAt!=='—'
+            ?`<span style="color:var(--green);display:inline-flex;align-items:center;gap:3px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Opened ${p.openedAt}</span>`
+            :'<span style="color:var(--dim);">Not opened</span>'}
+          ${p.submitted?`<br/><span style="color:var(--green);display:inline-flex;align-items:center;gap:3px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Submitted ${p.submittedAt}</span>`:''}
+        </div>
+      </div>
+      <div class="p-right">
+        <span class="st ${scls}">${p.status}</span>
+        <span class="p-cnt">${p.issueCount||0} issue${p.issueCount!==1?'s':''}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setFilter(val,btn){
+  activePri=val;
+  document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  applyF();
+}
+
+// ── respect system preference on first load ────────────
+if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches){
+  document.documentElement.dataset.theme='light';
+  document.getElementById('theme-ico').innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+}
+
+init();
+</script>
+</body>
+</html>
