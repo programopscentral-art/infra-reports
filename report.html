@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -9,228 +9,284 @@
 :root{--bg:#f0f2f5;--surface:#fff;--surface2:#f8f9fb;--border:#e4e7ed;--border2:#d0d5df;--text:#111827;--sub:#6b7280;--dim:#9ca3af;--red:#dc2626;--amber:#d97706;--green:#059669;--blue:#2563eb;--purple:#7c3aed;--red-bg:#fef2f2;--amber-bg:#fffbeb;--green-bg:#ecfdf5;--blue-bg:#eff6ff;--shadow:0 1px 3px rgba(0,0,0,.08)}
 [data-theme="dark"]{--bg:#0a0a0f;--surface:#111117;--surface2:#0f0f14;--border:#1e1e2a;--border2:#2a2a38;--text:#e8e8f0;--sub:#6b6b88;--dim:#3a3a50;--red:#f05555;--amber:#f0a030;--green:#3ec87a;--blue:#5b8cfa;--purple:#9b6dfa;--red-bg:rgba(240,85,85,.1);--amber-bg:rgba(240,160,48,.1);--green-bg:rgba(62,200,122,.1);--blue-bg:rgba(91,140,250,.1);--shadow:0 1px 3px rgba(0,0,0,.4)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-size:14px;line-height:1.5;min-height:100vh;transition:background .2s,color .2s}
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px 12px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
-.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.brand{display:flex;align-items:center;gap:10px}
-.brand-icon{width:34px;height:34px;background:var(--blue-bg);border:1px solid rgba(91,140,250,.25);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.brand-icon svg{width:16px;height:16px;stroke:var(--blue);fill:none;stroke-width:2}
-.brand-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.2}
-.brand-cycle{font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace}
+body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
+
+/* LAYOUT */
+.layout{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;padding:16px 0;flex-shrink:0;z-index:50;transition:transform .2s}
+.sidebar-header{padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.sidebar-title{font-size:13px;font-weight:700;color:var(--text)}
+.sidebar-sub{font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace;margin-top:2px}
+.sb-section{padding:0 8px;margin-bottom:4px}
+.sb-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:0 8px;margin-bottom:4px;margin-top:12px;font-family:'JetBrains Mono',monospace}
+.sb-year{font-size:11px;font-weight:600;color:var(--sub);padding:5px 8px;cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:6px}
+.sb-year:hover{background:var(--surface2);color:var(--text)}
+.sb-year.open{color:var(--text)}
+.sb-year svg{width:10px;height:10px;transition:transform .15s;stroke:currentColor;fill:none;stroke-width:2}
+.sb-year.open svg{transform:rotate(90deg)}
+.sb-months{display:none;padding-left:8px}
+.sb-year.open+.sb-months{display:block}
+.sb-month{font-size:10px;font-weight:600;color:var(--sub);padding:4px 8px;cursor:pointer;border-radius:5px;margin-top:2px}
+.sb-month:hover{color:var(--text)}
+.sb-month.open{color:var(--text)}
+.sb-dates{display:none;padding-left:8px}
+.sb-month.open+.sb-dates{display:block}
+.sb-date{font-size:11px;color:var(--sub);padding:5px 10px;cursor:pointer;border-radius:6px;font-family:'JetBrains Mono',monospace;transition:all .1s;display:flex;align-items:center;gap:6px}
+.sb-date:hover{background:var(--surface2);color:var(--text)}
+.sb-date.active{background:var(--blue-bg);color:var(--blue);font-weight:600}
+.sb-date-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);flex-shrink:0}
+.sb-date.active .sb-date-dot{background:var(--blue)}
+.sb-empty{font-size:11px;color:var(--dim);padding:16px;text-align:center;line-height:1.6}
+
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}
+.header-left{display:flex;align-items:center;gap:10px}
+.menu-btn{display:none;width:32px;height:32px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--sub);cursor:pointer;align-items:center;justify-content:center;font-size:16px}
+.brand-name{font-size:13px;font-weight:700;color:var(--text)}
+.brand-date{font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace}
 .header-right{display:flex;align-items:center;gap:8px}
-.date-chip{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--sub);background:var(--surface2);border:1px solid var(--border);padding:4px 9px;border-radius:6px}
-.theme-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--sub);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
-.theme-btn:hover{border-color:var(--border2);color:var(--text)}
+.theme-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .theme-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
-.main{padding:20px 16px 48px;max-width:680px;margin:0 auto}
+
+/* MAIN */
+.main-wrap{margin-left:220px;flex:1;min-width:0}
+.main{padding:20px 16px 48px;max-width:720px;margin:0 auto}
 .sec-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-family:'JetBrains Mono',monospace;margin:22px 0 10px}
-.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.loading{text-align:center;padding:60px 20px;color:var(--dim);font-size:13px}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 15px;display:flex;align-items:center;gap:11px;box-shadow:var(--shadow)}
 .kpi-ico{width:36px;height:36px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .kpi-ico svg{width:16px;height:16px;stroke-width:1.75;fill:none}
 .kpi-val{font-size:22px;font-weight:700;line-height:1;font-family:'JetBrains Mono',monospace}
 .kpi-lbl{font-size:10px;color:var(--sub);margin-top:3px}
-.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* CATEGORY CARDS */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .cat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
-.cat-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.cat-name svg{width:14px;height:14px;stroke-width:1.75;fill:none}
+.cat-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px}
 .cat-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .cat-label{font-size:10px;color:var(--sub)}
 .cat-value{font-size:12px;font-weight:600;font-family:'JetBrains Mono',monospace}
-.bar-wrap{height:6px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-top:4px;margin-bottom:8px}
-.bar-fill{height:100%;border-radius:3px;transition:width .3s}
+.bar-wrap{height:6px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin:4px 0 8px}
+.bar-fill{height:100%;border-radius:3px}
+
+/* FLAGS */
 .flag-list{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
-.flag-item{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:start;gap:10px}
+.flag-item{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
 .flag-item:last-child{border-bottom:none}
-.flag-cat{font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;white-space:nowrap}
-.flag-text{font-size:12px;color:var(--sub);flex:1;line-height:1.5}
+.flag-cat{font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;white-space:nowrap;background:var(--red-bg);color:var(--red)}
+.flag-text{font-size:12px;color:var(--sub);flex:1}
 .flag-who{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace}
+
+/* RESPONSES */
 .resp-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;box-shadow:var(--shadow)}
 .resp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .resp-name{font-size:13px;font-weight:600;color:var(--text)}
 .resp-meta{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace}
 .resp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:4px}
 .resp-item{font-size:10px;color:var(--sub);display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)}
-.resp-item:last-child{border-bottom:none}
 .chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px}
 .chip-e{background:var(--green-bg);color:var(--green)}.chip-g{background:var(--blue-bg);color:var(--blue)}.chip-a{background:var(--amber-bg);color:var(--amber)}.chip-p{background:var(--red-bg);color:var(--red)}
-.chip-y{background:var(--green-bg);color:var(--green)}.chip-n{background:var(--red-bg);color:var(--red)}
+
+/* PARTICIPATION */
 .p-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:8px;box-shadow:var(--shadow)}
 .p-av{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
-.p-info{flex:1;min-width:0}.p-name{font-size:13px;font-weight:600;color:var(--text)}.p-uni{font-size:10px;color:var(--sub);margin-top:1px}
-.p-ts{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;margin-top:5px;line-height:1.8}
-.p-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.p-info{flex:1}.p-name{font-size:13px;font-weight:600}.p-uni{font-size:10px;color:var(--sub)}
+.p-ts{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;margin-top:5px}
 .st{font-size:10px;font-weight:600;padding:3px 9px;border-radius:6px}
 .st-sub{background:var(--green-bg);color:var(--green)}.st-op{background:var(--amber-bg);color:var(--amber)}.st-no{background:var(--surface2);color:var(--sub);border:1px solid var(--border)}
+
 .empty{text-align:center;padding:36px 20px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--dim);font-size:12px}
-.footer{text-align:center;padding:20px 16px;font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;border-top:1px solid var(--border);line-height:1.9}
-.search-wrap{position:relative;margin-bottom:10px}.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;padding:10px 12px 10px 33px;outline:none;box-shadow:var(--shadow)}.search-input::placeholder{color:var(--dim)}.search-input:focus{border-color:var(--blue)}
+.search-wrap{position:relative;margin-bottom:10px}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;padding:10px 12px 10px 33px;outline:none;box-shadow:var(--shadow)}
+.search-input::placeholder{color:var(--dim)}.search-input:focus{border-color:var(--blue)}
 .search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--dim)}
 .search-ico svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-@media(min-width:480px){.kpi-grid{grid-template-columns:repeat(4,1fr)}.cat-grid{grid-template-columns:repeat(3,1fr)}.main{padding:24px 20px 56px}}
-@media print{.header{position:static}.search-wrap,.theme-btn{display:none}}
+.footer{text-align:center;padding:20px 16px;font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;border-top:1px solid var(--border)}
+
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main-wrap{margin-left:0}
+  .menu-btn{display:flex}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .cat-grid{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="header-top">
-    <div class="brand">
-      <div class="brand-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-      <div><div class="brand-name">Facilities Feedback</div><div class="brand-cycle" id="hdr-cycle">Weekly Report</div></div>
+<div class="layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">Feedback History</div>
+      <div class="sidebar-sub">Navigate by date</div>
     </div>
-    <div class="header-right">
-      <div class="date-chip" id="hdr-date">—</div>
-      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme"><svg id="theme-ico" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
-    </div>
-  </div>
-</div>
-<div class="main">
-  <div class="sec-label">Overview</div>
-  <div class="kpi-grid">
-    <div class="kpi"><div class="kpi-ico" style="background:var(--blue-bg);border:1px solid rgba(91,140,250,.25)"><svg viewBox="0 0 24 24" stroke="var(--blue)" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="kpi-val" style="color:var(--blue)" id="k-resp">0</div><div class="kpi-lbl">Responses</div></div></div>
-    <div class="kpi"><div class="kpi-ico" style="background:var(--green-bg);border:1px solid rgba(62,200,122,.25)"><svg viewBox="0 0 24 24" stroke="var(--green)" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div><div class="kpi-val" style="color:var(--green)" id="k-avg">—</div><div class="kpi-lbl">Avg Rating</div></div></div>
-    <div class="kpi"><div class="kpi-ico" style="background:var(--red-bg);border:1px solid rgba(240,85,85,.25)"><svg viewBox="0 0 24 24" stroke="var(--red)" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div><div class="kpi-val" style="color:var(--red)" id="k-flags">0</div><div class="kpi-lbl">Issues Flagged</div></div></div>
-    <div class="kpi"><div class="kpi-ico" style="background:var(--amber-bg);border:1px solid rgba(240,160,48,.25)"><svg viewBox="0 0 24 24" stroke="var(--amber)" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="kpi-val" style="color:var(--amber)" id="k-notopen">0</div><div class="kpi-lbl">Not Opened</div></div></div>
+    <div id="sidebar-nav"><div class="sb-empty">Loading dates...</div></div>
   </div>
 
-  <div class="sec-label">Category Ratings</div>
-  <div class="cat-grid" id="cat-grid"></div>
-
-  <div class="sec-label">Flagged Issues</div>
-  <div id="flags-out"></div>
-
-  <div class="sec-label">Individual Responses</div>
-  <div class="search-wrap"><span class="search-ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input class="search-input" id="search" placeholder="Search student, university, classroom…" oninput="renderResponses()"/></div>
-  <div id="resp-out"></div>
-
-  <div class="sec-label">Student Participation</div>
-  <div id="part-out"></div>
+  <!-- MAIN -->
+  <div class="main-wrap">
+    <div class="header">
+      <div class="header-left">
+        <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div>
+          <div class="brand-name">Facilities Feedback</div>
+          <div class="brand-date" id="hdr-date">—</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="theme-btn" onclick="toggleTheme()"><svg id="theme-ico" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      </div>
+    </div>
+    <div class="main" id="main-content">
+      <div class="loading">Select a date from the sidebar to view feedback.</div>
+    </div>
+    <div class="footer">Facilities Feedback · n8n + Google Sheets + Gmail SMTP</div>
+  </div>
 </div>
-<div class="footer">Facilities Feedback · n8n + Google Sheets + Gmail SMTP<br/><span id="footer-info">—</span></div>
 
 <script>
 // ══════════════════════════════════════════════════════
 // DATA_START
-const REPORT_DATE   = "2026-06-19";
-const FEEDBACK      = [{"student":"a","email":"a","university":"a","classroom":"a","date":"6/19/2026","timestamp":"6/19/2026 11:29:29","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"a"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"a"},"video":{"rating":"Good","functioning":"Yes","suggestion":"a"},"internet":{"available":"No","speed":"Poor","rating":"Poor","issues":"No","suggestion":"a"},"ac":{"rating":"Average","comfortable":"Yes","suggestion":"a"},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"a"},"washrooms":{"rating":"Average","maintained":"Yes","suggestion":"a"},"overall":3,"otherIssues":"a","additionalSuggestions":"a"},{"student":"Catherine","email":"catherine05.jm@gmail.com","university":"KKH","classroom":"15A","date":"6/19/2026","timestamp":"6/19/2026 12:08:47","tv":{"rating":"Good","functioning":"Yes","suggestion":"Buy a Qled"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"Buy Sony speakers"},"video":{"rating":"Excellent","functioning":"Yes","suggestion":"Buy a good projector"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"No","suggestion":"Buy highest pack which is used in offices"},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"nope"},"benches":{"rating":"Good","sockets":"Yes","issues_text":"nothing"},"washrooms":{"rating":"Good","maintained":"Yes","suggestion":"no"},"overall":4,"otherIssues":"i want good chairs these current chairs rent comfortable","additionalSuggestions":"good chairs, good canteen setup current canteen is very small and it is very clumsy "}];
-const PARTICIPATION = [{"name":"Test Student","university":"Aurora","openedAt":"—","opened":false,"status":"Not opened","weekDate":"2026-06-19"},{"name":"Test Student","university":"Aurora","openedAt":"—","opened":false,"status":"Not opened","weekDate":"2026-06-19"},{"name":"Test Student","university":"Aurora","openedAt":"—","opened":false,"status":"Not opened","weekDate":"2026-06-19"}];
-const STATS         = {"totalResponses":2,"uniCount":2,"avgOverall":3.5,"flagCount":1,"totalStudents":3,"submitted":0,"notOpened":3,"categories":{"tv":{"avgRating":3.5,"functioning":100,"poorCount":0},"audio":{"avgRating":3.5,"functioning":100,"poorCount":0},"video":{"avgRating":3.5,"functioning":100,"poorCount":0},"internet":{"avgRating":2,"functioning":50,"poorCount":1},"ac":{"avgRating":3,"functioning":100,"poorCount":0},"benches":{"avgRating":3.5,"functioning":100,"poorCount":0},"washrooms":{"avgRating":2.5,"functioning":100,"poorCount":0}}};
+const REPORT_DATE = "2026-06-19";
+const HISTORY = {"2026-06-19":{"feedback":[],"participation":[],"stats":{"totalResponses":0,"uniCount":0,"avgOverall":0,"flagCount":0,"totalStudents":0,"submitted":0,"notOpened":0,"categories":{}}}};
 // DATA_END
 // ══════════════════════════════════════════════════════
 
-const CAT_ICONS = {
-  tv:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>',
-  audio:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>',
-  video:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>',
-  internet:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>',
-  ac:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v10"/><path d="M18.4 6.6L12 12"/><path d="M5.6 6.6L12 12"/><path d="M12 12v10"/><path d="M18.4 17.4L12 12"/><path d="M5.6 17.4L12 12"/></svg>',
-  benches:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><rect x="4" y="3" width="16" height="10" rx="2"/></svg>',
-  washrooms:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>'
-};
-const CAT_NAMES = {tv:'TV',audio:'Audio',video:'Video',internet:'Internet/Wi-Fi',ac:'AC',benches:'Benches & Power',washrooms:'Washrooms'};
-const UNI_COLORS = {Aurora:'#5b8cfa',CDU:'#22c98a',KKH:'#f5a623',Chevella:'#c96dfa'};
-function uniColor(u){return UNI_COLORS[u]||'#888'}
-function initials(n){return(n||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
-function ratingColor(v){return v>=3.5?'var(--green)':v>=2.5?'var(--amber)':'var(--red)'}
-function ratingBg(v){return v>=3.5?'var(--green-bg)':v>=2.5?'var(--amber-bg)':'var(--red-bg)'}
-function chipCls(v){const l=String(v).toLowerCase();return l==='excellent'?'chip-e':l==='good'?'chip-g':l==='average'?'chip-a':l==='poor'?'chip-p':l==='yes'?'chip-y':l==='no'?'chip-n':'chip-g'}
+const CAT_NAMES={tv:'TV',audio:'Audio',video:'Video',internet:'Internet/Wi-Fi',ac:'AC',benches:'Benches & Power',washrooms:'Washrooms'};
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-function init(){
-  document.getElementById('hdr-date').textContent=REPORT_DATE;
-  document.getElementById('hdr-cycle').textContent='SAT '+REPORT_DATE;
-  document.getElementById('footer-info').textContent=REPORT_DATE+' · Saved to GitHub Pages';
-  document.getElementById('k-resp').textContent=STATS.totalResponses;
-  document.getElementById('k-avg').textContent=STATS.avgOverall?STATS.avgOverall.toFixed(1)+'/5':'—';
-  document.getElementById('k-flags').textContent=STATS.flagCount;
-  document.getElementById('k-notopen').textContent=STATS.notOpened;
-  renderCategories();
-  renderFlags();
-  renderResponses();
-  renderPart();
+let currentDate = REPORT_DATE;
+
+function ratingColor(v){return v>=3.5?'var(--green)':v>=2.5?'var(--amber)':'var(--red)'}
+function chipCls(v){const l=String(v||'').toLowerCase();return l==='excellent'?'chip-e':l==='good'?'chip-g':l==='average'?'chip-a':l==='poor'?'chip-p':'chip-g'}
+function initials(n){return(n||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+
+function buildSidebar(){
+  const dates = Object.keys(HISTORY).sort().reverse();
+  if(!dates.length){document.getElementById('sidebar-nav').innerHTML='<div class="sb-empty">No reports yet.</div>';return;}
+
+  const tree = {};
+  dates.forEach(d => {
+    const [y,m] = d.split('-');
+    if(!tree[y]) tree[y]={};
+    const mName = MONTHS[parseInt(m)-1];
+    if(!tree[y][mName]) tree[y][mName]=[];
+    tree[y][mName].push(d);
+  });
+
+  let html = '';
+  Object.keys(tree).sort().reverse().forEach((year,yi) => {
+    html += `<div class="sb-section">`;
+    html += `<div class="sb-year open" onclick="this.classList.toggle('open')"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>${year}</div>`;
+    html += `<div class="sb-months">`;
+    Object.keys(tree[year]).forEach((month,mi) => {
+      html += `<div class="sb-month open" onclick="this.classList.toggle('open')">${month}</div>`;
+      html += `<div class="sb-dates">`;
+      tree[year][month].forEach(d => {
+        const day = parseInt(d.split('-')[2]);
+        const active = d === currentDate ? ' active' : '';
+        html += `<div class="sb-date${active}" onclick="loadDate('${d}')"><span class="sb-date-dot"></span>Sat ${day}</div>`;
+      });
+      html += `</div>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById('sidebar-nav').innerHTML = html;
 }
 
-function renderCategories(){
-  const g=document.getElementById('cat-grid');
-  const cats=STATS.categories||{};
-  g.innerHTML=Object.keys(CAT_NAMES).map(k=>{
-    const c=cats[k]||{avgRating:0,functioning:0,poorCount:0};
-    const pct=Math.round((c.avgRating/4)*100);
-    const col=ratingColor(c.avgRating);
+function loadDate(date){
+  currentDate = date;
+  const data = HISTORY[date];
+  if(!data){document.getElementById('main-content').innerHTML='<div class="loading">No data for this date.</div>';return;}
+  document.getElementById('hdr-date').textContent = date;
+  document.querySelectorAll('.sb-date').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.sb-date').forEach(el => { if(el.textContent.includes(parseInt(date.split('-')[2]))) el.classList.add('active'); });
+  renderReport(data.feedback||[], data.participation||[], data.stats||{});
+}
+
+function renderReport(FEEDBACK, PARTICIPATION, STATS){
+  const cats = STATS.categories || {};
+  const catCards = Object.keys(CAT_NAMES).map(k => {
+    const c = cats[k]||{avgRating:0,functioning:0,poorCount:0};
+    const col = ratingColor(c.avgRating);
+    const pct = Math.round((c.avgRating/4)*100);
     return `<div class="cat-card">
-      <div class="cat-name" style="color:${col}">${CAT_ICONS[k]||''}${CAT_NAMES[k]}</div>
-      <div class="cat-row"><span class="cat-label">Avg Rating</span><span class="cat-value" style="color:${col}">${c.avgRating?c.avgRating.toFixed(1):'—'}</span></div>
+      <div class="cat-name" style="color:${col}">${CAT_NAMES[k]}</div>
+      <div class="cat-row"><span class="cat-label">Avg Rating</span><span class="cat-value" style="color:${col}">${c.avgRating||'—'}</span></div>
       <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${col}"></div></div>
       <div class="cat-row"><span class="cat-label">Functioning</span><span class="cat-value" style="color:${c.functioning>=80?'var(--green)':c.functioning>=50?'var(--amber)':'var(--red)'}">${c.functioning||0}%</span></div>
       ${c.poorCount?`<div class="cat-row"><span class="cat-label">Poor/Issues</span><span class="cat-value" style="color:var(--red)">${c.poorCount}</span></div>`:''}
     </div>`;
   }).join('');
-}
 
-function renderFlags(){
-  const out=document.getElementById('flags-out');
-  const flags=[];
-  FEEDBACK.forEach(f=>{
-    Object.keys(CAT_NAMES).forEach(k=>{
-      const c=f[k];if(!c)return;
-      if(c.rating==='Poor')flags.push({cat:CAT_NAMES[k],text:c.suggestion||'Rated Poor',student:f.student,uni:f.university,room:f.classroom});
+  const flags = [];
+  FEEDBACK.forEach(f => {
+    Object.keys(CAT_NAMES).forEach(k => {
+      const c = f[k]; if(!c) return;
+      if(c.rating==='Poor') flags.push({cat:CAT_NAMES[k],text:c.suggestion||'Rated Poor',who:`${f.student} · ${f.university} · ${f.classroom}`});
       if(c.functioning==='No'||c.comfortable==='No'||c.maintained==='No'||c.sockets==='No'||c.available==='No'||c.issues==='Yes')
-        flags.push({cat:CAT_NAMES[k],text:c.suggestion||c.issues_text||'Not functioning',student:f.student,uni:f.university,room:f.classroom});
+        flags.push({cat:CAT_NAMES[k],text:c.suggestion||c.issues_text||'Not functioning',who:`${f.student} · ${f.university} · ${f.classroom}`});
     });
   });
-  if(!flags.length){out.innerHTML='<div class="empty">No issues flagged this week.</div>';return;}
-  out.innerHTML=`<div class="flag-list">${flags.map(f=>`
-    <div class="flag-item">
-      <span class="flag-cat" style="background:var(--red-bg);color:var(--red)">${f.cat}</span>
-      <span class="flag-text">${f.text}</span>
-      <span class="flag-who">${f.student} · ${f.uni} · ${f.room}</span>
-    </div>`).join('')}</div>`;
-}
 
-function renderResponses(){
-  const q=(document.getElementById('search').value||'').toLowerCase();
-  const filtered=FEEDBACK.filter(f=>!q||[f.student,f.university,f.classroom].some(v=>(v||'').toLowerCase().includes(q)));
-  const out=document.getElementById('resp-out');
-  if(!filtered.length){out.innerHTML='<div class="empty">No responses match filters.</div>';return;}
-  out.innerHTML=filtered.map(f=>{
-    const cats=Object.keys(CAT_NAMES).map(k=>{
-      const c=f[k];if(!c)return'';
-      return `<div class="resp-item"><span>${CAT_NAMES[k]}</span><span class="chip ${chipCls(c.rating)}">${c.rating||'—'}</span></div>`;
+  const flagsHtml = flags.length === 0
+    ? '<div class="empty">No issues flagged.</div>'
+    : `<div class="flag-list">${flags.map(f=>`<div class="flag-item"><span class="flag-cat">${f.cat}</span><span class="flag-text">${f.text}</span><span class="flag-who">${f.who}</span></div>`).join('')}</div>`;
+
+  const respHtml = FEEDBACK.length === 0
+    ? '<div class="empty">No responses.</div>'
+    : FEEDBACK.map(f => {
+      const cats = Object.keys(CAT_NAMES).map(k => {
+        const c = f[k]; if(!c) return '';
+        return `<div class="resp-item"><span>${CAT_NAMES[k]}</span><span class="chip ${chipCls(c.rating)}">${c.rating||'—'}</span></div>`;
+      }).join('');
+      return `<div class="resp-card"><div class="resp-top"><div><span class="resp-name">${f.student}</span><br/><span class="resp-meta">${f.university} · Room ${f.classroom}</span></div><span class="chip ${f.overall>=4?'chip-e':f.overall>=3?'chip-g':f.overall>=2?'chip-a':'chip-p'}">${f.overall}/5</span></div><div class="resp-grid">${cats}</div></div>`;
     }).join('');
-    return `<div class="resp-card">
-      <div class="resp-top">
-        <div><span class="resp-name">${f.student}</span><br/><span class="resp-meta">${f.university} · Room ${f.classroom}</span></div>
-        <span class="chip ${f.overall>=4?'chip-e':f.overall>=3?'chip-g':f.overall>=2?'chip-a':'chip-p'}">${f.overall}/5</span>
-      </div>
-      <div class="resp-grid">${cats}</div>
-    </div>`;
-  }).join('');
-}
 
-function renderPart(){
-  const out=document.getElementById('part-out');
-  if(!PARTICIPATION.length){out.innerHTML='<div class="empty">No participation data.</div>';return;}
-  out.innerHTML=PARTICIPATION.map(p=>{
-    const col=uniColor(p.university);
-    const scls=p.status==='Submitted'?'st-sub':p.status==='Opened only'?'st-op':'st-no';
-    return `<div class="p-card">
-      <div class="p-av" style="background:${col}22;color:${col}">${initials(p.name)}</div>
-      <div class="p-info"><div class="p-name">${p.name}</div><div class="p-uni">${p.university}</div>
-      <div class="p-ts">${p.openedAt&&p.openedAt!=='—'?`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg> Opened ${p.openedAt}`:'Not opened'}</div></div>
-      <div class="p-right"><span class="st ${scls}">${p.status}</span></div>
-    </div>`;
-  }).join('');
+  const partHtml = PARTICIPATION.length === 0
+    ? '<div class="empty">No participation data.</div>'
+    : PARTICIPATION.map(p => {
+      const scls = p.status==='Submitted'?'st-sub':p.status==='Opened only'?'st-op':'st-no';
+      return `<div class="p-card"><div class="p-av" style="background:var(--blue-bg);color:var(--blue)">${initials(p.name)}</div><div class="p-info"><div class="p-name">${p.name}</div><div class="p-uni">${p.university}</div><div class="p-ts">${p.openedAt&&p.openedAt!=='—'?'Opened '+p.openedAt:'Not opened'}</div></div><div><span class="st ${scls}">${p.status}</span></div></div>`;
+    }).join('');
+
+  document.getElementById('main-content').innerHTML = `
+    <div class="sec-label">Overview</div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-ico" style="background:var(--blue-bg)"><svg viewBox="0 0 24 24" stroke="var(--blue)" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="kpi-val" style="color:var(--blue)">${STATS.totalResponses||0}</div><div class="kpi-lbl">Responses</div></div></div>
+      <div class="kpi"><div class="kpi-ico" style="background:var(--green-bg)"><svg viewBox="0 0 24 24" stroke="var(--green)" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div><div class="kpi-val" style="color:var(--green)">${STATS.avgOverall?STATS.avgOverall.toFixed(1)+'/5':'—'}</div><div class="kpi-lbl">Avg Rating</div></div></div>
+      <div class="kpi"><div class="kpi-ico" style="background:var(--red-bg)"><svg viewBox="0 0 24 24" stroke="var(--red)" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div><div class="kpi-val" style="color:var(--red)">${STATS.flagCount||0}</div><div class="kpi-lbl">Issues Flagged</div></div></div>
+      <div class="kpi"><div class="kpi-ico" style="background:var(--amber-bg)"><svg viewBox="0 0 24 24" stroke="var(--amber)" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="kpi-val" style="color:var(--amber)">${STATS.notOpened||0}</div><div class="kpi-lbl">Not Opened</div></div></div>
+    </div>
+    <div class="sec-label">Category Ratings</div>
+    <div class="cat-grid">${catCards}</div>
+    <div class="sec-label">Flagged Issues</div>
+    ${flagsHtml}
+    <div class="sec-label">Individual Responses</div>
+    ${respHtml}
+    <div class="sec-label">Student Participation</div>
+    ${partHtml}
+  `;
 }
 
 function toggleTheme(){
-  const dark=document.documentElement.dataset.theme==='dark';
-  document.documentElement.dataset.theme=dark?'light':'dark';
-  document.getElementById('theme-ico').innerHTML=dark?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  const dark = document.documentElement.dataset.theme==='dark';
+  document.documentElement.dataset.theme = dark?'light':'dark';
+  document.getElementById('theme-ico').innerHTML = dark
+    ?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+    :'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
 }
-if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches){
-  document.documentElement.dataset.theme='light';
-  document.getElementById('theme-ico').innerHTML='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
-}
-init();
+
+// Init
+buildSidebar();
+if(HISTORY[REPORT_DATE]) loadDate(REPORT_DATE);
+else { const dates = Object.keys(HISTORY).sort().reverse(); if(dates.length) loadDate(dates[0]); }
 </script>
 </body>
 </html>
