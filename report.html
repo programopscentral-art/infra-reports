@@ -132,6 +132,30 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
   .cat-grid{grid-template-columns:1fr}
   .resp-grid{grid-template-columns:1fr}
 }
+/* PDF BUTTON */
+.pdf-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--sub);font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.pdf-btn:hover{background:var(--blue-bg);color:var(--blue);border-color:var(--blue)}
+.pdf-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+/* PRINT STYLES */
+@media print{
+  @page{margin:16mm;size:A4}
+  body{background:#fff!important;color:#111!important;font-size:11px}
+  .sidebar,.sidebar-overlay,.header,.footer,.filter-row,.pdf-btn,.menu-btn,.theme-btn{display:none!important}
+  .main-wrap{margin-left:0!important}
+  .main{padding:0!important;max-width:100%!important}
+  .layout{display:block}
+  .print-header{display:block!important}
+  .kpi-grid{grid-template-columns:repeat(4,1fr)!important;gap:6px}
+  .cat-grid{grid-template-columns:repeat(3,1fr)!important;gap:6px}
+  .kpi,.cat-card,.resp-card,.p-card,.flag-list,.empty-state{box-shadow:none!important;border:1px solid #e4e7ed!important;break-inside:avoid}
+  .sec-label{margin:14px 0 6px!important;color:#6b7280!important}
+  .bar-fill{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .chip{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  #resp-out .resp-card{page-break-inside:avoid}
+}
+.print-header{display:none;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #111}
+.print-header-title{font-size:18px;font-weight:700;color:#111}
+.print-header-sub{font-size:11px;color:#6b7280;margin-top:3px;font-family:monospace}
 </style>
 </head>
 <body>
@@ -153,9 +177,15 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
           <div class="brand-date" id="hdr-date">—</div>
         </div>
       </div>
-      <button class="theme-btn" onclick="toggleTheme()"><svg id="theme-ico" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button class="pdf-btn" onclick="downloadPDF()" id="pdf-btn" style="display:none"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PDF</button>
+        <button class="theme-btn" onclick="toggleTheme()"><svg id="theme-ico" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     </div>
     <div class="main" id="main-content">
+      <div class="print-header" id="print-header">
+        <div class="print-header-title">Facilities Feedback Report</div>
+        <div class="print-header-sub" id="print-header-sub">—</div>
+      </div>
       <div class="no-data"><div class="no-data-icon">📋</div><div class="no-data-title">Select a date</div><div class="no-data-sub">Choose a Saturday from the sidebar<br>to view that week's feedback.</div></div>
     </div>
     <div class="footer">Facilities Feedback · n8n + Google Sheets + Gmail SMTP</div>
@@ -167,7 +197,7 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 // DATA_START
 const REPORT_DATE = "2026-06-19";
 const UNIVERSITIES = ["Academy of Maritime Education & Training (AMET)","Ajeenkya DY Patil University (ADYPU)","Annamacharya University","Aurora University","CDU","CITY & CIET","Crescent University","KKH Hyderabad","Mallareddy (MRV)","NIAT Chevella","Noida International University (NIU)","NRI Institute of Technology","NSRIT","S-VYASA University","Sanjay Ghodawat University (SGU)","Takshashila University","VGU University","Yenepoya"];
-const HISTORY = {"2026-06-19":{"feedback":[{"student":"Karthikeya","email":"karthikeya.a054@gmail.com","university":"Aurora University","classroom":154,"date":"6/19/2026","timestamp":"6/19/2026 14:50:26","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"NA"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"NA"},"video":{"rating":"Excellent","functioning":"Yes","suggestion":"NA"},"internet":{"available":"Yes","speed":"Excellent","rating":"Excellent","issues":"Yes","suggestion":"NA"},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"NA"},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"NA"},"washrooms":{"rating":"Excellent","maintained":"Yes","suggestion":"NA"},"overall":5,"otherIssues":"NA","additionalSuggestions":"NA"},{"student":"Catherine","email":"catherine05.jm@gmail.com","university":"KKH Hyderabad","classroom":12,"date":"6/19/2026","timestamp":"6/19/2026 14:51:52","tv":{"rating":"Good","functioning":"Yes","suggestion":"NA"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"NA"},"video":{"rating":"Good","functioning":"Yes","suggestion":"NA"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"Yes","suggestion":"NA"},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"NA"},"benches":{"rating":"Good","sockets":"Yes","issues_text":"NA"},"washrooms":{"rating":"Good","maintained":"Yes","suggestion":"NA"},"overall":4,"otherIssues":"NA","additionalSuggestions":"NA"}],"participation":[{"name":"Karthikeya","university":"Aurora University","openedAt":"—","status":"Submitted"},{"name":"Karthikeya","university":"Aurora University","openedAt":"—","status":"Submitted"}],"stats":{"totalResponses":2,"uniCount":2,"avgOverall":4.5,"flagCount":2,"totalStudents":2,"submitted":2,"notOpened":0,"categories":{"tv":{"avgRating":3.5,"functioning":100,"poorCount":0},"audio":{"avgRating":3.5,"functioning":100,"poorCount":0},"video":{"avgRating":3.5,"functioning":100,"poorCount":0},"internet":{"avgRating":3.5,"functioning":100,"poorCount":2},"ac":{"avgRating":3.5,"functioning":100,"poorCount":0},"benches":{"avgRating":3.5,"functioning":100,"poorCount":0},"washrooms":{"avgRating":3.5,"functioning":100,"poorCount":0}}}}};
+const HISTORY = {"2026-06-19":{"feedback":[],"participation":[],"stats":{"totalResponses":0,"uniCount":0,"avgOverall":0,"flagCount":0,"totalStudents":0,"submitted":0,"notOpened":0,"categories":{}}}};
 // DATA_END
 // ══════════════════════════════════════════════════════
 
@@ -269,6 +299,7 @@ function loadDate(date){
   const stats = recalcStats(feedback, participation, raw.stats||{});
 
   document.getElementById('hdr-date').textContent = date;
+  document.getElementById('pdf-btn').style.display = 'flex';
   renderReport(feedback, participation, stats);
 }
 
@@ -430,6 +461,18 @@ function filterResponses(){
     const oc = f.overall>=4?'chip-e':f.overall>=3?'chip-g':f.overall>=2?'chip-a':'chip-p';
     return `<div class="resp-card"><div class="resp-top"><div><div class="resp-name">${esc(f.student)}</div><div class="resp-meta">${esc(f.university)} · Room ${esc(f.classroom)}</div></div><span class="chip ${oc}">${f.overall}/5</span></div><div class="resp-grid">${cats}</div></div>`;
   }).join('');
+}
+
+function downloadPDF(){
+  // Force light mode for clean PDF
+  const wasDark = document.documentElement.dataset.theme === 'dark';
+  if(wasDark) document.documentElement.dataset.theme = 'light';
+  // Update print header
+  document.getElementById('print-header-sub').textContent =
+    'Date: ' + currentDate + '  ·  Generated: ' + new Date().toLocaleString('en-IN', {timeZone:'Asia/Calcutta'});
+  window.print();
+  // Restore theme
+  if(wasDark) document.documentElement.dataset.theme = 'dark';
 }
 
 function toggleTheme(){
