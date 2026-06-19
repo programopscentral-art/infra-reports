@@ -162,6 +162,8 @@ const CAT_NAMES={tv:'TV',audio:'Audio',video:'Video',internet:'Internet/Wi-Fi',a
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 let currentDate = REPORT_DATE;
+let currentFeedback = [];
+let currentUniFilter = 'all';
 
 function ratingColor(v){return v>=3.5?'var(--green)':v>=2.5?'var(--amber)':'var(--red)'}
 function chipCls(v){const l=String(v||'').toLowerCase();return l==='excellent'?'chip-e':l==='good'?'chip-g':l==='average'?'chip-a':l==='poor'?'chip-p':'chip-g'}
@@ -211,6 +213,8 @@ function loadDate(date){
 }
 
 function renderReport(FEEDBACK, PARTICIPATION, STATS){
+  currentFeedback = FEEDBACK;
+  currentUniFilter = 'all';
   const cats = STATS.categories || {};
   const catCards = Object.keys(CAT_NAMES).map(k => {
     const c = cats[k]||{avgRating:0,functioning:0,poorCount:0};
@@ -239,15 +243,19 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     ? '<div class="empty">No issues flagged.</div>'
     : `<div class="flag-list">${flags.map(f=>`<div class="flag-item"><span class="flag-cat">${f.cat}</span><span class="flag-text">${f.text}</span><span class="flag-who">${f.who}</span></div>`).join('')}</div>`;
 
-  const respHtml = FEEDBACK.length === 0
-    ? '<div class="empty">No responses.</div>'
-    : FEEDBACK.map(f => {
-      const cats = Object.keys(CAT_NAMES).map(k => {
-        const c = f[k]; if(!c) return '';
-        return `<div class="resp-item"><span>${CAT_NAMES[k]}</span><span class="chip ${chipCls(c.rating)}">${c.rating||'—'}</span></div>`;
-      }).join('');
-      return `<div class="resp-card"><div class="resp-top"><div><span class="resp-name">${f.student}</span><br/><span class="resp-meta">${f.university} · Room ${f.classroom}</span></div><span class="chip ${f.overall>=4?'chip-e':f.overall>=3?'chip-g':f.overall>=2?'chip-a':'chip-p'}">${f.overall}/5</span></div><div class="resp-grid">${cats}</div></div>`;
-    }).join('');
+  const unis = [...new Set(FEEDBACK.map(f => f.university).filter(Boolean))];
+  const uniOptions = unis.map(u => `<option value="${u}">${u}</option>`).join('');
+
+  const respHtml = `
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <select id="uni-filter" onchange="filterResponses()" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text);font-family:'Inter',sans-serif;cursor:pointer;box-shadow:var(--shadow);">
+        <option value="all">All Universities</option>
+        ${uniOptions}
+      </select>
+      <div class="search-wrap" style="flex:1;margin-bottom:0"><span class="search-ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input class="search-input" id="search" placeholder="Search student, classroom…" oninput="filterResponses()"/></div>
+    </div>
+    <div id="resp-out"></div>`;
+
 
   const partHtml = PARTICIPATION.length === 0
     ? '<div class="empty">No participation data.</div>'
@@ -273,6 +281,34 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     <div class="sec-label">Student Participation</div>
     ${partHtml}
   `;
+  setTimeout(() => filterResponses(), 0);
+}
+
+function filterResponses(){
+  const uniSel = document.getElementById('uni-filter');
+  const searchEl = document.getElementById('search');
+  const uni = uniSel ? uniSel.value : 'all';
+  const q = searchEl ? searchEl.value.toLowerCase() : '';
+  const out = document.getElementById('resp-out');
+  if(!out) return;
+
+  const filtered = currentFeedback.filter(f =>
+    (uni === 'all' || f.university === uni) &&
+    (!q || [f.student,f.university,f.classroom].some(v => (v||'').toLowerCase().includes(q)))
+  );
+
+  if(!filtered.length){
+    out.innerHTML = '<div class="empty">No responses match filters.</div>';
+    return;
+  }
+
+  out.innerHTML = filtered.map(f => {
+    const cats = Object.keys(CAT_NAMES).map(k => {
+      const c = f[k]; if(!c) return '';
+      return `<div class="resp-item"><span>${CAT_NAMES[k]}</span><span class="chip ${chipCls(c.rating)}">${c.rating||'—'}</span></div>`;
+    }).join('');
+    return `<div class="resp-card"><div class="resp-top"><div><span class="resp-name">${f.student}</span><br/><span class="resp-meta">${f.university} · Room ${f.classroom}</span></div><span class="chip ${f.overall>=4?'chip-e':f.overall>=3?'chip-g':f.overall>=2?'chip-a':'chip-p'}">${f.overall}/5</span></div><div class="resp-grid">${cats}</div></div>`;
+  }).join('');
 }
 
 function toggleTheme(){
