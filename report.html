@@ -109,12 +109,53 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .footer{text-align:center;padding:20px 16px;font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;border-top:1px solid var(--border)}
 
 @media(max-width:768px){
-  .sidebar{transform:translateX(-100%)}
+  /* Sidebar — hidden off-screen, slides in */
+  .sidebar{transform:translateX(-100%);width:240px;z-index:100;box-shadow:4px 0 24px rgba(0,0,0,.12)}
   .sidebar.open{transform:translateX(0)}
+  /* Overlay when sidebar is open */
+  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:99}
+  .sidebar-overlay.show{display:block}
+  /* Main expands full width */
   .main-wrap{margin-left:0}
   .menu-btn{display:flex}
+  /* Header tighter on mobile */
+  .header{padding:10px 12px;position:sticky;top:0;z-index:90}
+  .brand-name{font-size:12px}
+  /* KPI: 2 columns */
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:6px}
+  .kpi{padding:11px 10px;gap:8px}
+  .kpi-ico{width:30px;height:30px;border-radius:7px}
+  .kpi-ico svg{width:13px;height:13px}
+  .kpi-val{font-size:18px}
+  .kpi-lbl{font-size:9px}
+  /* Category cards: 2 columns */
+  .cat-grid{grid-template-columns:1fr 1fr;gap:6px}
+  .cat-card{padding:12px}
+  /* Flag items: stack vertically */
+  .flag-item{flex-wrap:wrap;gap:6px}
+  .flag-who{width:100%;padding-top:2px;font-size:9px}
+  /* Response cards */
+  .resp-grid{grid-template-columns:1fr 1fr}
+  .resp-top{align-items:flex-start}
+  /* Participation cards */
+  .p-card{padding:11px 12px;gap:10px}
+  .p-av{width:32px;height:32px;font-size:11px}
+  .p-name{font-size:12px}
+  /* Filter row: stack on very small screens */
+  .filter-row{flex-direction:column!important;gap:6px!important}
+  .filter-row select{width:100%}
+  /* Main padding */
+  .main{padding:12px 10px 60px}
+  .sec-label{margin:18px 0 8px}
+  /* Bigger tap targets for sidebar items */
+  .sb-date{padding:8px 10px;font-size:12px}
+  .sb-month{padding:6px 8px;font-size:11px}
+  .sb-year{padding:7px 8px;font-size:12px}
+}
+@media(max-width:380px){
   .kpi-grid{grid-template-columns:1fr 1fr}
-  .cat-grid{grid-template-columns:1fr 1fr}
+  .cat-grid{grid-template-columns:1fr}
+  .resp-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -129,11 +170,11 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
     <div id="sidebar-nav"><div class="sb-empty">Loading dates...</div></div>
   </div>
 
-  <!-- MAIN -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
   <div class="main-wrap">
     <div class="header">
       <div class="header-left">
-        <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
         <div>
           <div class="brand-name">Facilities Feedback</div>
           <div class="brand-date" id="hdr-date">—</div>
@@ -203,8 +244,20 @@ function buildSidebar(){
   document.getElementById('sidebar-nav').innerHTML = html;
 }
 
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebar-overlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('show');
+}
+
 function loadDate(date){
   currentDate = date;
+  // Close sidebar on mobile after selecting a date
+  if(window.innerWidth <= 768){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebar-overlay').classList.remove('show');
+  }
   const data = HISTORY[date];
   if(!data){document.getElementById('main-content').innerHTML='<div class="loading">No data for this date.</div>';return;}
   document.getElementById('hdr-date').textContent = date;
@@ -248,7 +301,7 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
   const uniOptions = unis.map(u => `<option value="${u}">${u}</option>`).join('');
 
   const respHtml = `
-    <div style="display:flex;gap:8px;margin-bottom:10px;">
+    <div class="filter-row" style="display:flex;gap:8px;margin-bottom:10px;">
       <select id="uni-filter" onchange="filterResponses()" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text);font-family:'Inter',sans-serif;cursor:pointer;box-shadow:var(--shadow);">
         <option value="all">All Universities</option>
         ${uniOptions}
