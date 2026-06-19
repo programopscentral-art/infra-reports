@@ -6,31 +6,25 @@
 <title>Facilities Feedback Report</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root{--bg:#f0f2f5;--surface:#fff;--surface2:#f8f9fb;--border:#e4e7ed;--border2:#d0d5df;--text:#111827;--sub:#6b7280;--dim:#9ca3af;--red:#dc2626;--amber:#d97706;--green:#059669;--blue:#2563eb;--purple:#7c3aed;--red-bg:#fef2f2;--amber-bg:#fffbeb;--green-bg:#ecfdf5;--blue-bg:#eff6ff;--shadow:0 1px 3px rgba(0,0,0,.08)}
-[data-theme="dark"]{--bg:#0a0a0f;--surface:#111117;--surface2:#0f0f14;--border:#1e1e2a;--border2:#2a2a38;--text:#e8e8f0;--sub:#6b6b88;--dim:#3a3a50;--red:#f05555;--amber:#f0a030;--green:#3ec87a;--blue:#5b8cfa;--purple:#9b6dfa;--red-bg:rgba(240,85,85,.1);--amber-bg:rgba(240,160,48,.1);--green-bg:rgba(62,200,122,.1);--blue-bg:rgba(91,140,250,.1);--shadow:0 1px 3px rgba(0,0,0,.4)}
+:root{--bg:#f0f2f5;--surface:#fff;--surface2:#f8f9fb;--border:#e4e7ed;--text:#111827;--sub:#6b7280;--dim:#9ca3af;--red:#dc2626;--amber:#d97706;--green:#059669;--blue:#2563eb;--red-bg:#fef2f2;--amber-bg:#fffbeb;--green-bg:#ecfdf5;--blue-bg:#eff6ff;--shadow:0 1px 3px rgba(0,0,0,.08)}
+[data-theme="dark"]{--bg:#0a0a0f;--surface:#111117;--surface2:#0f0f14;--border:#1e1e2a;--text:#e8e8f0;--sub:#6b6b88;--dim:#3a3a50;--red:#f05555;--amber:#f0a030;--green:#3ec87a;--blue:#5b8cfa;--red-bg:rgba(240,85,85,.1);--amber-bg:rgba(240,160,48,.1);--green-bg:rgba(62,200,122,.1);--blue-bg:rgba(91,140,250,.1);--shadow:0 1px 3px rgba(0,0,0,.4)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
-
-/* LAYOUT */
 .layout{display:flex;min-height:100vh}
-
 /* SIDEBAR */
 .sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;padding:16px 0;flex-shrink:0;z-index:50;transition:transform .2s}
 .sidebar-header{padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px}
 .sidebar-title{font-size:13px;font-weight:700;color:var(--text)}
 .sidebar-sub{font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace;margin-top:2px}
 .sb-section{padding:0 8px;margin-bottom:4px}
-.sb-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:0 8px;margin-bottom:4px;margin-top:12px;font-family:'JetBrains Mono',monospace}
 .sb-year{font-size:11px;font-weight:600;color:var(--sub);padding:5px 8px;cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:6px}
-.sb-year:hover{background:var(--surface2);color:var(--text)}
-.sb-year.open{color:var(--text)}
+.sb-year:hover,.sb-year.open{background:var(--surface2);color:var(--text)}
 .sb-year svg{width:10px;height:10px;transition:transform .15s;stroke:currentColor;fill:none;stroke-width:2}
 .sb-year.open svg{transform:rotate(90deg)}
 .sb-months{display:none;padding-left:8px}
 .sb-year.open+.sb-months{display:block}
 .sb-month{font-size:10px;font-weight:600;color:var(--sub);padding:4px 8px;cursor:pointer;border-radius:5px;margin-top:2px}
-.sb-month:hover{color:var(--text)}
-.sb-month.open{color:var(--text)}
+.sb-month:hover,.sb-month.open{color:var(--text)}
 .sb-dates{display:none;padding-left:8px}
 .sb-month.open+.sb-dates{display:block}
 .sb-date{font-size:11px;color:var(--sub);padding:5px 10px;cursor:pointer;border-radius:6px;font-family:'JetBrains Mono',monospace;transition:all .1s;display:flex;align-items:center;gap:6px}
@@ -39,23 +33,27 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .sb-date-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);flex-shrink:0}
 .sb-date.active .sb-date-dot{background:var(--blue)}
 .sb-empty{font-size:11px;color:var(--dim);padding:16px;text-align:center;line-height:1.6}
-
 /* HEADER */
 .header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}
 .header-left{display:flex;align-items:center;gap:10px}
 .menu-btn{display:none;width:32px;height:32px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--sub);cursor:pointer;align-items:center;justify-content:center;font-size:16px}
 .brand-name{font-size:13px;font-weight:700;color:var(--text)}
 .brand-date{font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace}
-.header-right{display:flex;align-items:center;gap:8px}
 .theme-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .theme-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
-
 /* MAIN */
 .main-wrap{margin-left:220px;flex:1;min-width:0}
 .main{padding:20px 16px 48px;max-width:720px;margin:0 auto}
 .sec-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-family:'JetBrains Mono',monospace;margin:22px 0 10px}
-.loading{text-align:center;padding:60px 20px;color:var(--dim);font-size:13px}
-
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:40px 20px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--dim);font-size:12px;line-height:1.8}
+.empty-state-icon{font-size:28px;margin-bottom:8px}
+.empty-state-title{font-size:13px;font-weight:600;color:var(--sub);margin-bottom:4px}
+/* NO DATA SCREEN */
+.no-data{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;color:var(--dim)}
+.no-data-icon{font-size:40px;margin-bottom:16px;opacity:.4}
+.no-data-title{font-size:15px;font-weight:600;color:var(--sub);margin-bottom:6px}
+.no-data-sub{font-size:12px;line-height:1.6}
 /* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 15px;display:flex;align-items:center;gap:11px;box-shadow:var(--shadow)}
@@ -63,97 +61,74 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .kpi-ico svg{width:16px;height:16px;stroke-width:1.75;fill:none}
 .kpi-val{font-size:22px;font-weight:700;line-height:1;font-family:'JetBrains Mono',monospace}
 .kpi-lbl{font-size:10px;color:var(--sub);margin-top:3px}
-
 /* CATEGORY CARDS */
 .cat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .cat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
-.cat-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px}
+.cat-name{font-size:12px;font-weight:600;margin-bottom:8px}
 .cat-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .cat-label{font-size:10px;color:var(--sub)}
 .cat-value{font-size:12px;font-weight:600;font-family:'JetBrains Mono',monospace}
 .bar-wrap{height:6px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin:4px 0 8px}
-.bar-fill{height:100%;border-radius:3px}
-
+.bar-fill{height:100%;border-radius:3px;transition:width .4s ease}
 /* FLAGS */
 .flag-list{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
-.flag-item{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.flag-item{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
 .flag-item:last-child{border-bottom:none}
-.flag-cat{font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;white-space:nowrap;background:var(--red-bg);color:var(--red)}
-.flag-text{font-size:12px;color:var(--sub);flex:1}
-.flag-who{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace}
-
+.flag-cat{font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;white-space:nowrap;background:var(--red-bg);color:var(--red);flex-shrink:0}
+.flag-text{font-size:12px;color:var(--sub);flex:1;min-width:120px}
+.flag-who{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;width:100%;padding-top:2px}
 /* RESPONSES */
+.filter-row{display:flex;gap:8px;margin-bottom:10px}
+.uni-select{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text);font-family:'Inter',sans-serif;cursor:pointer;box-shadow:var(--shadow)}
+.search-wrap{position:relative;flex:1}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;padding:10px 12px 10px 33px;outline:none;box-shadow:var(--shadow)}
+.search-input::placeholder{color:var(--dim)}.search-input:focus{border-color:var(--blue)}
+.search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--dim)}
+.search-ico svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 .resp-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;box-shadow:var(--shadow)}
-.resp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.resp-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
 .resp-name{font-size:13px;font-weight:600;color:var(--text)}
 .resp-meta{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace}
 .resp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:4px}
 .resp-item{font-size:10px;color:var(--sub);display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)}
 .chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px}
 .chip-e{background:var(--green-bg);color:var(--green)}.chip-g{background:var(--blue-bg);color:var(--blue)}.chip-a{background:var(--amber-bg);color:var(--amber)}.chip-p{background:var(--red-bg);color:var(--red)}
-
 /* PARTICIPATION */
 .p-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:8px;box-shadow:var(--shadow)}
 .p-av{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
 .p-info{flex:1}.p-name{font-size:13px;font-weight:600}.p-uni{font-size:10px;color:var(--sub)}
-.p-ts{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;margin-top:5px}
+.p-ts{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;margin-top:4px}
 .st{font-size:10px;font-weight:600;padding:3px 9px;border-radius:6px}
 .st-sub{background:var(--green-bg);color:var(--green)}.st-op{background:var(--amber-bg);color:var(--amber)}.st-no{background:var(--surface2);color:var(--sub);border:1px solid var(--border)}
-
-.empty{text-align:center;padding:36px 20px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--dim);font-size:12px}
-.search-wrap{position:relative;margin-bottom:10px}
-.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;padding:10px 12px 10px 33px;outline:none;box-shadow:var(--shadow)}
-.search-input::placeholder{color:var(--dim)}.search-input:focus{border-color:var(--blue)}
-.search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--dim)}
-.search-ico svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 .footer{text-align:center;padding:20px 16px;font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;border-top:1px solid var(--border)}
-
+/* MOBILE */
 @media(max-width:768px){
-  /* Sidebar — hidden off-screen, slides in */
   .sidebar{transform:translateX(-100%);width:240px;z-index:100;box-shadow:4px 0 24px rgba(0,0,0,.12)}
   .sidebar.open{transform:translateX(0)}
-  /* Overlay when sidebar is open */
   .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:99}
   .sidebar-overlay.show{display:block}
-  /* Main expands full width */
   .main-wrap{margin-left:0}
   .menu-btn{display:flex}
-  /* Header tighter on mobile */
   .header{padding:10px 12px;position:sticky;top:0;z-index:90}
   .brand-name{font-size:12px}
-  /* KPI: 2 columns */
   .kpi-grid{grid-template-columns:1fr 1fr;gap:6px}
   .kpi{padding:11px 10px;gap:8px}
-  .kpi-ico{width:30px;height:30px;border-radius:7px}
+  .kpi-ico{width:30px;height:30px}
   .kpi-ico svg{width:13px;height:13px}
   .kpi-val{font-size:18px}
   .kpi-lbl{font-size:9px}
-  /* Category cards: 2 columns */
   .cat-grid{grid-template-columns:1fr 1fr;gap:6px}
   .cat-card{padding:12px}
-  /* Flag items: stack vertically */
-  .flag-item{flex-wrap:wrap;gap:6px}
-  .flag-who{width:100%;padding-top:2px;font-size:9px}
-  /* Response cards */
   .resp-grid{grid-template-columns:1fr 1fr}
-  .resp-top{align-items:flex-start}
-  /* Participation cards */
-  .p-card{padding:11px 12px;gap:10px}
-  .p-av{width:32px;height:32px;font-size:11px}
-  .p-name{font-size:12px}
-  /* Filter row: stack on very small screens */
-  .filter-row{flex-direction:column!important;gap:6px!important}
-  .filter-row select{width:100%}
-  /* Main padding */
+  .filter-row{flex-direction:column;gap:6px}
+  .uni-select{width:100%}
   .main{padding:12px 10px 60px}
   .sec-label{margin:18px 0 8px}
-  /* Bigger tap targets for sidebar items */
   .sb-date{padding:8px 10px;font-size:12px}
   .sb-month{padding:6px 8px;font-size:11px}
   .sb-year{padding:7px 8px;font-size:12px}
 }
 @media(max-width:380px){
-  .kpi-grid{grid-template-columns:1fr 1fr}
   .cat-grid{grid-template-columns:1fr}
   .resp-grid{grid-template-columns:1fr}
 }
@@ -161,15 +136,13 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 </head>
 <body>
 <div class="layout">
-  <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-title">Feedback History</div>
       <div class="sidebar-sub">Navigate by date</div>
     </div>
-    <div id="sidebar-nav"><div class="sb-empty">Loading dates...</div></div>
+    <div id="sidebar-nav"><div class="sb-empty">Loading...</div></div>
   </div>
-
   <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
   <div class="main-wrap">
     <div class="header">
@@ -180,12 +153,10 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
           <div class="brand-date" id="hdr-date">—</div>
         </div>
       </div>
-      <div class="header-right">
-        <button class="theme-btn" onclick="toggleTheme()"><svg id="theme-ico" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
-      </div>
+      <button class="theme-btn" onclick="toggleTheme()"><svg id="theme-ico" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     </div>
     <div class="main" id="main-content">
-      <div class="loading">Select a date from the sidebar to view feedback.</div>
+      <div class="no-data"><div class="no-data-icon">📋</div><div class="no-data-title">Select a date</div><div class="no-data-sub">Choose a Saturday from the sidebar<br>to view that week's feedback.</div></div>
     </div>
     <div class="footer">Facilities Feedback · n8n + Google Sheets + Gmail SMTP</div>
   </div>
@@ -203,17 +174,43 @@ const HISTORY = {"2026-06-19":{"feedback":[],"participation":[],"stats":{"totalR
 const CAT_NAMES={tv:'TV',audio:'Audio',video:'Video',internet:'Internet/Wi-Fi',ac:'AC',benches:'Benches & Power',washrooms:'Washrooms'};
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-let currentDate = REPORT_DATE;
+let currentDate = null;
 let currentFeedback = [];
-let currentUniFilter = 'all';
 
+// ── Data validation — filters out junk/test entries ───────────────
+function isValidFeedback(f) {
+  if (!f.student || f.student.trim().length < 2) return false;       // single char names like "a"
+  if (!f.university || f.university.trim().length < 2) return false; // single char universities
+  if (!f.email || !f.email.includes('@')) return false;              // missing or invalid email
+  return true;
+}
+
+function isValidParticipation(p) {
+  if (!p.name || p.name.trim().length < 2) return false;
+  if (!p.university || p.university.trim().length < 2) return false;
+  return true;
+}
+
+// ── Helpers ───────────────────────────────────────────────────────
 function ratingColor(v){return v>=3.5?'var(--green)':v>=2.5?'var(--amber)':'var(--red)'}
 function chipCls(v){const l=String(v||'').toLowerCase();return l==='excellent'?'chip-e':l==='good'?'chip-g':l==='average'?'chip-a':l==='poor'?'chip-p':'chip-g'}
-function initials(n){return(n||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+function initials(n){return(n||'?').split(' ').filter(Boolean).map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
+// ── Sidebar ───────────────────────────────────────────────────────
 function buildSidebar(){
-  const dates = Object.keys(HISTORY).sort().reverse();
-  if(!dates.length){document.getElementById('sidebar-nav').innerHTML='<div class="sb-empty">No reports yet.</div>';return;}
+  // Only show dates that have at least 1 valid feedback response
+  const dates = Object.keys(HISTORY)
+    .filter(d => {
+      const h = HISTORY[d];
+      return h && (h.feedback||[]).filter(isValidFeedback).length > 0;
+    })
+    .sort().reverse();
+
+  if(!dates.length){
+    document.getElementById('sidebar-nav').innerHTML='<div class="sb-empty">No reports yet.<br>Run the workflow on Saturday to generate one.</div>';
+    return;
+  }
 
   const tree = {};
   dates.forEach(d => {
@@ -225,17 +222,17 @@ function buildSidebar(){
   });
 
   let html = '';
-  Object.keys(tree).sort().reverse().forEach((year,yi) => {
+  Object.keys(tree).sort().reverse().forEach(year => {
     html += `<div class="sb-section">`;
     html += `<div class="sb-year open" onclick="this.classList.toggle('open')"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>${year}</div>`;
     html += `<div class="sb-months">`;
-    Object.keys(tree[year]).forEach((month,mi) => {
+    Object.keys(tree[year]).forEach(month => {
       html += `<div class="sb-month open" onclick="this.classList.toggle('open')">${month}</div>`;
       html += `<div class="sb-dates">`;
       tree[year][month].forEach(d => {
         const day = parseInt(d.split('-')[2]);
-        const active = d === currentDate ? ' active' : '';
-        html += `<div class="sb-date${active}" onclick="loadDate('${d}')"><span class="sb-date-dot"></span>Sat ${day}</div>`;
+        const count = (HISTORY[d].feedback||[]).filter(isValidFeedback).length;
+        html += `<div class="sb-date" onclick="loadDate('${d}')"><span class="sb-date-dot"></span>Sat ${day} <span style="color:var(--dim);font-size:9px;margin-left:auto">${count}</span></div>`;
       });
       html += `</div>`;
     });
@@ -245,86 +242,157 @@ function buildSidebar(){
 }
 
 function toggleSidebar(){
-  const sb = document.getElementById('sidebar');
-  const ov = document.getElementById('sidebar-overlay');
-  sb.classList.toggle('open');
-  ov.classList.toggle('show');
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('show');
 }
 
+// ── Load date ─────────────────────────────────────────────────────
 function loadDate(date){
   currentDate = date;
-  // Close sidebar on mobile after selecting a date
   if(window.innerWidth <= 768){
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('sidebar-overlay').classList.remove('show');
   }
-  const data = HISTORY[date];
-  if(!data){document.getElementById('main-content').innerHTML='<div class="loading">No data for this date.</div>';return;}
+  // Update active state
+  document.querySelectorAll('.sb-date').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('onclick') === `loadDate('${date}')`);
+  });
+
+  const raw = HISTORY[date];
+  if(!raw){ showNoData('No data found for this date.'); return; }
+
+  // Validate and filter data before rendering
+  const feedback     = (raw.feedback||[]).filter(isValidFeedback);
+  const participation = (raw.participation||[]).filter(isValidParticipation);
+
+  // Recalculate stats from validated feedback (don't trust stored stats if data was dirty)
+  const stats = recalcStats(feedback, participation, raw.stats||{});
+
   document.getElementById('hdr-date').textContent = date;
-  document.querySelectorAll('.sb-date').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.sb-date').forEach(el => { if(el.textContent.includes(parseInt(date.split('-')[2]))) el.classList.add('active'); });
-  renderReport(data.feedback||[], data.participation||[], data.stats||{});
+  renderReport(feedback, participation, stats);
 }
 
+// ── Recalculate stats from clean data ────────────────────────────
+function recalcStats(feedback, participation, storedStats) {
+  if(feedback.length === 0) return storedStats; // no responses, keep stored (zeros)
+  const catKeys = ['tv','audio','video','internet','ac','benches','washrooms'];
+  const funcFields = {tv:'functioning',audio:'functioning',video:'functioning',internet:'available',ac:'comfortable',benches:'sockets',washrooms:'maintained'};
+  const ratingNum = v => ({excellent:4,good:3,average:2,poor:1}[String(v||'').toLowerCase()]||0);
+
+  const categories = {};
+  let flagCount = 0;
+  catKeys.forEach(k => {
+    const ratings = feedback.map(f => ratingNum(f[k]?.rating)).filter(v=>v>0);
+    const avg = ratings.length ? ratings.reduce((a,b)=>a+b,0)/ratings.length : 0;
+    const ff = funcFields[k];
+    const funcResp = feedback.filter(f => f[k]?.[ff]);
+    const funcPct = funcResp.length ? Math.round(funcResp.filter(f=>String(f[k][ff]).trim()==='Yes').length/funcResp.length*100) : 0;
+    const poor = feedback.filter(f =>
+      String(f[k]?.rating||'').trim()==='Poor' ||
+      String(f[k]?.[ff]||'').trim()==='No' ||
+      (k==='internet' && String(f[k]?.issues||'').trim()==='Yes')
+    ).length;
+    flagCount += poor;
+    categories[k] = {avgRating: Math.round(avg*10)/10, functioning: funcPct, poorCount: poor};
+  });
+
+  const overalls = feedback.map(f=>f.overall).filter(v=>v>0);
+  return {
+    totalResponses: feedback.length,
+    uniCount: [...new Set(feedback.map(f=>f.university))].length,
+    avgOverall: overalls.length ? Math.round(overalls.reduce((a,b)=>a+b,0)/overalls.length*10)/10 : 0,
+    flagCount,
+    totalStudents: participation.length,
+    submitted: participation.filter(p=>p.status==='Submitted').length,
+    notOpened: participation.filter(p=>p.status==='Not opened').length,
+    categories
+  };
+}
+
+function showNoData(msg){
+  document.getElementById('hdr-date').textContent = '—';
+  document.getElementById('main-content').innerHTML = `<div class="no-data"><div class="no-data-icon">📭</div><div class="no-data-title">No data</div><div class="no-data-sub">${msg}</div></div>`;
+}
+
+// ── Render report ─────────────────────────────────────────────────
 function renderReport(FEEDBACK, PARTICIPATION, STATS){
   currentFeedback = FEEDBACK;
-  currentUniFilter = 'all';
+
+  if(FEEDBACK.length === 0){
+    document.getElementById('main-content').innerHTML = `
+      <div class="no-data" style="padding-top:60px">
+        <div class="no-data-icon">📭</div>
+        <div class="no-data-title">No responses this week</div>
+        <div class="no-data-sub">Either the workflow hasn't run yet,<br>or no valid submissions were received.</div>
+      </div>`;
+    return;
+  }
+
   const cats = STATS.categories || {};
   const catCards = Object.keys(CAT_NAMES).map(k => {
     const c = cats[k]||{avgRating:0,functioning:0,poorCount:0};
-    const col = ratingColor(c.avgRating);
+    const col = c.avgRating > 0 ? ratingColor(c.avgRating) : 'var(--dim)';
     const pct = Math.round((c.avgRating/4)*100);
+    const funcCol = c.functioning>=80?'var(--green)':c.functioning>=50?'var(--amber)':'var(--red)';
     return `<div class="cat-card">
       <div class="cat-name" style="color:${col}">${CAT_NAMES[k]}</div>
       <div class="cat-row"><span class="cat-label">Avg Rating</span><span class="cat-value" style="color:${col}">${c.avgRating||'—'}</span></div>
       <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${col}"></div></div>
-      <div class="cat-row"><span class="cat-label">Functioning</span><span class="cat-value" style="color:${c.functioning>=80?'var(--green)':c.functioning>=50?'var(--amber)':'var(--red)'}">${c.functioning||0}%</span></div>
-      ${c.poorCount?`<div class="cat-row"><span class="cat-label">Poor/Issues</span><span class="cat-value" style="color:var(--red)">${c.poorCount}</span></div>`:''}
+      <div class="cat-row"><span class="cat-label">Functioning</span><span class="cat-value" style="color:${funcCol}">${c.functioning}%</span></div>
+      ${c.poorCount?`<div class="cat-row"><span class="cat-label">Issues</span><span class="cat-value" style="color:var(--red)">${c.poorCount}</span></div>`:''}
     </div>`;
   }).join('');
 
+  // Flags — only show if suggestion/text is meaningful (not "NA", not single char)
   const flags = [];
   FEEDBACK.forEach(f => {
     Object.keys(CAT_NAMES).forEach(k => {
       const c = f[k]; if(!c) return;
-      if(c.rating==='Poor') flags.push({cat:CAT_NAMES[k],text:c.suggestion||'Rated Poor',who:`${f.student} · ${f.university} · ${f.classroom}`});
-      if(c.functioning==='No'||c.comfortable==='No'||c.maintained==='No'||c.sockets==='No'||c.available==='No'||c.issues==='Yes')
-        flags.push({cat:CAT_NAMES[k],text:c.suggestion||c.issues_text||'Not functioning',who:`${f.student} · ${f.university} · ${f.classroom}`});
+      const isPoor = String(c.rating||'').trim()==='Poor';
+      const notWorking = ['functioning','comfortable','maintained','sockets','available'].some(ff => String(c[ff]||'').trim()==='No');
+      const hasIssue = k==='internet' && String(c.issues||'').trim()==='Yes';
+      if(isPoor || notWorking || hasIssue){
+        const rawText = c.suggestion || c.issues_text || (isPoor?'Rated Poor':'Not functioning');
+        const text = String(rawText).trim();
+        // Skip meaningless flag text
+        if(text.length < 2 || /^(na|n\/a|none|no|-)$/i.test(text)) return;
+        flags.push({cat:CAT_NAMES[k], text: esc(text), who:`${esc(f.student)} · ${esc(f.university)} · Room ${esc(f.classroom)}`});
+      }
     });
   });
 
   const flagsHtml = flags.length === 0
-    ? '<div class="empty">No issues flagged.</div>'
+    ? `<div class="empty-state"><div class="empty-state-icon">✅</div><div class="empty-state-title">No issues flagged</div>All facilities rated satisfactorily this week.</div>`
     : `<div class="flag-list">${flags.map(f=>`<div class="flag-item"><span class="flag-cat">${f.cat}</span><span class="flag-text">${f.text}</span><span class="flag-who">${f.who}</span></div>`).join('')}</div>`;
 
-  const unis = UNIVERSITIES.length ? UNIVERSITIES : [...new Set(FEEDBACK.map(f => f.university).filter(Boolean))];
-  const uniOptions = unis.map(u => `<option value="${u}">${u}</option>`).join('');
+  // University filter — only unis that actually have responses this week
+  const activeUnis = [...new Set(FEEDBACK.map(f=>f.university).filter(Boolean))].sort();
+  const uniOptions = activeUnis.map(u=>`<option value="${u}">${esc(u)}</option>`).join('');
 
   const respHtml = `
-    <div class="filter-row" style="display:flex;gap:8px;margin-bottom:10px;">
-      <select id="uni-filter" onchange="filterResponses()" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text);font-family:'Inter',sans-serif;cursor:pointer;box-shadow:var(--shadow);">
-        <option value="all">All Universities</option>
+    <div class="filter-row">
+      <select class="uni-select" id="uni-filter" onchange="filterResponses()">
+        <option value="all">All Universities (${activeUnis.length})</option>
         ${uniOptions}
       </select>
-      <div class="search-wrap" style="flex:1;margin-bottom:0"><span class="search-ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input class="search-input" id="search" placeholder="Search student, classroom…" oninput="filterResponses()"/></div>
+      <div class="search-wrap"><span class="search-ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input class="search-input" id="search" placeholder="Search student, classroom…" oninput="filterResponses()"/></div>
     </div>
     <div id="resp-out"></div>`;
 
-
   const partHtml = PARTICIPATION.length === 0
-    ? '<div class="empty">No participation data.</div>'
+    ? `<div class="empty-state"><div class="empty-state-icon">📧</div><div class="empty-state-title">No tracking data</div>Email tracking data will appear here after the 9 AM workflow runs.</div>`
     : PARTICIPATION.map(p => {
-      const scls = p.status==='Submitted'?'st-sub':p.status==='Opened only'?'st-op':'st-no';
-      return `<div class="p-card"><div class="p-av" style="background:var(--blue-bg);color:var(--blue)">${initials(p.name)}</div><div class="p-info"><div class="p-name">${p.name}</div><div class="p-uni">${p.university}</div><div class="p-ts">${p.openedAt&&p.openedAt!=='—'?'Opened '+p.openedAt:'Not opened'}</div></div><div><span class="st ${scls}">${p.status}</span></div></div>`;
-    }).join('');
+        const scls = p.status==='Submitted'?'st-sub':p.status==='Opened only'?'st-op':'st-no';
+        return `<div class="p-card"><div class="p-av" style="background:var(--blue-bg);color:var(--blue)">${initials(p.name)}</div><div class="p-info"><div class="p-name">${esc(p.name)}</div><div class="p-uni">${esc(p.university)}</div><div class="p-ts">${p.openedAt&&p.openedAt!=='—'?'Opened '+esc(p.openedAt):'Not opened'}</div></div><span class="st ${scls}">${p.status}</span></div>`;
+      }).join('');
 
   document.getElementById('main-content').innerHTML = `
     <div class="sec-label">Overview</div>
     <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-ico" style="background:var(--blue-bg)"><svg viewBox="0 0 24 24" stroke="var(--blue)" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="kpi-val" style="color:var(--blue)">${STATS.totalResponses||0}</div><div class="kpi-lbl">Responses</div></div></div>
+      <div class="kpi"><div class="kpi-ico" style="background:var(--blue-bg)"><svg viewBox="0 0 24 24" stroke="var(--blue)" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="kpi-val" style="color:var(--blue)">${STATS.totalResponses}</div><div class="kpi-lbl">Responses</div></div></div>
       <div class="kpi"><div class="kpi-ico" style="background:var(--green-bg)"><svg viewBox="0 0 24 24" stroke="var(--green)" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div><div class="kpi-val" style="color:var(--green)">${STATS.avgOverall?STATS.avgOverall.toFixed(1)+'/5':'—'}</div><div class="kpi-lbl">Avg Rating</div></div></div>
-      <div class="kpi"><div class="kpi-ico" style="background:var(--red-bg)"><svg viewBox="0 0 24 24" stroke="var(--red)" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div><div class="kpi-val" style="color:var(--red)">${STATS.flagCount||0}</div><div class="kpi-lbl">Issues Flagged</div></div></div>
-      <div class="kpi"><div class="kpi-ico" style="background:var(--amber-bg)"><svg viewBox="0 0 24 24" stroke="var(--amber)" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="kpi-val" style="color:var(--amber)">${STATS.notOpened||0}</div><div class="kpi-lbl">Not Opened</div></div></div>
+      <div class="kpi"><div class="kpi-ico" style="background:var(--red-bg)"><svg viewBox="0 0 24 24" stroke="var(--red)" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div><div class="kpi-val" style="color:var(--red)">${STATS.flagCount}</div><div class="kpi-lbl">Issues Flagged</div></div></div>
+      <div class="kpi"><div class="kpi-ico" style="background:var(--amber-bg)"><svg viewBox="0 0 24 24" stroke="var(--amber)" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="kpi-val" style="color:var(--amber)">${STATS.notOpened}</div><div class="kpi-lbl">Not Opened</div></div></div>
     </div>
     <div class="sec-label">Category Ratings</div>
     <div class="cat-grid">${catCards}</div>
@@ -333,35 +401,34 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     <div class="sec-label">Individual Responses</div>
     ${respHtml}
     <div class="sec-label">Student Participation</div>
-    ${partHtml}
-  `;
-  setTimeout(() => filterResponses(), 0);
+    ${partHtml}`;
+
+  setTimeout(filterResponses, 0);
 }
 
 function filterResponses(){
-  const uniSel = document.getElementById('uni-filter');
-  const searchEl = document.getElementById('search');
-  const uni = uniSel ? uniSel.value : 'all';
-  const q = searchEl ? searchEl.value.toLowerCase() : '';
+  const uni = (document.getElementById('uni-filter')||{}).value || 'all';
+  const q   = ((document.getElementById('search')||{}).value||'').toLowerCase();
   const out = document.getElementById('resp-out');
   if(!out) return;
 
   const filtered = currentFeedback.filter(f =>
-    (uni === 'all' || f.university === uni) &&
-    (!q || [f.student,f.university,f.classroom].some(v => (v||'').toLowerCase().includes(q)))
+    (uni==='all' || f.university===uni) &&
+    (!q || [f.student,f.university,f.classroom].some(v=>(v||'').toLowerCase().includes(q)))
   );
 
   if(!filtered.length){
-    out.innerHTML = '<div class="empty">No responses match filters.</div>';
+    out.innerHTML=`<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-title">No matches</div>Try a different filter or search term.</div>`;
     return;
   }
 
   out.innerHTML = filtered.map(f => {
-    const cats = Object.keys(CAT_NAMES).map(k => {
-      const c = f[k]; if(!c) return '';
+    const cats = Object.keys(CAT_NAMES).map(k=>{
+      const c=f[k]; if(!c) return '';
       return `<div class="resp-item"><span>${CAT_NAMES[k]}</span><span class="chip ${chipCls(c.rating)}">${c.rating||'—'}</span></div>`;
     }).join('');
-    return `<div class="resp-card"><div class="resp-top"><div><span class="resp-name">${f.student}</span><br/><span class="resp-meta">${f.university} · Room ${f.classroom}</span></div><span class="chip ${f.overall>=4?'chip-e':f.overall>=3?'chip-g':f.overall>=2?'chip-a':'chip-p'}">${f.overall}/5</span></div><div class="resp-grid">${cats}</div></div>`;
+    const oc = f.overall>=4?'chip-e':f.overall>=3?'chip-g':f.overall>=2?'chip-a':'chip-p';
+    return `<div class="resp-card"><div class="resp-top"><div><div class="resp-name">${esc(f.student)}</div><div class="resp-meta">${esc(f.university)} · Room ${esc(f.classroom)}</div></div><span class="chip ${oc}">${f.overall}/5</span></div><div class="resp-grid">${cats}</div></div>`;
   }).join('');
 }
 
@@ -373,10 +440,12 @@ function toggleTheme(){
     :'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
 }
 
-// Init
 buildSidebar();
-if(HISTORY[REPORT_DATE]) loadDate(REPORT_DATE);
-else { const dates = Object.keys(HISTORY).sort().reverse(); if(dates.length) loadDate(dates[0]); }
+// Auto-load most recent date that has valid data
+const validDates = Object.keys(HISTORY)
+  .filter(d => (HISTORY[d].feedback||[]).filter(isValidFeedback).length > 0)
+  .sort().reverse();
+if(validDates.length) loadDate(validDates[0]);
 </script>
 </body>
 </html>
