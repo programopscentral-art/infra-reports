@@ -101,12 +101,41 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px}
 .chip-e{background:var(--green-bg);color:var(--green)}.chip-g{background:var(--blue-bg);color:var(--blue)}.chip-a{background:var(--amber-bg);color:var(--amber)}.chip-p{background:var(--red-bg);color:var(--red)}
 /* PARTICIPATION */
-.p-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:8px;box-shadow:var(--shadow)}
-.p-av{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
-.p-info{flex:1}.p-name{font-size:13px;font-weight:600}.p-uni{font-size:10px;color:var(--sub)}
-.p-ts{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;margin-top:4px}
-.st{font-size:10px;font-weight:600;padding:3px 9px;border-radius:6px}
+.uni-group{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow)}
+.uni-group-header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;user-select:none;transition:background .1s}
+.uni-group-header:hover{background:var(--surface2)}
+.uni-group-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.uni-group-stats{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace}
+.uni-group-chevron{transition:transform .2s;color:var(--dim);font-size:10px}
+.uni-group-chevron.open{transform:rotate(90deg)}
+.uni-group-body{display:none;border-top:1px solid var(--border)}
+.uni-group-body.open{display:block}
+.p-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.p-row:last-child{border-bottom:none}
+.p-row:hover{background:var(--surface2)}
+.p-av{width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.p-info{flex:1;min-width:0}
+.p-name{font-size:12px;font-weight:600;color:var(--text)}
+.p-meta{font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;margin-top:2px;display:flex;gap:8px;flex-wrap:wrap}
+.p-submissions{font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace}
+.st{font-size:10px;font-weight:600;padding:3px 9px;border-radius:6px;white-space:nowrap}
 .st-sub{background:var(--green-bg);color:var(--green)}.st-op{background:var(--amber-bg);color:var(--amber)}.st-no{background:var(--surface2);color:var(--sub);border:1px solid var(--border)}
+/* STUDENT DETAIL MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:var(--surface);border-radius:16px;width:100%;max-width:560px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:14px;font-weight:700}
+.modal-close{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px}
+.modal-body{overflow-y:auto;padding:16px 20px;flex:1}
+.modal-section{margin-bottom:16px}
+.modal-section-title{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-family:'JetBrains Mono',monospace;margin-bottom:8px}
+.modal-cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.modal-cat{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+.modal-cat-name{font-size:10px;font-weight:600;color:var(--sub);margin-bottom:4px}
+.modal-cat-rating{font-size:11px;font-weight:700}
+.modal-cat-note{font-size:10px;color:var(--sub);margin-top:3px;line-height:1.4}
+.modal-overall{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.modal-overall-num{font-size:24px;font-weight:700;font-family:'JetBrains Mono',monospace}
 .footer{text-align:center;padding:20px 16px;font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;border-top:1px solid var(--border)}
 /* MOBILE */
 @media(max-width:768px){
@@ -424,12 +453,66 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     </div>
     <div id="resp-out"></div>`;
 
-  const partHtml = PARTICIPATION.length === 0
-    ? `<div class="empty-state"><div class="empty-state-icon">📧</div><div class="empty-state-title">No tracking data</div>Email tracking data will appear here after the 9 AM workflow runs.</div>`
-    : PARTICIPATION.map(p => {
+  // Build participation grouped by university
+  let partHtml = '';
+  if(PARTICIPATION.length === 0){
+    partHtml = `<div class="empty-state"><div class="empty-state-icon">📧</div><div class="empty-state-title">No tracking data</div>Email tracking data will appear here after the 11 AM workflow runs.</div>`;
+  } else {
+    // Group by university
+    const uniGroups = {};
+    PARTICIPATION.forEach(p => {
+      const u = p.university || 'Unknown';
+      if(!uniGroups[u]) uniGroups[u] = [];
+      uniGroups[u].push(p);
+    });
+    // For each student, count how many times they submitted
+    const submissionCounts = {};
+    FEEDBACK.forEach(f => {
+      const key = normaliseKey(f.email || f.student);
+      submissionCounts[key] = (submissionCounts[key]||0) + 1;
+    });
+    partHtml = Object.entries(uniGroups).sort(([a],[b])=>a.localeCompare(b)).map(([uni, students]) => {
+      const total = students.length;
+      const submitted = students.filter(s=>s.status==='Submitted').length;
+      const notOpened = students.filter(s=>s.status==='Not opened').length;
+      const rows = students.map(p => {
         const scls = p.status==='Submitted'?'st-sub':p.status==='Opened only'?'st-op':'st-no';
-        return `<div class="p-card"><div class="p-av" style="background:var(--blue-bg);color:var(--blue)">${initials(p.name)}</div><div class="p-info"><div class="p-name">${esc(p.name)}</div><div class="p-uni">${esc(p.university)}</div><div class="p-ts">${p.openedAt&&p.openedAt!=='—'?'Opened '+esc(p.openedAt):'Not opened'}</div></div><span class="st ${scls}">${p.status}</span></div>`;
+        const key = normaliseKey(p.email||p.name);
+        const subCount = submissionCounts[key]||0;
+        const sentTime = p.sentAt || '—';
+        // Find feedback for this student
+        const studentFeedback = FEEDBACK.filter(f => normaliseKey(f.email||f.student) === normaliseKey(p.email||p.name));
+        const hasFeedback = studentFeedback.length > 0;
+        return `<div class="p-row" onclick="showStudentDetail(${JSON.stringify(JSON.stringify({name:p.name,uni,sentAt:p.sentAt||'—',openedAt:p.openedAt,status:p.status,subCount,feedback:studentFeedback}))})">
+          <div class="p-av" style="background:${hasFeedback?'var(--green-bg)':'var(--surface2)'};color:${hasFeedback?'var(--green)':'var(--dim)'}">${initials(p.name)}</div>
+          <div class="p-info">
+            <div class="p-name">${esc(p.name)}</div>
+            <div class="p-meta">
+              <span>📧 Sent ${esc(p.sentAt||'—')}</span>
+              ${p.openedAt&&p.openedAt!=='—'?`<span>👁 Opened ${esc(p.openedAt)}</span>`:''}
+              ${subCount>0?`<span>📝 ${subCount} submission${subCount>1?' (duplicate)':''}</span>`:''}
+            </div>
+          </div>
+          <span class="st ${scls}">${p.status}</span>
+        </div>`;
       }).join('');
+      return `<div class="uni-group">
+        <div class="uni-group-header" onclick="toggleUniGroup(this)">
+          <div class="uni-group-title">
+            <span class="uni-group-chevron">▶</span>
+            ${esc(uni)}
+          </div>
+          <div class="uni-group-stats">
+            <span style="color:var(--green)">${submitted} submitted</span>
+            <span>·</span>
+            <span>${total} total</span>
+            ${notOpened>0?`<span>· <span style="color:var(--amber)">${notOpened} not opened</span></span>`:''}
+          </div>
+        </div>
+        <div class="uni-group-body">${rows}</div>
+      </div>`;
+    }).join('');
+  }
 
   document.getElementById('main-content').innerHTML = `
     <div class="sec-label">Overview</div>
@@ -523,6 +606,84 @@ function downloadPDF(){
   window.print();
   // Restore theme
   if(wasDark) document.documentElement.dataset.theme = 'dark';
+}
+
+function normaliseKey(s){ return String(s||'').toLowerCase().trim(); }
+
+function toggleUniGroup(header){
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.uni-group-chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+
+function showStudentDetail(jsonStr){
+  const d = JSON.parse(jsonStr);
+  const CAT_NAMES_M = {tv:'TV',audio:'Audio',video:'Video',internet:'Internet/Wi-Fi',ac:'AC',benches:'Benches & Power',washrooms:'Washrooms'};
+  const chipC = v => {const l=String(v||'').toLowerCase();return l==='excellent'?'var(--green)':l==='good'?'var(--blue)':l==='average'?'var(--amber)':'var(--red)'};
+
+  const feedbackSections = d.feedback.length === 0 ? `<div style="text-align:center;color:var(--dim);padding:20px;font-size:12px;">No feedback submitted this week.</div>` :
+    d.feedback.map((f,i) => {
+      const catGrid = Object.keys(CAT_NAMES_M).map(k => {
+        const c = f[k]; if(!c) return '';
+        const ratingCol = chipC(c.rating);
+        const suggestion = c.suggestion || c.issues_text || '';
+        return `<div class="modal-cat">
+          <div class="modal-cat-name">${CAT_NAMES_M[k]}</div>
+          <div class="modal-cat-rating" style="color:${ratingCol}">${c.rating||'—'}</div>
+          ${suggestion && suggestion.length>1 && !/^(na|n\/a|no|none|\.)$/i.test(suggestion.trim()) ? `<div class="modal-cat-note">${esc(suggestion)}</div>` : ''}
+        </div>`;
+      }).join('');
+      const oc = f.overall>=4?'var(--green)':f.overall>=3?'var(--blue)':f.overall>=2?'var(--amber)':'var(--red)';
+      return `
+        ${d.feedback.length>1?`<div style="font-size:10px;font-weight:700;color:var(--sub);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">Submission ${i+1} · Room ${esc(f.classroom)}</div>`:`<div style="font-size:11px;color:var(--sub);margin-bottom:10px;">Room ${esc(f.classroom)}</div>`}
+        <div class="modal-overall">
+          <div class="modal-overall-num" style="color:${oc}">${f.overall}/5</div>
+          <div style="font-size:11px;color:var(--sub)">Overall Rating</div>
+        </div>
+        <div class="modal-cat-grid">${catGrid}</div>
+        ${f.otherIssues&&f.otherIssues.length>1?`<div style="margin-top:10px;padding:8px 10px;background:var(--red-bg);border-radius:8px;font-size:11px;color:var(--red)"><strong>Other issues:</strong> ${esc(f.otherIssues)}</div>`:''}
+        ${f.additionalSuggestions&&f.additionalSuggestions.length>1?`<div style="margin-top:6px;padding:8px 10px;background:var(--surface2);border-radius:8px;font-size:11px;color:var(--sub)"><strong>Suggestions:</strong> ${esc(f.additionalSuggestions)}</div>`:''}
+        ${i<d.feedback.length-1?'<hr style="border:none;border-top:1px solid var(--border);margin:14px 0">':''}`;
+    }).join('');
+
+  const scls = d.status==='Submitted'?'st-sub':d.status==='Opened only'?'st-op':'st-no';
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.onclick = e => { if(e.target===modal) modal.remove(); };
+  modal.innerHTML = `<div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">${esc(d.name)}</div>
+        <div style="font-size:10px;color:var(--sub);margin-top:2px">${esc(d.uni)}</div>
+      </div>
+      <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Email Tracking</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+          <div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px">
+            <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Sent At</div>
+            <div style="font-size:12px;font-weight:600;margin-top:2px;font-family:'JetBrains Mono',monospace">${esc(d.sentAt||'—')}</div>
+          </div>
+          <div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px">
+            <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Opened At</div>
+            <div style="font-size:12px;font-weight:600;margin-top:2px;font-family:'JetBrains Mono',monospace">${d.openedAt&&d.openedAt!=='—'?esc(d.openedAt):'Not opened'}</div>
+          </div>
+          <div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px">
+            <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Submissions</div>
+            <div style="font-size:12px;font-weight:600;margin-top:2px"><span class="st ${scls}">${d.status}</span>${d.subCount>1?` <span style="color:var(--amber);font-size:10px">(${d.subCount}x)</span>`:''}</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Feedback</div>
+        ${feedbackSections}
+      </div>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
 }
 
 function toggleTheme(){
