@@ -98,7 +98,8 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .resp-name{font-size:13px;font-weight:700;color:#1e1b4b}
 .resp-meta{font-size:10px;color:#8b5cf6}
 .resp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:4px}
-.resp-item{font-size:10px;color:#6d28d9;display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f5f3ff}
+.resp-item{font-size:10px;color:#6d28d9;display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f5f3ff;border-radius:4px;transition:all .15s}
+.resp-item-highlight{background:#ede9fe;padding:3px 6px;border-bottom:1px solid #c4b5fd;font-weight:700;color:#4f46e5}
 .chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px}
 .chip-e{background:#d1fae5;color:#065f46}.chip-g{background:#ede9fe;color:#4338ca}.chip-a{background:#fffbeb;color:#92400e}.chip-p{background:#fef2f2;color:#991b1b}
 /* PARTICIPATION */
@@ -385,7 +386,7 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
       <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${col}"></div></div>
       <div class="cat-row"><span class="cat-label">Functioning</span><span class="cat-value" style="color:${funcCol}">${c.functioning}%</span></div>
       ${c.poorCount?`<div class="cat-row"><span class="cat-label">Issues</span><span class="cat-value" style="color:var(--red)">${c.poorCount}</span></div>`:''}
-      <div style="margin-top:8px;font-size:9px;color:var(--dim);text-align:center">Click to filter responses ↓</div>
+
     </div>`;
   }).join('');
 
@@ -522,20 +523,27 @@ let activeCatFilter = null;
 function filterByCategory(cat){
   const cards = document.querySelectorAll('.cat-card');
   if(activeCatFilter === cat){
-    // Clicking same card again clears filter
+    // Clicking same card again clears highlight
     activeCatFilter = null;
     cards.forEach(c => c.classList.remove('active'));
     document.getElementById('cat-filter-label').style.display = 'none';
+    // Remove all highlights from response items
+    document.querySelectorAll('.resp-item').forEach(el => el.classList.remove('resp-item-highlight'));
   } else {
     activeCatFilter = cat;
     cards.forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
+    const catNames = {tv:'TV',audio:'Audio',video:'Video',internet:'Internet/Wi-Fi',ac:'AC',benches:'Benches & Power',washrooms:'Washrooms'};
     const label = document.getElementById('cat-filter-label');
     label.style.display = 'flex';
-    label.querySelector('span').textContent = 'Showing: ' + Object.assign({tv:'TV',audio:'Audio',video:'Video',internet:'Internet/Wi-Fi',ac:'AC',benches:'Benches & Power',washrooms:'Washrooms'})[cat];
+    label.querySelector('span').textContent = 'Highlighting: ' + catNames[cat];
+    // Highlight matching category in every response card
+    document.querySelectorAll('.resp-item').forEach(el => {
+      const itemCat = el.dataset.cat;
+      el.classList.toggle('resp-item-highlight', itemCat === cat);
+    });
+    // Scroll to individual responses
+    document.getElementById('resp-section').scrollIntoView({behavior:'smooth', block:'start'});
   }
-  // Scroll to individual responses section
-  document.getElementById('resp-section').scrollIntoView({behavior:'smooth', block:'start'});
-  filterResponses();
 }
 
 function filterFlags(cat, btn){
@@ -554,8 +562,7 @@ function filterResponses(){
 
   const filtered = currentFeedback.filter(f =>
     (uni==='all' || f.university===uni) &&
-    (!q || [f.student,f.university,f.classroom].some(v=>(v||'').toLowerCase().includes(q))) &&
-    (!activeCatFilter || f[activeCatFilter])
+    (!q || [f.student,f.university,f.classroom].some(v=>(v||'').toLowerCase().includes(q)))
   );
 
   if(!filtered.length){
@@ -566,11 +573,17 @@ function filterResponses(){
   out.innerHTML = filtered.map(f => {
     const cats = Object.keys(CAT_NAMES).map(k=>{
       const c=f[k]; if(!c) return '';
-      return `<div class="resp-item"><span>${CAT_NAMES[k]}</span><span class="chip ${chipCls(c.rating)}">${c.rating||'—'}</span></div>`;
+      return `<div class="resp-item" data-cat="${k}"><span>${CAT_NAMES[k]}</span><span class="chip ${chipCls(c.rating)}">${c.rating||'—'}</span></div>`;
     }).join('');
     const oc = f.overall>=4?'chip-e':f.overall>=3?'chip-g':f.overall>=2?'chip-a':'chip-p';
     return `<div class="resp-card"><div class="resp-top"><div><div class="resp-name">${esc(f.student)}</div><div class="resp-meta">${esc(f.university)} · Room ${esc(f.classroom)}</div></div><span class="chip ${oc}">${f.overall}/5</span></div><div class="resp-grid">${cats}</div></div>`;
   }).join('');
+  // Re-apply category highlight if one is active
+  if(activeCatFilter){
+    document.querySelectorAll('.resp-item').forEach(el => {
+      el.classList.toggle('resp-item-highlight', el.dataset.cat === activeCatFilter);
+    });
+  }
 }
 
 function normaliseKey(s){ return String(s||'').toLowerCase().trim(); }
