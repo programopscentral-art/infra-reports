@@ -226,7 +226,7 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
       </div>
       <div class="no-data"><div class="no-data-icon">📋</div><div class="no-data-title">Select a date</div><div class="no-data-sub">Choose a Saturday from the sidebar<br>to view that week's feedback.</div></div>
     </div>
-    <div class="footer">Facilities Feedback · n8n + Google Sheets + Gmail SMTP</div>
+    
   </div>
 </div>
 
@@ -425,7 +425,7 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
         const rawText = c.suggestion || c.issues_text || (isPoor?'Rated Poor':'Not functioning');
         const text = String(rawText).trim();
         // Skip meaningless flag text
-        if(text.length < 2 || /^(na|n\/a|none|no|-)$/i.test(text)) return;
+        if(text.length < 2 || /^(na|n\/a|none|no|yes|ok|fine|good|nothing|nope|noo|nah|not|nil|null|-|\.)$/i.test(text)) return;
         flags.push({cat:CAT_NAMES[k], text: esc(text), who:`${esc(f.student)} · ${esc(f.university)} · Room ${esc(f.classroom)}`});
       }
     });
