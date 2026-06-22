@@ -349,7 +349,7 @@ function recalcStats(feedback, participation, storedStats) {
     flagCount,
     totalStudents: participation.length,
     submitted: participation.filter(p=>p.status==='Submitted').length,
-    notOpened: participation.filter(p=>p.status==='Not opened').length,
+    notOpened: participation.filter(p=>p.status==='Untracked').length,
     categories
   };
 }
@@ -451,7 +451,7 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     partHtml = Object.entries(uniGroups).sort(([a],[b])=>a.localeCompare(b)).map(([uni, students]) => {
       const total = students.length;
       const submitted = students.filter(s=>s.status==='Submitted').length;
-      const notOpened = students.filter(s=>s.status==='Not opened').length;
+      const notOpened = students.filter(s=>s.status==='Untracked').length;
       const rows = students.map(p => {
         const scls = p.status==='Submitted'?'st-sub':p.status==='Opened only'?'st-op':'st-no';
         const key = normaliseKey(p.email||p.name);
@@ -497,7 +497,7 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
       <div class="kpi"><div class="kpi-ico" style="background:var(--blue-bg)"><svg viewBox="0 0 24 24" stroke="var(--blue)" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="kpi-val" style="color:var(--blue)">${STATS.totalResponses}</div><div class="kpi-lbl">Responses</div></div></div>
       <div class="kpi"><div class="kpi-ico" style="background:var(--green-bg)"><svg viewBox="0 0 24 24" stroke="var(--green)" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div><div class="kpi-val" style="color:var(--green)">${STATS.avgOverall?STATS.avgOverall.toFixed(1)+'/5':'—'}</div><div class="kpi-lbl">Avg Rating</div></div></div>
       <div class="kpi"><div class="kpi-ico" style="background:var(--red-bg)"><svg viewBox="0 0 24 24" stroke="var(--red)" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div><div class="kpi-val" style="color:var(--red)">${STATS.flagCount}</div><div class="kpi-lbl">Issues Flagged</div></div></div>
-      <div class="kpi"><div class="kpi-ico" style="background:var(--amber-bg)"><svg viewBox="0 0 24 24" stroke="var(--amber)" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="kpi-val" style="color:var(--amber)">${STATS.notOpened}</div><div class="kpi-lbl">Not Opened</div></div></div>
+      <div class="kpi"><div class="kpi-ico" style="background:var(--amber-bg)"><svg viewBox="0 0 24 24" stroke="var(--amber)" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="kpi-val" style="color:var(--amber)">${STATS.notOpened}</div><div class="kpi-lbl">Untracked</div></div></div>
     </div>
     <div class="sec-label">Category Ratings</div>
     <div class="cat-grid">${catCards}</div>
@@ -634,7 +634,7 @@ function showStudentDetail(jsonStr){
           </div>
           <div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px">
             <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Opened At</div>
-            <div style="font-size:12px;font-weight:600;margin-top:2px;font-family:'JetBrains Mono',monospace">${d.openedAt&&d.openedAt!=='—'?esc(d.openedAt):'Not opened'}</div>
+            <div style="font-size:12px;font-weight:600;margin-top:2px;font-family:'JetBrains Mono',monospace">${d.openedAt&&d.openedAt!=='—'?esc(d.openedAt):'Untracked'}</div>
           </div>
           <div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px">
             <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Submissions</div>
