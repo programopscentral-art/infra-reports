@@ -672,11 +672,12 @@ function downloadReport(){
   if(!d) return;
   const feedback = (d.feedback||[]).filter(isValidFeedback);
   const stats = recalcStats(feedback, d.participation||[], d.stats||{});
-  const cats = stats.categories||{};
-  const catNames = {tv:'TV',audio:'Audio',internet:'Internet / Wi-Fi',ac:'AC',benches:'Benches & Power'};
   const catKeys = ['tv','audio','internet','ac','benches'];
+  const catNames = {tv:'TV',audio:'Audio',internet:'Internet / Wi-Fi',ac:'AC',benches:'Benches & Power'};
+  const funcFields = {tv:'functioning',audio:'functioning',internet:'available',ac:'comfortable',benches:'sockets'};
+  const rn = v => ({excellent:4,good:3,average:2,poor:1}[String(v||'').toLowerCase()]||0);
 
-  // Group feedback by university
+  // Group by university
   const uniGroups = {};
   feedback.forEach(f => {
     const u = f.university||'Unknown';
@@ -684,29 +685,8 @@ function downloadReport(){
     uniGroups[u].push(f);
   });
 
-  // Build flags
-  const allFlags = [];
-  feedback.forEach(f => {
-    const funcFields = {tv:'functioning',audio:'functioning',internet:'available',ac:'comfortable',benches:'sockets'};
-    catKeys.forEach(k => {
-      const c = f[k]; if(!c) return;
-      const ff = funcFields[k];
-      const isPoor = String(c.rating||'').trim()==='Poor';
-      const notWorking = String(c[ff]||'').trim()==='No';
-      const hasIssue = k==='internet' && String(c.issues||'').trim()==='Yes';
-      if(isPoor||notWorking||hasIssue){
-        const text = c.suggestion||c.issues_text||'';
-        if(text.length>2 && !/^(na|n\/a|none|no|yes|ok|fine|good|nothing|nope|noo|nah|not|nil|null|-|\.)$/i.test(text.trim())){
-          allFlags.push({cat:catNames[k], text, who:`${f.student} · ${f.university} · Room ${f.classroom}`});
-        }
-      }
-    });
-  });
-
-  // Build uni cat stats
+  // Per-uni cat stats
   function uniCatStats(ufb){
-    const funcFields = {tv:'functioning',audio:'functioning',internet:'available',ac:'comfortable',benches:'sockets'};
-    const rn = v => ({excellent:4,good:3,average:2,poor:1}[String(v||'').toLowerCase()]||0);
     const res = {};
     catKeys.forEach(k => {
       const ratings = ufb.map(f=>rn(f[k]?.rating)).filter(v=>v>0);
@@ -720,84 +700,121 @@ function downloadReport(){
     return res;
   }
 
-  // Build uni sections HTML
+  // Per-uni flags
+  function uniFlags(ufb){
+    const flags = [];
+    ufb.forEach(f => {
+      catKeys.forEach(k => {
+        const c = f[k]; if(!c) return;
+        const ff = funcFields[k];
+        const isPoor = String(c.rating||'').trim()==='Poor';
+        const notWorking = String(c[ff]||'').trim()==='No';
+        const hasIssue = k==='internet' && String(c.issues||'').trim()==='Yes';
+        if(isPoor||notWorking||hasIssue){
+          const text = c.suggestion||c.issues_text||'';
+          const clean = String(text).trim();
+          if(clean.length>10 && !/^(na|n\/a|none|no|yes|ok|fine|good|nothing|nope|noo|nah|not|nil|null|-|\.)$/i.test(clean)){
+            flags.push({cat:catNames[k], text:clean, who:`${f.student} · Room ${f.classroom}`, len:clean.length});
+          }
+        }
+      });
+    });
+    // Sort by length descending, dedupe by student
+    const seen = new Set();
+    return flags.sort((a,b)=>b.len-a.len).filter(f=>{
+      if(seen.has(f.who)) return false;
+      seen.add(f.who); return true;
+    });
+  }
+
+  // Auto-generate summary sentence per university
+  function uniSummary(uni, ufb, uStats){
+    const overalls = ufb.map(f=>f.overall).filter(v=>v>0);
+    const avg = overalls.length ? Math.round(overalls.reduce((a,b)=>a+b,0)/overalls.length*10)/10 : 0;
+    const worst = catKeys.reduce((a,b) => (uStats[a]?.avg||4) < (uStats[b]?.avg||4) ? a : b);
+    const best = catKeys.reduce((a,b) => (uStats[a]?.avg||0) > (uStats[b]?.avg||0) ? a : b);
+    const worstFlags = uStats[worst]?.poor||0;
+    return `${ufb.length} responses this week. ${catNames[worst]} is the most critical concern with ${worstFlags} flag${worstFlags!==1?'s':''} and an avg rating of ${uStats[worst]?.avg||'—'}/4. ${catNames[best]} is performing best at ${uStats[best]?.avg||'—'}/4. Overall student satisfaction is ${avg}/5.`;
+  }
+
+  // Build uni sections
   const uniSections = Object.entries(uniGroups).sort().map(([uni, ufb]) => {
     const uStats = uniCatStats(ufb);
-    const overalls = ufb.map(f=>f.overall).filter(v=>v>0);
-    const uAvg = overalls.length ? Math.round(overalls.reduce((a,b)=>a+b,0)/overalls.length*10)/10 : 0;
-    const uFlags = allFlags.filter(f=>f.who.includes(uni));
-    const uFlagCount = uFlags.length;
+    const flags = uniFlags(ufb);
+    const summary = uniSummary(uni, ufb, uStats);
 
     const catRows = catKeys.map(k => {
       const cs = uStats[k];
-      const barW = Math.round((cs.avg/4)*100);
-      return `<tr><td style="padding:7px 10px;border-bottom:1px solid #e5e7eb;font-size:12px;color:#111827">${catNames[k]}</td>
-        <td style="padding:7px 10px;border-bottom:1px solid #e5e7eb;font-size:12px;color:#111827">
-          <span style="display:inline-block;width:60px;height:3px;background:#e5e7eb;border-radius:2px;vertical-align:middle;margin-right:6px;overflow:hidden"><span style="display:block;height:100%;width:${barW}%;background:#374151;border-radius:2px"></span></span>${cs.avg||'—'} / 4
-        </td>
-        <td style="padding:7px 10px;border-bottom:1px solid #e5e7eb;font-size:12px;color:#111827">${cs.fp}%</td>
-        <td style="padding:7px 10px;border-bottom:1px solid #e5e7eb;font-size:12px;color:#111827">${cs.poor||'—'}</td></tr>`;
+      return `<tr>
+        <td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">${catNames[k]}</td>
+        <td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">${cs.avg||'—'} / 4</td>
+        <td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">${cs.fp}%</td>
+        <td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">${cs.poor||'—'}</td>
+      </tr>`;
     }).join('');
 
-    const flagRows = uFlags.length === 0 ? '<p style="font-size:12px;color:#6b7280;padding:8px 0">No issues flagged.</p>' :
-      uFlags.map((f,i) => `<div style="padding:9px 0;border-bottom:1px solid #f3f4f6;font-size:12px;display:flex;gap:12px">
-        <span style="font-size:11px;font-weight:600;color:#6b7280;min-width:20px">${i+1}</span>
-        <span style="font-weight:500;color:#111827;min-width:110px">${f.cat}</span>
-        <div><div style="color:#111827;line-height:1.5">${f.text}</div><div style="font-size:10px;color:#9ca3af;margin-top:2px">${f.who}</div></div>
-      </div>`).join('');
+    const flagRows = flags.length === 0
+      ? `<p style="font-size:12px;color:#9ca3af;padding:8px 0">No issues flagged.</p>`
+      : flags.map((f,i) => `<div style="display:flex;gap:14px;padding:10px 0;border-bottom:0.5px solid #f3f4f6;font-size:12px;line-height:1.5">
+          <span style="color:#9ca3af;min-width:16px;font-weight:500">${i+1}</span>
+          <span style="font-weight:500;min-width:100px;color:#111827">${f.cat}</span>
+          <div style="flex:1"><div style="color:#111827">${f.text}</div><div style="font-size:11px;color:#9ca3af;margin-top:2px">${f.who}</div></div>
+        </div>`).join('');
 
-    const respRows = ufb.map(f => {
-      const ratings = catKeys.map(k => `<span style="margin-right:12px;font-size:11px;color:#6b7280">${catNames[k].replace(' / Wi-Fi','')}<span style="color:#111827;font-weight:500;margin-left:4px">${f[k]?.rating||'—'}</span></span>`).join('');
-      return `<div style="padding:10px 0;border-bottom:1px solid #f3f4f6">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
-          <div><span style="font-weight:500;font-size:12px;color:#111827">${f.student}</span> <span style="font-size:11px;color:#9ca3af;margin-left:6px">Room ${f.classroom}</span></div>
-          <span style="font-size:11px;color:#6b7280">Overall: ${f.overall}/5</span>
-        </div>
-        <div style="display:flex;flex-wrap:wrap">${ratings}</div>
+    return `
+      <div style="margin-bottom:32px">
+        <div style="font-size:17px;font-weight:500;color:#111827;margin-bottom:8px">${uni}</div>
+        <div style="font-size:12px;color:#6b7280;line-height:1.6;padding:10px 14px;background:#f9fafb;border-radius:8px;margin-bottom:16px">${summary}</div>
+        <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:6px">Category Ratings</div>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
+          <tr style="background:#f9fafb">
+            <th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Category</th>
+            <th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Avg Rating</th>
+            <th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Functioning</th>
+            <th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Issues</th>
+          </tr>
+          ${catRows}
+        </table>
+        <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:6px">Flagged Issues</div>
+        <div style="margin-bottom:8px">${flagRows}</div>
       </div>`;
-    }).join('');
-
-    return `<div style="margin-bottom:32px">
-      <div style="padding-bottom:8px;border-bottom:1px solid #111827;margin-bottom:14px">
-        <div style="font-size:16px;font-weight:600;color:#111827">${uni}</div>
-        <div style="font-size:12px;color:#6b7280;margin-top:2px">${ufb.length} responses &nbsp;·&nbsp; Avg rating ${uAvg}/5 &nbsp;·&nbsp; ${uFlagCount} issues flagged</div>
-      </div>
-      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;margin-bottom:8px">Category Ratings</div>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:18px">
-        <tr style="background:#f9fafb"><th style="text-align:left;padding:7px 10px;font-size:10px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #e5e7eb">Category</th><th style="text-align:left;padding:7px 10px;font-size:10px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #e5e7eb">Avg Rating</th><th style="text-align:left;padding:7px 10px;font-size:10px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #e5e7eb">Functioning</th><th style="text-align:left;padding:7px 10px;font-size:10px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #e5e7eb">Issues</th></tr>
-        ${catRows}
-      </table>
-      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;margin-bottom:8px">Flagged Issues</div>
-      <div style="border:1px solid #e5e7eb;border-radius:8px;padding:0 12px;margin-bottom:18px">${flagRows}</div>
-      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;margin-bottom:8px">Individual Responses</div>
-      <div style="border:1px solid #e5e7eb;border-radius:8px;padding:0 12px">${respRows}</div>
-    </div>`;
-  }).join('');
+  }).join('<hr style="border:none;border-top:1px solid #e5e7eb;margin:4px 0 28px"/>');
 
   const overallAvg = stats.avgOverall||'—';
+  const today = new Date().toLocaleDateString('en-IN',{timeZone:'Asia/Calcutta',day:'numeric',month:'long',year:'numeric'});
+
   const reportHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
 <title>Facilities Feedback Report - ${currentDate}</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:Arial,sans-serif;background:#fff;color:#111827;padding:40px 48px;max-width:800px;margin:0 auto}
-  @media print{body{padding:0}@page{margin:20mm}}
+  body{font-family:Arial,sans-serif;background:#fff;color:#111827;padding:40px 48px;max-width:720px;margin:0 auto;line-height:1.5}
+  @media print{body{padding:20mm} @page{margin:20mm} .no-print{display:none}}
 </style>
 </head><body>
-<div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;border-bottom:2px solid #111827;margin-bottom:24px">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:20px;border-bottom:2px solid #111827;margin-bottom:28px">
   <div>
-    <div style="font-size:22px;font-weight:700;color:#111827;margin-bottom:4px">Facilities Feedback Report</div>
-    <div style="font-size:13px;color:#6b7280">Saturday, ${currentDate} &nbsp;·&nbsp; NIAT Program Operations</div>
+    <div style="font-size:22px;font-weight:500;color:#111827;margin-bottom:6px">Facilities Feedback Report</div>
+    <div style="font-size:13px;color:#6b7280;line-height:1.8">
+      Saturday, ${currentDate}<br>
+      NIAT Program Operations<br>
+      Generated automatically
+    </div>
   </div>
-  <img src="https://raw.githubusercontent.com/programopscentral-art/infra-reports/main/niat-logo.png" style="width:52px;height:52px;border-radius:10px;object-fit:cover"/>
+  <img src="https://raw.githubusercontent.com/programopscentral-art/infra-reports/main/niat-logo.png" style="width:48px;height:48px;border-radius:8px;object-fit:cover"/>
 </div>
-<div style="display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:32px">
-  <div style="padding:16px;text-align:center;border-right:1px solid #e5e7eb"><div style="font-size:24px;font-weight:700;color:#111827">${stats.totalResponses}</div><div style="font-size:10px;color:#6b7280;margin-top:4px;text-transform:uppercase;letter-spacing:.06em">Responses</div></div>
-  <div style="padding:16px;text-align:center;border-right:1px solid #e5e7eb"><div style="font-size:24px;font-weight:700;color:#111827">${overallAvg}/5</div><div style="font-size:10px;color:#6b7280;margin-top:4px;text-transform:uppercase;letter-spacing:.06em">Avg Rating</div></div>
-  <div style="padding:16px;text-align:center;border-right:1px solid #e5e7eb"><div style="font-size:24px;font-weight:700;color:#111827">${stats.flagCount}</div><div style="font-size:10px;color:#6b7280;margin-top:4px;text-transform:uppercase;letter-spacing:.06em">Issues Flagged</div></div>
-  <div style="padding:16px;text-align:center"><div style="font-size:24px;font-weight:700;color:#111827">${stats.uniCount}</div><div style="font-size:10px;color:#6b7280;margin-top:4px;text-transform:uppercase;letter-spacing:.06em">Universities</div></div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);border:0.5px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:36px">
+  <div style="padding:14px 12px;text-align:center;border-right:0.5px solid #e5e7eb"><div style="font-size:22px;font-weight:500;color:#111827">${stats.totalResponses}</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Responses</div></div>
+  <div style="padding:14px 12px;text-align:center;border-right:0.5px solid #e5e7eb"><div style="font-size:22px;font-weight:500;color:#111827">${overallAvg}/5</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Avg Rating</div></div>
+  <div style="padding:14px 12px;text-align:center;border-right:0.5px solid #e5e7eb"><div style="font-size:22px;font-weight:500;color:#111827">${stats.flagCount}</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Issues</div></div>
+  <div style="padding:14px 12px;text-align:center"><div style="font-size:22px;font-weight:500;color:#111827">${stats.uniCount}</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Universities</div></div>
 </div>
+
 ${uniSections}
-<div style="text-align:center;font-size:10px;color:#9ca3af;padding-top:16px;border-top:1px solid #e5e7eb;margin-top:16px">NIAT Facilities Feedback &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; Generated ${new Date().toLocaleDateString('en-IN',{timeZone:'Asia/Calcutta'})}</div>
+
+<div style="text-align:center;font-size:10px;color:#9ca3af;padding-top:16px;border-top:0.5px solid #e5e7eb;margin-top:8px">
+  NIAT Facilities Feedback &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; ${currentDate}
+</div>
 </body></html>`;
 
   const win = window.open('', '_blank');
@@ -805,7 +822,6 @@ ${uniSections}
   win.document.close();
   setTimeout(() => win.print(), 800);
 }
-
 function toggleTheme(){
   const dark = document.documentElement.dataset.theme==='dark';
   document.documentElement.dataset.theme = dark?'light':'dark';
