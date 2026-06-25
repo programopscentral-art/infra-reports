@@ -219,7 +219,7 @@ const HISTORY = {"2026-06-19": {"feedback": [], "participation": [], "stats": {"
 // DATA_END
 // ══════════════════════════════════════════════════════
 
-const CAT_NAMES={tv:'TV',audio:'Audio',video:'Video',internet:'Internet/Wi-Fi',ac:'AC',benches:'Benches & Power',washrooms:'Washrooms'};
+const CAT_NAMES={tv:'TV',audio:'Audio',internet:'Internet/Wi-Fi',ac:'AC',benches:'Benches & Power'};
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 let currentDate = null;
@@ -324,8 +324,8 @@ function loadDate(date){
 // ── Recalculate stats from clean data ────────────────────────────
 function recalcStats(feedback, participation, storedStats) {
   if(feedback.length === 0) return storedStats; // no responses, keep stored (zeros)
-  const catKeys = ['tv','audio','video','internet','ac','benches','washrooms'];
-  const funcFields = {tv:'functioning',audio:'functioning',video:'functioning',internet:'available',ac:'comfortable',benches:'sockets',washrooms:'maintained'};
+  const catKeys = ['tv','audio','internet','ac','benches'];
+  const funcFields = {tv:'functioning',audio:'functioning',internet:'available',ac:'comfortable',benches:'sockets'};
   const ratingNum = v => ({excellent:4,good:3,average:2,poor:1}[String(v||'').toLowerCase()]||0);
 
   const categories = {};
@@ -673,8 +673,8 @@ function downloadReport(){
   const feedback = (d.feedback||[]).filter(isValidFeedback);
   const stats = recalcStats(feedback, d.participation||[], d.stats||{});
   const cats = stats.categories||{};
-  const catNames = {tv:'TV',audio:'Audio',video:'Video',internet:'Internet / Wi-Fi',ac:'AC',benches:'Benches & Power',washrooms:'Washrooms'};
-  const catKeys = ['tv','audio','video','internet','ac','benches','washrooms'];
+  const catNames = {tv:'TV',audio:'Audio',internet:'Internet / Wi-Fi',ac:'AC',benches:'Benches & Power'};
+  const catKeys = ['tv','audio','internet','ac','benches'];
 
   // Group feedback by university
   const uniGroups = {};
@@ -687,7 +687,7 @@ function downloadReport(){
   // Build flags
   const allFlags = [];
   feedback.forEach(f => {
-    const funcFields = {tv:'functioning',audio:'functioning',video:'functioning',internet:'available',ac:'comfortable',benches:'sockets',washrooms:'maintained'};
+    const funcFields = {tv:'functioning',audio:'functioning',internet:'available',ac:'comfortable',benches:'sockets'};
     catKeys.forEach(k => {
       const c = f[k]; if(!c) return;
       const ff = funcFields[k];
@@ -705,7 +705,7 @@ function downloadReport(){
 
   // Build uni cat stats
   function uniCatStats(ufb){
-    const funcFields = {tv:'functioning',audio:'functioning',video:'functioning',internet:'available',ac:'comfortable',benches:'sockets',washrooms:'maintained'};
+    const funcFields = {tv:'functioning',audio:'functioning',internet:'available',ac:'comfortable',benches:'sockets'};
     const rn = v => ({excellent:4,good:3,average:2,poor:1}[String(v||'').toLowerCase()]||0);
     const res = {};
     catKeys.forEach(k => {
