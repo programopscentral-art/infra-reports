@@ -930,7 +930,7 @@ async function sendResolution(){
       if(flagEl){
         flagEl.classList.add('resolved');
         const btn2 = flagEl.querySelector('.resolve-btn');
-        if(btn2){ btn2.outerHTML = '<span class="resolved-badge">✅ Resolved</span>'; }
+        if(btn2){ const now = new Date(); const dateStr = now.toLocaleDateString('en-IN', {day:'numeric',month:'short',timeZone:'Asia/Calcutta'}); btn2.outerHTML = `<span class="resolved-badge">✅ Resolved · ${dateStr}</span>`; }
       }
       closeResolveModal();
     } else {
