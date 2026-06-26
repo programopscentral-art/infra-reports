@@ -251,10 +251,25 @@ let currentDate = null;
 let currentFeedback = [];
 
 // ── Data validation — filters out junk/test entries ───────────────
+function resolveUniversity(u) {
+  const s = String(u||'').toLowerCase().trim().replace(/\s+/g,' ');
+  const map = {
+    'aurora':'Aurora','aurora deemed':'Aurora','niat x aurora':'Aurora','niat aurora':'Aurora',
+    'aurora deemed to be university':'Aurora','aurora deemed university':'Aurora',
+    "aurora's deemed to be university":'Aurora','niatxaurora':'Aurora',
+    'kkh':'KKH','cdu- kkh':'KKH','cdu-kkh':'KKH','kkh niat':'KKH','bits pilani x kkh niat':'KKH',
+    'bits-chevella':'BITS-Chevella','bits chevella':'BITS-Chevella',
+    'cdu':'CDU','adypu':'ADYPU','niat':'NIAT Chevella',
+  };
+  if (map[s]) return map[s];
+  for (const [k,v] of Object.entries(map)) { if (s.includes(k)) return v; }
+  return u || 'Unknown';
+}
+
 function isValidFeedback(f) {
-  if (!f.student || f.student.trim().length < 2) return false;       // single char names like "a"
-  if (!f.university || f.university.trim().length < 2) return false; // single char universities
-  if (!f.email || !f.email.includes('@')) return false;              // missing or invalid email
+  if (!f.student || f.student.trim().length < 2) return false;
+  if (!f.university || f.university.trim().length < 2) return false;
+  if (!f.email || !f.email.includes('@')) return false;
   return true;
 }
 
@@ -344,6 +359,8 @@ function loadDate(date){
   const raw = HISTORY[date];
   if(!raw){ showNoData('No data found for this date.'); return; }
 
+  // Normalise university names before rendering
+  (raw.feedback||[]).forEach(f => { if(f.university) f.university = resolveUniversity(f.university); });
   // Validate and filter data before rendering
   const feedback     = (raw.feedback||[]).filter(isValidFeedback);
   const participation = (raw.participation||[]).filter(isValidParticipation);
