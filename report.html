@@ -562,7 +562,7 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     <div class="cat-grid">${catCards}</div>
     <div class="sec-label">Flagged Issues</div>
     ${flagsHtml}
-    <div id="resolved-persistent" style="display:none">
+    <div id="resolved-persistent">
       <div class="sec-label">Resolved Issues</div>
       <div class="resolved-section">
         <div class="resolved-section-header">Resolved this session</div>
@@ -898,6 +898,7 @@ function renderResolvedSection(){
   if(!wrap) return;
   if(resolvedItems.length === 0){ wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
+  wrap.scrollIntoView({behavior:'smooth', block:'start'});
   const list = document.getElementById('resolved-items-list');
   if(!list) return;
   list.innerHTML = resolvedItems.map(item => `
