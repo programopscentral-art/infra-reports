@@ -230,13 +230,7 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
     <div class="main" id="main-content">
       <div class="no-data"><div class="no-data-icon">📋</div><div class="no-data-title">Select a date</div><div class="no-data-sub">Choose a Saturday from the sidebar<br>to view that week's feedback.</div></div>
     </div>
-    <div class="main" id="resolved-persistent" style="padding-top:0;max-width:780px;margin:0 auto;display:none">
-      <div class="sec-label">Resolved Issues</div>
-      <div class="resolved-section">
-        <div class="resolved-section-header">Resolved this session</div>
-        <div id="resolved-items-list"></div>
-      </div>
-    </div>
+
     
   </div>
 </div>
@@ -360,6 +354,7 @@ function loadDate(date){
   document.getElementById('hdr-date').textContent = date;
   const dlBtn = document.getElementById('dl-btn'); if(dlBtn) dlBtn.style.display='flex';
   renderReport(feedback, participation, stats);
+  renderResolvedSection();
 }
 
 // ── Recalculate stats from clean data ────────────────────────────
@@ -566,6 +561,13 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     <div class="cat-grid">${catCards}</div>
     <div class="sec-label">Flagged Issues</div>
     ${flagsHtml}
+    <div id="resolved-persistent" style="display:none">
+      <div class="sec-label">Resolved Issues</div>
+      <div class="resolved-section">
+        <div class="resolved-section-header">Resolved this session</div>
+        <div id="resolved-items-list"></div>
+      </div>
+    </div>
     <div class="sec-label" id="resp-section" style="display:flex;align-items:center;justify-content:space-between;">
       <span>Individual Responses</span>
       <div id="cat-filter-label" style="display:none;align-items:center;gap:6px;font-size:10px;background:var(--blue-bg);color:var(--blue);padding:3px 10px;border-radius:6px;font-weight:600">
@@ -884,6 +886,24 @@ ${uniSections}
 const RESOLVE_WEBHOOK = 'https://niat2026.app.n8n.cloud/webhook/resolve';
 let currentResolveFlag = null;
 let currentResolveFeedback = null;
+let resolvedItems = [];
+
+function renderResolvedSection(){
+  const wrap = document.getElementById('resolved-persistent');
+  if(!wrap) return;
+  if(resolvedItems.length === 0){ wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  const list = document.getElementById('resolved-items-list');
+  if(!list) return;
+  list.innerHTML = resolvedItems.map(item => `
+    <div class="resolved-item">
+      <span class="resolved-cat-tag">${item.cat}</span>
+      <span class="flag-text" style="flex:1">${item.text}</span>
+      <span class="resolved-date">✅ ${item.date}</span>
+      <span class="flag-who" style="width:100%">${item.who}</span>
+      <span style="font-size:10px;color:#059669;width:100%;margin-top:2px">Resolution: ${item.note}</span>
+    </div>`).join('');
+}
 
 function openResolveModal(btn){
   const flagEl = btn.closest('.flag-item');
@@ -949,12 +969,8 @@ async function sendResolution(){
           const rCat = flagEl.querySelector('.flag-cat').textContent;
           const rText = flagEl.querySelector('.flag-text').textContent;
           const rWho = flagEl.querySelector('.flag-who').textContent;
-          const resolvedList = document.getElementById('resolved-items-list');
-          const rItem = document.createElement('div');
-          rItem.className = 'resolved-item';
-          rItem.innerHTML = `<span class="resolved-cat-tag">${rCat}</span><span class="flag-text" style="flex:1">${rText}</span><span class="resolved-date">✅ ${dateStr}</span><span class="flag-who" style="width:100%">${rWho}</span><span style="font-size:10px;color:#059669;width:100%;margin-top:2px">Resolution: ${note}</span>`;
-          resolvedList.appendChild(rItem);
-          document.getElementById('resolved-persistent').style.display = 'block';
+          resolvedItems.push({cat:rCat, text:rText, who:rWho, note:note, date:dateStr});
+          renderResolvedSection();
         }
         closeResolveModal();
     } else {
