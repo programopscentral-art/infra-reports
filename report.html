@@ -228,8 +228,14 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
       </div>
     </div>
     <div class="main" id="main-content">
-
       <div class="no-data"><div class="no-data-icon">📋</div><div class="no-data-title">Select a date</div><div class="no-data-sub">Choose a Saturday from the sidebar<br>to view that week's feedback.</div></div>
+    </div>
+    <div class="main" id="resolved-persistent" style="padding-top:0;max-width:780px;margin:0 auto;display:none">
+      <div class="sec-label">Resolved Issues</div>
+      <div class="resolved-section">
+        <div class="resolved-section-header">Resolved this session</div>
+        <div id="resolved-items-list"></div>
+      </div>
     </div>
     
   </div>
@@ -560,13 +566,6 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     <div class="cat-grid">${catCards}</div>
     <div class="sec-label">Flagged Issues</div>
     ${flagsHtml}
-    <div class="sec-label" id="resolved-section-label" style="display:none">Resolved Issues</div>
-    <div id="resolved-section-wrap" style="display:none;margin-bottom:16px">
-      <div class="resolved-section">
-        <div class="resolved-section-header">✅ Resolved this session</div>
-        <div id="resolved-items-list"></div>
-      </div>
-    </div>
     <div class="sec-label" id="resp-section" style="display:flex;align-items:center;justify-content:space-between;">
       <span>Individual Responses</span>
       <div id="cat-filter-label" style="display:none;align-items:center;gap:6px;font-size:10px;background:var(--blue-bg);color:var(--blue);padding:3px 10px;border-radius:6px;font-weight:600">
@@ -955,8 +954,7 @@ async function sendResolution(){
           rItem.className = 'resolved-item';
           rItem.innerHTML = `<span class="resolved-cat-tag">${rCat}</span><span class="flag-text" style="flex:1">${rText}</span><span class="resolved-date">✅ ${dateStr}</span><span class="flag-who" style="width:100%">${rWho}</span><span style="font-size:10px;color:#059669;width:100%;margin-top:2px">Resolution: ${note}</span>`;
           resolvedList.appendChild(rItem);
-          document.getElementById('resolved-section-label').style.display = '';
-          document.getElementById('resolved-section-wrap').style.display = '';
+          document.getElementById('resolved-persistent').style.display = 'block';
         }
         closeResolveModal();
     } else {
