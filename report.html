@@ -21,12 +21,10 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .sb-year:hover,.sb-year.open{color:#c7d2fe}
 .sb-year svg{width:10px;height:10px;transition:transform .15s;stroke:currentColor;fill:none;stroke-width:2}
 .sb-year.open svg{transform:rotate(90deg)}
-.sb-months{display:none;padding-left:8px}
-.sb-year.open+.sb-months{display:block}
+.sb-months{display:block;padding-left:8px}
 .sb-month{font-size:10px;font-weight:600;color:#818cf8;padding:4px 8px;cursor:pointer;border-radius:5px;margin-top:2px}
 .sb-month:hover,.sb-month.open{color:#c7d2fe}
-.sb-dates{display:none;padding-left:8px}
-.sb-month.open+.sb-dates{display:block}
+.sb-dates{display:block;padding-left:8px}
 .sb-date{font-size:11px;color:#c7d2fe;padding:6px 10px;cursor:pointer;border-radius:8px;transition:all .1s;display:flex;align-items:center;justify-content:space-between;margin:2px 0}
 .sb-date:hover{background:rgba(255,255,255,.06);color:#fff}
 .sb-date.active{background:#4f46e5;color:#fff;font-weight:600}
@@ -293,11 +291,11 @@ function buildSidebar(){
   let html = '';
   Object.keys(tree).sort().reverse().forEach(year => {
     html += `<div class="sb-section">`;
-    html += `<div class="sb-year open" onclick="this.classList.toggle('open')"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>${year}</div>`;
-    html += `<div class="sb-months">`;
+    html += `<div class="sb-year open" onclick="toggleSbYear(this)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>${year}</div>`;
+    html += `<div class="sb-months" style="display:block">`;
     Object.keys(tree[year]).forEach(month => {
-      html += `<div class="sb-month open" onclick="this.classList.toggle('open')">${month}</div>`;
-      html += `<div class="sb-dates">`;
+      html += `<div class="sb-month open" onclick="toggleSbMonth(this)">${month}</div>`;
+      html += `<div class="sb-dates" style="display:block">`;
       tree[year][month].forEach(d => {
         const day = parseInt(d.split('-')[2]);
         const count = (HISTORY[d].feedback||[]).filter(isValidFeedback).length;
@@ -310,6 +308,16 @@ function buildSidebar(){
   document.getElementById('sidebar-nav').innerHTML = html;
 }
 
+function toggleSbYear(el){
+  el.classList.toggle('open');
+  const months = el.nextElementSibling;
+  if(months) months.style.display = el.classList.contains('open') ? 'block' : 'none';
+}
+function toggleSbMonth(el){
+  el.classList.toggle('open');
+  const dates = el.nextElementSibling;
+  if(dates) dates.style.display = el.classList.contains('open') ? 'block' : 'none';
+}
 function toggleSidebar(){
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('sidebar-overlay').classList.toggle('show');
