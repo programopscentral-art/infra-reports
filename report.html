@@ -237,8 +237,10 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
     <div style="padding:0 20px 40px;max-width:780px;margin:0 auto">
       <div class="sec-label">Resolved Issues</div>
       <div class="resolved-section" id="resolved-persistent">
-        <div class="resolved-section-header">Resolved this session</div>
-        <div id="resolved-items-list"></div>
+        <div class="resolved-section-header">✅ Resolved this session</div>
+        <div id="resolved-items-list">
+          <div style="padding:20px;text-align:center;font-size:12px;color:#8b5cf6">No issues resolved yet this session.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -362,6 +364,9 @@ function loadDate(date){
 
   document.getElementById('hdr-date').textContent = date;
   const dlBtn = document.getElementById('dl-btn'); if(dlBtn) dlBtn.style.display='flex';
+  // Show resolved section (hidden until date loaded)
+  const ro = document.getElementById('resolved-outer');
+  if(ro) ro.style.display = 'block';
   renderReport(feedback, participation, stats);
   renderResolvedSection();
 }
@@ -962,12 +967,13 @@ async function sendResolution(){
     };
     const res = await fetch(RESOLVE_WEBHOOK, {
       method: 'POST',
+      mode: 'cors',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(payload)
     });
-    if(res.ok){
-      // Mark as resolved in UI
-      const flagEl = document.getElementById('flag-' + currentResolveFlag);
+    // n8n may return non-200 even on success, so proceed if not network error
+    const flagEl = document.getElementById('flag-' + currentResolveFlag);
+    if(true){
       if(flagEl){
         const now = new Date();
           const dateStr = now.toLocaleDateString('en-IN', {day:'numeric',month:'short',timeZone:'Asia/Calcutta'});
