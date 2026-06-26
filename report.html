@@ -87,6 +87,12 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .flag-text{font-size:12px;color:#374151;flex:1;min-width:120px}
 .flag-who{font-size:10px;color:#8b5cf6;width:100%;padding-top:2px}
 .resolve-btn{font-size:9px;font-weight:600;padding:3px 10px;border-radius:6px;border:none;background:#4f46e5;color:#fff;cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:'Inter',sans-serif;transition:background .15s}
+.resolved-section{background:#fff;border:1px solid #d1fae5;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(5,150,105,.06)}
+.resolved-section-header{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#f0fdf4;border-bottom:1px solid #d1fae5;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#065f46}
+.resolved-item{padding:11px 14px;border-bottom:1px solid #f0fdf4;display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.resolved-item:last-child{border-bottom:none}
+.resolved-cat-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;background:#d1fae5;color:#065f46;white-space:nowrap;flex-shrink:0}
+.resolved-date{font-size:9px;font-weight:600;padding:2px 7px;border-radius:5px;background:#f0fdf4;color:#059669;white-space:nowrap;flex-shrink:0;margin-left:auto}
 .resolve-btn:hover{background:#4338ca}
 .resolved-badge{font-size:9px;font-weight:600;padding:3px 10px;border-radius:6px;background:#d1fae5;color:#065f46;white-space:nowrap;flex-shrink:0}
 .flag-item.resolved{opacity:.5}
@@ -554,6 +560,13 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     <div class="cat-grid">${catCards}</div>
     <div class="sec-label">Flagged Issues</div>
     ${flagsHtml}
+    <div class="sec-label" id="resolved-section-label" style="display:none">Resolved Issues</div>
+    <div id="resolved-section-wrap" style="display:none;margin-bottom:16px">
+      <div class="resolved-section">
+        <div class="resolved-section-header">✅ Resolved this session</div>
+        <div id="resolved-items-list"></div>
+      </div>
+    </div>
     <div class="sec-label" id="resp-section" style="display:flex;align-items:center;justify-content:space-between;">
       <span>Individual Responses</span>
       <div id="cat-filter-label" style="display:none;align-items:center;gap:6px;font-size:10px;background:var(--blue-bg);color:var(--blue);padding:3px 10px;border-radius:6px;font-weight:600">
@@ -930,9 +943,22 @@ async function sendResolution(){
       if(flagEl){
         flagEl.classList.add('resolved');
         const btn2 = flagEl.querySelector('.resolve-btn');
-        if(btn2){ const now = new Date(); const dateStr = now.toLocaleDateString('en-IN', {day:'numeric',month:'short',timeZone:'Asia/Calcutta'}); btn2.outerHTML = `<span class="resolved-badge">✅ Resolved · ${dateStr}</span>`; }
-      }
-      closeResolveModal();
+          const now = new Date();
+          const dateStr = now.toLocaleDateString('en-IN', {day:'numeric',month:'short',timeZone:'Asia/Calcutta'});
+          if(btn2){ btn2.outerHTML = `<span class="resolved-badge">✅ Resolved · ${dateStr}</span>`; }
+          // Add to resolved section
+          const rCat = flagEl.querySelector('.flag-cat').textContent;
+          const rText = flagEl.querySelector('.flag-text').textContent;
+          const rWho = flagEl.querySelector('.flag-who').textContent;
+          const resolvedList = document.getElementById('resolved-items-list');
+          const rItem = document.createElement('div');
+          rItem.className = 'resolved-item';
+          rItem.innerHTML = `<span class="resolved-cat-tag">${rCat}</span><span class="flag-text" style="flex:1">${rText}</span><span class="resolved-date">✅ ${dateStr}</span><span class="flag-who" style="width:100%">${rWho}</span><span style="font-size:10px;color:#059669;width:100%;margin-top:2px">Resolution: ${note}</span>`;
+          resolvedList.appendChild(rItem);
+          document.getElementById('resolved-section-label').style.display = '';
+          document.getElementById('resolved-section-wrap').style.display = '';
+        }
+        closeResolveModal();
     } else {
       btn.textContent = 'Failed — Retry';
       btn.disabled = false;
