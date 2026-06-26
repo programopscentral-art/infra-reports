@@ -237,7 +237,7 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
     <div style="padding:0 20px 40px;max-width:780px;margin:0 auto">
       <div class="sec-label">Resolved Issues</div>
       <div class="resolved-section" id="resolved-persistent">
-        <div class="resolved-section-header">✅ Resolved this session</div>
+        <div class="resolved-section-header">✅ Resolved Issues</div>
         <div id="resolved-items-list">
           <div style="padding:20px;text-align:center;font-size:12px;color:#8b5cf6">No issues resolved yet this session.</div>
         </div>
@@ -364,11 +364,8 @@ function loadDate(date){
 
   document.getElementById('hdr-date').textContent = date;
   const dlBtn = document.getElementById('dl-btn'); if(dlBtn) dlBtn.style.display='flex';
-  // Show resolved section (hidden until date loaded)
-  const ro = document.getElementById('resolved-outer');
-  if(ro) ro.style.display = 'block';
   // Load resolved items from HISTORY into resolvedItems array
-  resolvedItems = (d.resolved||[]).map(r => ({
+  resolvedItems = (raw.resolved||[]).map(r => ({
     cat: r.category,
     text: r.issueText,
     who: `${r.studentName} · ${r.university}`,
@@ -377,6 +374,20 @@ function loadDate(date){
   }));
   renderReport(feedback, participation, stats);
   renderResolvedSection();
+  hideResolvedFlags();
+}
+
+// ── Hide flagged issues already resolved this week (match by cat+text) ──
+function hideResolvedFlags(){
+  if(!resolvedItems.length) return;
+  const keys = new Set(resolvedItems.map(r =>
+    (r.cat||'').toLowerCase().trim() + '|' + (r.text||'').toLowerCase().trim()
+  ));
+  document.querySelectorAll('.flag-item').forEach(el => {
+    const cat = (el.querySelector('.flag-cat')?.textContent||'').toLowerCase().trim();
+    const text = (el.querySelector('.flag-text')?.textContent||'').toLowerCase().trim();
+    if(keys.has(cat + '|' + text)) el.style.display = 'none';
+  });
 }
 
 // ── Recalculate stats from clean data ────────────────────────────
