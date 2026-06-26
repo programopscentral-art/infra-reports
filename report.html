@@ -961,11 +961,9 @@ async function sendResolution(){
       // Mark as resolved in UI
       const flagEl = document.getElementById('flag-' + currentResolveFlag);
       if(flagEl){
-        flagEl.classList.add('resolved');
-        const btn2 = flagEl.querySelector('.resolve-btn');
-          const now = new Date();
+        const now = new Date();
           const dateStr = now.toLocaleDateString('en-IN', {day:'numeric',month:'short',timeZone:'Asia/Calcutta'});
-          if(btn2){ btn2.outerHTML = `<span class="resolved-badge">✅ Resolved · ${dateStr}</span>`; }
+          flagEl.style.display = 'none';
           // Add to resolved section
           const rCat = flagEl.querySelector('.flag-cat').textContent;
           const rText = flagEl.querySelector('.flag-text').textContent;
