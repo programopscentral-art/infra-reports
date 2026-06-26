@@ -233,6 +233,15 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 
     
   </div>
+  <div id="resolved-outer" style="display:none;margin-left:220px">
+    <div style="padding:0 20px 40px;max-width:780px;margin:0 auto">
+      <div class="sec-label">Resolved Issues</div>
+      <div class="resolved-section" id="resolved-persistent">
+        <div class="resolved-section-header">Resolved this session</div>
+        <div id="resolved-items-list"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -562,13 +571,6 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     <div class="cat-grid">${catCards}</div>
     <div class="sec-label">Flagged Issues</div>
     ${flagsHtml}
-    <div id="resolved-persistent">
-      <div class="sec-label">Resolved Issues</div>
-      <div class="resolved-section">
-        <div class="resolved-section-header">Resolved this session</div>
-        <div id="resolved-items-list"></div>
-      </div>
-    </div>
     <div class="sec-label" id="resp-section" style="display:flex;align-items:center;justify-content:space-between;">
       <span>Individual Responses</span>
       <div id="cat-filter-label" style="display:none;align-items:center;gap:6px;font-size:10px;background:var(--blue-bg);color:var(--blue);padding:3px 10px;border-radius:6px;font-weight:600">
@@ -894,11 +896,12 @@ function renderResolvedSection(){
   // Update KPI count
   const kpiVal = document.getElementById('resolved-kpi-val');
   if(kpiVal) kpiVal.textContent = resolvedItems.length;
+  const outer = document.getElementById('resolved-outer');
   const wrap = document.getElementById('resolved-persistent');
-  if(!wrap) return;
-  if(resolvedItems.length === 0){ wrap.style.display = 'none'; return; }
-  wrap.style.display = 'block';
-  wrap.scrollIntoView({behavior:'smooth', block:'start'});
+  if(!outer || !wrap) return;
+  if(resolvedItems.length === 0){ outer.style.display = 'none'; return; }
+  outer.style.display = 'block';
+  outer.scrollIntoView({behavior:'smooth', block:'start'});
   const list = document.getElementById('resolved-items-list');
   if(!list) return;
   list.innerHTML = resolvedItems.map(item => `
