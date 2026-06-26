@@ -648,6 +648,7 @@ function filterResponses(){
       el.classList.toggle('resp-item-highlight', el.dataset.cat === activeCatFilter);
     });
   }
+  renderResolvedSection();
 }
 
 function normaliseKey(s){ return String(s||'').toLowerCase().trim(); }
