@@ -438,8 +438,7 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     ? `<div class="empty-state"><div class="empty-state-icon">✅</div><div class="empty-state-title">No issues flagged</div>All facilities rated satisfactorily this week.</div>`
     : `<div class="flag-wrap">
         <div class="flag-filters"><button class="flag-filter-btn active" onclick="filterFlags('all',this)">All <span style="opacity:.6">${flags.length}</span></button>${flagFilterBtns}</div>
-        <div class="flag-list">${flags.map((f,i)=>`<div class="flag-item" data-cat="${f.cat}" id="flag-${i}"><span class="flag-cat">${f.cat}</span><span class="flag-text">${f.text}</span><span class="flag-who">${f.who}</span><button class="resolve-btn" onclick="openResolveModal(${i},'${f.cat.replace(/'/g,'\\'')}','${f.text.replace(/'/g,'\\'').replace(/
-/g,' ')}','${f.who.replace(/'/g,'\\'')}')" >Resolve</button></div>`).join('')}</div>
+        <div class="flag-list">${flags.map((f,i)=>`<div class="flag-item" data-cat="${f.cat}" id="flag-${i}" data-idx="${i}"><span class="flag-cat">${f.cat}</span><span class="flag-text">${f.text}</span><span class="flag-who">${f.who}</span><button class="resolve-btn" onclick="openResolveModal(this)">Resolve</button></div>`).join('')}</div>
       </div>
       <div class="resolve-overlay" id="resolve-overlay" style="display:none" onclick="if(event.target===this)closeResolveModal()">
         <div class="resolve-modal">
@@ -866,8 +865,13 @@ const RESOLVE_WEBHOOK = 'https://niat2026.app.n8n.cloud/webhook/resolve';
 let currentResolveFlag = null;
 let currentResolveFeedback = null;
 
-function openResolveModal(idx, cat, text, who){
+function openResolveModal(btn){
+  const flagEl = btn.closest('.flag-item');
+  const idx = parseInt(flagEl.dataset.idx);
   currentResolveFlag = idx;
+  const cat = flagEl.querySelector('.flag-cat').textContent;
+  const text = flagEl.querySelector('.flag-text').textContent;
+  const who = flagEl.querySelector('.flag-who').textContent;
   // Parse who: "StudentName · University · Room X"
   const parts = who.split(' · ');
   const studentName = parts[0]||'';
