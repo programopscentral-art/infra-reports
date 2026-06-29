@@ -233,17 +233,6 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 
     
   </div>
-  <div id="resolved-outer" style="display:none;margin-left:220px">
-    <div style="padding:0 20px 40px;max-width:780px;margin:0 auto">
-      <div class="sec-label">Resolved Issues</div>
-      <div class="resolved-section" id="resolved-persistent">
-        <div class="resolved-section-header">✅ Resolved Issues</div>
-        <div id="resolved-items-list">
-          <div style="padding:20px;text-align:center;font-size:12px;color:#8b5cf6">No issues resolved yet this session.</div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -595,6 +584,8 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     <div class="cat-grid">${catCards}</div>
     <div class="sec-label">Flagged Issues</div>
     ${flagsHtml}
+    <div class="sec-label" id="resolved-sec-label" style="display:none">Resolved Issues</div>
+    <div id="resolved-inline"></div>
     <div class="sec-label" id="resp-section" style="display:flex;align-items:center;justify-content:space-between;">
       <span>Individual Responses</span>
       <div id="cat-filter-label" style="display:none;align-items:center;gap:6px;font-size:10px;background:var(--blue-bg);color:var(--blue);padding:3px 10px;border-radius:6px;font-weight:600">
@@ -800,19 +791,22 @@ function downloadReport(){
         const notWorking = String(c[ff]||'').trim()==='No';
         const hasIssue = k==='internet' && String(c.issues||'').trim()==='Yes';
         if(isPoor||notWorking||hasIssue){
-          const text = c.suggestion||c.issues_text||'';
-          const clean = String(text).trim();
-          if(clean.length>10 && !/^(na|n\/a|none|no|yes|ok|fine|good|nothing|nope|noo|nah|not|nil|null|-|\.)$/i.test(clean)){
+          // Mirror the dashboard: fall back to a descriptive label when the
+          // student left the suggestion blank, so poor/non-working items still flag.
+          const raw = c.suggestion || c.issues_text || (isPoor?'Rated Poor':notWorking?'Not functioning':'Issue reported');
+          const clean = String(raw).trim();
+          if(clean.length>=2 && !/^(na|n\/a|none|no|yes|ok|fine|good|nothing|nope|noo|nah|not|nil|null|-|\.)$/i.test(clean)){
             flags.push({cat:catNames[k], text:clean, who:`${f.student} · Room ${f.classroom}`, len:clean.length});
           }
         }
       });
     });
-    // Sort by length descending, dedupe by student
+    // Sort by length descending (written suggestions first), dedupe per student+category
     const seen = new Set();
     return flags.sort((a,b)=>b.len-a.len).filter(f=>{
-      if(seen.has(f.who)) return false;
-      seen.add(f.who); return true;
+      const key = f.who + '|' + f.cat;
+      if(seen.has(key)) return false;
+      seen.add(key); return true;
     });
   }
 
@@ -820,7 +814,11 @@ function downloadReport(){
   function uniSummary(uni, ufb, uStats){
     const overalls = ufb.map(f=>f.overall).filter(v=>v>0);
     const avg = overalls.length ? Math.round(overalls.reduce((a,b)=>a+b,0)/overalls.length*10)/10 : 0;
-    const worst = catKeys.reduce((a,b) => (uStats[a]?.avg||4) < (uStats[b]?.avg||4) ? a : b);
+    const worst = catKeys.reduce((a,b) => {
+      const pa = uStats[a]?.poor||0, pb = uStats[b]?.poor||0;
+      if(pb !== pa) return pb > pa ? b : a;                       // most flags wins
+      return (uStats[b]?.avg||4) < (uStats[a]?.avg||4) ? b : a;   // tiebreak: lower avg
+    });
     const best = catKeys.reduce((a,b) => (uStats[a]?.avg||0) > (uStats[b]?.avg||0) ? a : b);
     const worstFlags = uStats[worst]?.poor||0;
     return `${ufb.length} responses this week. ${catNames[worst]} is the most critical concern with ${worstFlags} flag${worstFlags!==1?'s':''} and an avg rating of ${uStats[worst]?.avg||'—'}/4. ${catNames[best]} is performing best at ${uStats[best]?.avg||'—'}/4. Overall student satisfaction is ${avg}/5.`;
@@ -920,21 +918,26 @@ function renderResolvedSection(){
   // Update KPI count
   const kpiVal = document.getElementById('resolved-kpi-val');
   if(kpiVal) kpiVal.textContent = resolvedItems.length;
-  const outer = document.getElementById('resolved-outer');
-  const wrap = document.getElementById('resolved-persistent');
-  if(!outer || !wrap) return;
-  if(resolvedItems.length === 0){ outer.style.display = 'none'; return; }
-  outer.style.display = 'block';
-  const list = document.getElementById('resolved-items-list');
-  if(!list) return;
-  list.innerHTML = resolvedItems.map(item => `
-    <div class="resolved-item">
-      <span class="resolved-cat-tag">${item.cat}</span>
-      <span class="flag-text" style="flex:1">${item.text}</span>
-      <span class="resolved-date">✅ ${item.date}</span>
-      <span class="flag-who" style="width:100%">${item.who}</span>
-      <span style="font-size:10px;color:#059669;width:100%;margin-top:2px">Resolution: ${item.note}</span>
-    </div>`).join('');
+  const label  = document.getElementById('resolved-sec-label');
+  const inline = document.getElementById('resolved-inline');
+  if(!inline) return;
+  if(resolvedItems.length === 0){
+    if(label) label.style.display = 'none';
+    inline.innerHTML = '';
+    return;
+  }
+  if(label) label.style.display = 'block';
+  inline.innerHTML = `<div class="resolved-section">
+      <div class="resolved-section-header">✅ Resolved Issues</div>
+      <div id="resolved-items-list">${resolvedItems.map(item => `
+        <div class="resolved-item">
+          <span class="resolved-cat-tag">${item.cat}</span>
+          <span class="flag-text" style="flex:1">${item.text}</span>
+          <span class="resolved-date">✅ ${item.date}</span>
+          <span class="flag-who" style="width:100%">${item.who}</span>
+          <span style="font-size:10px;color:#059669;width:100%;margin-top:2px">Resolution: ${item.note}</span>
+        </div>`).join('')}</div>
+    </div>`;
 }
 
 function openResolveModal(btn){
