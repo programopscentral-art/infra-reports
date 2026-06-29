@@ -327,38 +327,6 @@ function buildHeatmap(FEEDBACK){
       ${rows}
     </table></div>`;
 }
-
-// ── Sparkline + weekly trend cards (all weeks) ──
-function sparkline(vals, color, max){
-  const w=120,h=28,pad=3;
-  const pts=vals.map((v,i)=>{
-    const x=pad+(vals.length<=1?(w-2*pad)/2:i*(w-2*pad)/(vals.length-1));
-    const y=h-pad-(Math.max(0,Math.min(v,max))/max)*(h-2*pad);
-    return [x, isFinite(y)?y:h-pad];
-  });
-  const path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
-  const last=pts[pts.length-1];
-  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none" style="display:block">
-    <path d="${path}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.6" fill="${color}"/></svg>`;
-}
-function buildTrends(date){
-  const s=weeklySeries();
-  if(s.length<2) return '';
-  const card=(label,vals,color,max,latest)=>`<div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 12px;box-shadow:var(--shadow)">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
-        <span style="font-size:10px;font-weight:600;color:var(--sub)">${label}</span>
-        <span style="font-size:13px;font-weight:700;color:${color}">${latest}</span>
-      </div>${sparkline(vals,color,max)}</div>`;
-  const ov=s.map(w=>w.avgOverall);
-  const cards=[card('Overall', ov, 'var(--purple)', 5, (ov[ov.length-1]||0).toFixed(1)+'/5')];
-  Object.keys(CAT_NAMES).forEach(k=>{
-    const vals=s.map(w=>w.cats[k]||0), latest=vals[vals.length-1]||0;
-    cards.push(card(CAT_NAMES[k], vals, ratingColor(latest||0), 4, latest?latest.toFixed(1):'—'));
-  });
-  return `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">${cards.join('')}</div>
-    <div style="font-size:9px;color:var(--dim);margin-top:6px;text-align:right">${s.length} weeks · ${s[0].date} → ${s[s.length-1].date}</div>`;
-}
 function initials(n){return(n||'?').split(' ').filter(Boolean).map(w=>w[0]).join('').slice(0,2).toUpperCase()}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
@@ -665,7 +633,6 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
 
   const wd = wkDelta(currentDate, STATS);
   const heatmapHtml = buildHeatmap(FEEDBACK);
-  const trendsHtml  = buildTrends(currentDate);
 
   document.getElementById('main-content').innerHTML = `
     <div class="sec-label">Overview</div>
@@ -679,7 +646,6 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     <div class="sec-label">Category Ratings</div>
     <div class="cat-grid">${catCards}</div>
     ${heatmapHtml?`<div class="sec-label">Ratings by University</div>${heatmapHtml}`:''}
-    ${trendsHtml?`<div class="sec-label">Weekly Trends</div>${trendsHtml}`:''}
     <div class="sec-label">Flagged Issues</div>
     ${flagsHtml}
     <div class="sec-label" id="resolved-sec-label" style="display:none">Resolved Issues</div>
