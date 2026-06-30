@@ -731,7 +731,7 @@ function filterResponses(){
 
   const filtered = currentFeedback.filter(f =>
     (uni==='all' || f.university===uni) &&
-    (!q || [f.student,f.university,f.classroom].some(v=>(v||'').toLowerCase().includes(q))) &&
+    (!q || [f.student,f.university,f.classroom].some(v=>String(v||'').toLowerCase().includes(q))) &&
     (!lateOnly || isLate(f))
   );
 
