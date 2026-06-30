@@ -269,6 +269,27 @@ function ratingColor(v){return v>=3.5?'var(--green)':v>=2.5?'var(--amber)':'var(
 function chipCls(v){const l=String(v||'').toLowerCase();return l==='excellent'?'chip-e':l==='good'?'chip-g':l==='average'?'chip-a':l==='poor'?'chip-p':'chip-g'}
 function ratingNumD(v){return ({excellent:4,good:3,average:2,poor:1})[String(v||'').toLowerCase().trim()]||0;}
 
+// ── Late-submission helpers (submitted after the week's Saturday) ──
+function subDate(f){
+  const ts=String((f&&(f.timestamp||f.date))||'').trim();
+  let m=ts.match(/^(\d{4})-(\d{2})-(\d{2})/); if(m) return m[1]+'-'+m[2]+'-'+m[3];
+  m=ts.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/); if(m) return m[3]+'-'+m[1].padStart(2,'0')+'-'+m[2].padStart(2,'0');
+  return '';
+}
+function isLate(f){ const d=subDate(f); return !!(d && currentDate && d>currentDate); }
+function fmtSub(f){ const d=subDate(f); if(!d) return ''; const p=d.split('-'); return MONTHS[parseInt(p[1])-1]+' '+parseInt(p[2]); }
+let lateOnly=false;
+function toggleLate(){
+  lateOnly=!lateOnly;
+  const b=document.getElementById('late-toggle');
+  if(b){
+    b.style.background=lateOnly?'var(--purple)':'#fff';
+    b.style.color=lateOnly?'#fff':'var(--sub)';
+    b.style.borderColor=lateOnly?'var(--purple)':'var(--border)';
+  }
+  filterResponses();
+}
+
 // ── Cross-week series: avg overall, per-category avg, flags per week ──
 function weeklySeries(){
   const ff={tv:'functioning',audio:'functioning',internet:'available',ac:'comfortable',benches:'sockets'};
@@ -566,6 +587,7 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
         <option value="all">All Universities (${activeUnis.length})</option>
         ${uniOptions}
       </select>
+      <button class="uni-select" id="late-toggle" onclick="toggleLate()" style="cursor:pointer;white-space:nowrap;color:var(--sub)" title="Show only responses submitted after Saturday">⏱ Late only</button>
       <div class="search-wrap"><span class="search-ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input class="search-input" id="search" placeholder="Search student, classroom…" oninput="filterResponses()"/></div>
     </div>
     <div id="resp-out"></div>`;
@@ -631,6 +653,7 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
     }).join('');
   }
 
+  lateOnly = false;
   const wd = wkDelta(currentDate, STATS);
   const heatmapHtml = buildHeatmap(FEEDBACK);
 
@@ -708,7 +731,8 @@ function filterResponses(){
 
   const filtered = currentFeedback.filter(f =>
     (uni==='all' || f.university===uni) &&
-    (!q || [f.student,f.university,f.classroom].some(v=>(v||'').toLowerCase().includes(q)))
+    (!q || [f.student,f.university,f.classroom].some(v=>(v||'').toLowerCase().includes(q))) &&
+    (!lateOnly || isLate(f))
   );
 
   if(!filtered.length){
@@ -722,7 +746,8 @@ function filterResponses(){
       return `<div class="resp-item" data-cat="${k}"><span>${CAT_NAMES[k]}</span><span class="chip ${chipCls(c.rating)}">${c.rating||'—'}</span></div>`;
     }).join('');
     const oc = f.overall>=4?'chip-e':f.overall>=3?'chip-g':f.overall>=2?'chip-a':'chip-p';
-    return `<div class="resp-card"><div class="resp-top"><div><div class="resp-name">${esc(f.student)}</div><div class="resp-meta">${esc(f.university)} · Room ${esc(f.classroom)}</div></div><span class="chip ${oc}">${f.overall}/5</span></div><div class="resp-grid">${cats}</div></div>`;
+    const sub = subDate(f) ? ` · <span style="color:${isLate(f)?'var(--amber)':'var(--dim)'};font-weight:${isLate(f)?'600':'400'}">${isLate(f)?'⏱ Late · ':''}${fmtSub(f)}</span>` : '';
+    return `<div class="resp-card"><div class="resp-top"><div><div class="resp-name">${esc(f.student)}</div><div class="resp-meta">${esc(f.university)} · Room ${esc(f.classroom)}${sub}</div></div><span class="chip ${oc}">${f.overall}/5</span></div><div class="resp-grid">${cats}</div></div>`;
   }).join('');
   // Re-apply category highlight if one is active
   if(activeCatFilter){
