@@ -410,6 +410,28 @@ function toggleSidebar(){
   document.getElementById('sidebar-overlay').classList.toggle('show');
 }
 
+// ── Pending resolutions ───────────────────────────────────────────
+// The Resolve webhook writes to the sheet and n8n rebuilds report.html on
+// its next run. Until then, keep resolutions locally so they survive reloads
+// and week switches. Auto-pruned once n8n bakes them into HISTORY.
+const PENDING_KEY = 'infra-pending-resolutions';
+function resKey(cat, text){ return (cat||'').toLowerCase().trim() + '|' + (text||'').toLowerCase().trim(); }
+function loadPending(){ try { return JSON.parse(localStorage.getItem(PENDING_KEY) || '{}'); } catch(e){ return {}; } }
+function savePending(p){ try { localStorage.setItem(PENDING_KEY, JSON.stringify(p)); } catch(e){} }
+
+// Keep the flag-filter counts in sync after issues are hidden.
+function updateFlagCounts(){
+  const visible = [...document.querySelectorAll('.flag-item')].filter(el => el.style.display !== 'none');
+  const per = {};
+  visible.forEach(el => { const c = el.dataset.cat; per[c] = (per[c]||0) + 1; });
+  document.querySelectorAll('.flag-filter-btn').forEach(btn => {
+    const span = btn.querySelector('span'); if(!span) return;
+    const m = (btn.getAttribute('onclick')||'').match(/filterFlags\('([^']*)'/);
+    const cat = m ? m[1] : null;
+    span.textContent = (!cat || cat === 'all') ? visible.length : (per[cat] || 0);
+  });
+}
+
 // ── Load date ─────────────────────────────────────────────────────
 function loadDate(date){
   currentDate = date;
@@ -442,6 +464,16 @@ function loadDate(date){
     note: r.resolutionNote,
     date: r.date ? r.date.slice(5) : '—'
   }));
+  // Merge locally-pending resolutions n8n hasn't baked into HISTORY yet,
+  // and prune any it now has (avoids duplicates once the report rebuilds).
+  const baked = new Set(resolvedItems.map(r => resKey(r.cat, r.text)));
+  const pendAll = loadPending();
+  if(pendAll[date] && pendAll[date].length){
+    const stillPending = pendAll[date].filter(r => !baked.has(resKey(r.cat, r.text)));
+    resolvedItems = resolvedItems.concat(stillPending);
+    if(stillPending.length) pendAll[date] = stillPending; else delete pendAll[date];
+    savePending(pendAll);
+  }
   renderReport(feedback, participation, stats);
   renderResolvedSection();
   hideResolvedFlags();
@@ -1063,47 +1095,45 @@ function closeResolveModal(){
   currentResolveFeedback = null;
 }
 
-async function sendResolution(){
+function sendResolution(){
   const note = document.getElementById('resolve-note').value.trim();
   if(!note){ document.getElementById('resolve-note').style.borderColor='#dc2626'; return; }
   document.getElementById('resolve-note').style.borderColor='#ede9fe';
-  const btn = document.getElementById('resolve-send-btn');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-  try {
-    const payload = {
-      ...currentResolveFeedback,
-      resolutionNote: note
-    };
-    const res = await fetch(RESOLVE_WEBHOOK, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    });
-    // n8n may return non-200 even on success, so proceed if not network error
-    const flagEl = document.getElementById('flag-' + currentResolveFlag);
-    if(true){
-      if(flagEl){
-        const now = new Date();
-          const dateStr = now.toLocaleDateString('en-IN', {day:'numeric',month:'short',timeZone:'Asia/Calcutta'});
-          flagEl.style.display = 'none';
-          // Add to resolved section
-          const rCat = flagEl.querySelector('.flag-cat').textContent;
-          const rText = flagEl.querySelector('.flag-text').textContent;
-          const rWho = flagEl.querySelector('.flag-who').textContent;
-          resolvedItems.push({cat:rCat, text:rText, who:rWho, note:note, date:dateStr});
-          renderResolvedSection();
-        }
-        closeResolveModal();
-    } else {
-      btn.textContent = 'Failed — Retry';
-      btn.disabled = false;
-    }
-  } catch(e) {
-    btn.textContent = 'Failed — Retry';
-    btn.disabled = false;
+
+  // Capture everything before the modal is closed (it nulls the current* state).
+  const flagEl  = document.getElementById('flag-' + currentResolveFlag);
+  const payload = { ...currentResolveFeedback, resolutionNote: note };
+  const week    = (currentResolveFeedback && currentResolveFeedback.weekDate) || currentDate;
+
+  // ── Optimistic UI: move to Resolved immediately, regardless of the webhook.
+  // The webhook only handles persistence (sheet + student email); the browser
+  // usually can't read its response due to CORS, so we never block on it.
+  if(flagEl){
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-IN', {day:'numeric',month:'short',timeZone:'Asia/Calcutta'});
+    const rCat = flagEl.querySelector('.flag-cat').textContent;
+    const rText = flagEl.querySelector('.flag-text').textContent;
+    const rWho = flagEl.querySelector('.flag-who').textContent;
+    flagEl.style.display = 'none';
+    const item = {cat:rCat, text:rText, who:rWho, note:note, date:dateStr};
+    if(!resolvedItems.some(it => resKey(it.cat, it.text) === resKey(rCat, rText))) resolvedItems.push(item);
+    renderResolvedSection();
+    updateFlagCounts();
+    // Persist locally so it survives a reload until n8n rebuilds the report.
+    const pend = loadPending();
+    pend[week] = pend[week] || [];
+    if(!pend[week].some(it => resKey(it.cat, it.text) === resKey(rCat, rText))) pend[week].push(item);
+    savePending(pend);
   }
+  closeResolveModal();
+
+  // ── Fire-and-forget webhook for persistence (sheet append + student email).
+  fetch(RESOLVE_WEBHOOK, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).catch(e => console.warn('Resolution webhook failed (UI already updated):', e));
 }
 
 function toggleTheme(){
