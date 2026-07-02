@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
 .layout{display:flex;min-height:100vh}
-/* SIDEBAR */
 .sidebar{width:220px;background:#1e1b4b;border-right:none;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;padding:0;flex-shrink:0;z-index:50;transition:transform .2s;display:flex;flex-direction:column}
 .sidebar-header{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:8px}
 .sidebar-title{font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px}
@@ -32,7 +32,6 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .sb-date.active .sb-date-dot{background:#fff}
 .sb-empty{font-size:11px;color:#818cf8;padding:16px;text-align:center;line-height:1.6}
 .sb-date-count{font-size:9px;background:rgba(255,255,255,.15);padding:1px 6px;border-radius:4px;color:#c7d2fe}
-/* HEADER */
 .header{background:#fff;border-bottom:1px solid #ede9fe;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(79,70,229,.06)}
 .header-left{display:flex;align-items:center;gap:10px}
 .menu-btn{display:none;width:32px;height:32px;border-radius:8px;border:1px solid #ede9fe;background:#f5f3ff;color:#6d28d9;cursor:pointer;align-items:center;justify-content:center;font-size:16px}
@@ -42,27 +41,22 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .dl-btn{display:none;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:none;background:#1e1b4b;color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s}
 .dl-btn:hover{background:#2d2a6e}
 .dl-btn svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2;flex-shrink:0}
-/* MAIN */
 .main-wrap{margin-left:220px;flex:1;min-width:0;background:#f5f3ff}
 .main{padding:20px 20px 48px;max-width:780px;margin:0 auto}
 .sec-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;font-weight:600;margin:22px 0 10px}
-/* EMPTY STATE */
 .empty-state{text-align:center;padding:40px 20px;background:#fff;border:1px solid #ede9fe;border-radius:14px;color:#8b5cf6;font-size:12px;line-height:1.8}
 .empty-state-icon{font-size:28px;margin-bottom:8px}
 .empty-state-title{font-size:13px;font-weight:600;color:#6d28d9;margin-bottom:4px}
-/* NO DATA SCREEN */
 .no-data{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;color:#8b5cf6}
 .no-data-icon{font-size:40px;margin-bottom:16px;opacity:.4}
 .no-data-title{font-size:15px;font-weight:600;color:#4f46e5;margin-bottom:6px}
 .no-data-sub{font-size:12px;line-height:1.6;color:#7c3aed}
-/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 .kpi{background:#fff;border:1px solid #ede9fe;border-radius:14px;padding:14px 15px;display:flex;align-items:center;gap:11px;box-shadow:0 2px 8px rgba(79,70,229,.06)}
 .kpi-ico{width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .kpi-ico svg{width:16px;height:16px;stroke-width:1.75;fill:none}
 .kpi-val{font-size:22px;font-weight:700;line-height:1;color:#1e1b4b}
 .kpi-lbl{font-size:9px;color:#7c3aed;margin-top:3px;text-transform:uppercase;letter-spacing:.04em;font-weight:600}
-/* CATEGORY CARDS */
 .cat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .cat-card{background:#fff;border:1px solid #ede9fe;border-top:3px solid #4f46e5;border-radius:14px;padding:16px;box-shadow:0 2px 8px rgba(79,70,229,.06);cursor:pointer;transition:all .15s}
 .cat-card:hover{box-shadow:0 4px 16px rgba(79,70,229,.14);transform:translateY(-1px)}
@@ -73,7 +67,6 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .cat-value{font-size:12px;font-weight:700}
 .bar-wrap{height:5px;background:#ede9fe;border-radius:3px;overflow:hidden;margin:4px 0 8px;border:none}
 .bar-fill{height:100%;border-radius:3px;transition:width .4s ease}
-/* FLAGS */
 .flag-wrap{background:#fff;border:1px solid #ede9fe;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(79,70,229,.06)}
 .flag-filters{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid #ede9fe;flex-wrap:wrap;background:#faf9ff}
 .flag-filter-btn{font-size:10px;font-weight:600;padding:3px 9px;border-radius:6px;border:1px solid #ede9fe;background:#fff;color:#6d28d9;cursor:pointer;transition:all .1s}
@@ -83,6 +76,7 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .flag-item{padding:11px 14px;border-bottom:1px solid #f5f3ff;display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
 .flag-item:last-child{border-bottom:none}
 .flag-item.hidden{display:none}
+.flag-item[data-resolved]{display:none!important}
 .flag-cat{font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;white-space:nowrap;background:#fef2f2;color:#dc2626;flex-shrink:0}
 .flag-text{font-size:12px;color:#374151;flex:1;min-width:120px}
 .flag-who{font-size:10px;color:#8b5cf6;width:100%;padding-top:2px}
@@ -97,7 +91,6 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .resolved-badge{font-size:9px;font-weight:600;padding:3px 10px;border-radius:6px;background:#d1fae5;color:#065f46;white-space:nowrap;flex-shrink:0}
 .flag-item.resolved{opacity:.5}
 .flag-item.resolved .flag-cat{background:#d1fae5;color:#065f46}
-/* RESOLVE MODAL */
 .resolve-overlay{position:fixed;inset:0;background:rgba(30,27,75,.5);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px}
 .resolve-modal{background:#fff;border-radius:16px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 16px 48px rgba(79,70,229,.25)}
 .resolve-modal-hdr{background:#1e1b4b;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
@@ -113,7 +106,6 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .resolve-send{padding:7px 14px;border-radius:8px;border:none;background:#4f46e5;color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s}
 .resolve-send:hover{background:#4338ca}
 .resolve-send:disabled{opacity:.6;cursor:not-allowed}
-/* RESPONSES */
 .filter-row{display:flex;gap:8px;margin-bottom:10px}
 .uni-select{background:#fff;border:1px solid #ede9fe;border-radius:8px;padding:8px 12px;font-size:12px;color:#1e1b4b;font-family:'Inter',sans-serif;cursor:pointer;box-shadow:0 1px 4px rgba(79,70,229,.06)}
 .search-wrap{position:relative;flex:1}
@@ -130,7 +122,6 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .resp-item-highlight{background:#ede9fe;padding:3px 6px;border-bottom:1px solid #c4b5fd;font-weight:700;color:#4f46e5}
 .chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px}
 .chip-e{background:#d1fae5;color:#065f46}.chip-g{background:#ede9fe;color:#4338ca}.chip-a{background:#fffbeb;color:#92400e}.chip-p{background:#fef2f2;color:#991b1b}
-/* PARTICIPATION */
 .uni-group{background:#fff;border:1px solid #ede9fe;border-radius:14px;margin-bottom:8px;overflow:hidden;box-shadow:0 2px 8px rgba(79,70,229,.06)}
 .uni-group-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;user-select:none;transition:background .1s;background:#faf9ff}
 .uni-group-header:hover{background:#f5f3ff}
@@ -150,7 +141,6 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .p-submissions{font-size:10px;color:#7c3aed}
 .st{font-size:10px;font-weight:600;padding:3px 9px;border-radius:6px;white-space:nowrap}
 .st-sub{background:#d1fae5;color:#065f46}.st-op{background:#fffbeb;color:#92400e}.st-no{background:#f5f3ff;color:#7c3aed;border:1px solid #ede9fe}
-/* STUDENT DETAIL MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(30,27,75,.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
 .modal{background:#fff;border-radius:16px;width:100%;max-width:560px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(79,70,229,.25)}
 .modal-header{padding:16px 20px;border-bottom:1px solid #ede9fe;display:flex;align-items:center;justify-content:space-between;background:#faf9ff}
@@ -167,7 +157,6 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
 .modal-overall{display:flex;align-items:center;gap:10px;background:#f5f3ff;border:1px solid #ede9fe;border-radius:8px;padding:10px 12px;margin-bottom:10px}
 .modal-overall-num{font-size:24px;font-weight:700;color:#1e1b4b}
 .footer{display:none}
-/* MOBILE */
 @media(max-width:768px){
   .sidebar{transform:translateX(-100%);width:240px;z-index:100;box-shadow:4px 0 24px rgba(79,70,229,.3)}
   .sidebar.open{transform:translateX(0)}
@@ -198,10 +187,7 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
   .cat-grid{grid-template-columns:1fr}
   .resp-grid{grid-template-columns:1fr}
 }
-/* PDF BUTTON */
-
 .pdf-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-
 </style>
 </head>
 <body>
@@ -217,10 +203,10 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
   <div class="main-wrap">
     <div class="header">
       <div class="header-left">
-        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <button class="menu-btn" onclick="toggleSidebar()">&#9776;</button>
         <div>
           <div class="brand-name">Facilities Feedback</div>
-          <div class="brand-date" id="hdr-date">—</div>
+          <div class="brand-date" id="hdr-date">&#8212;</div>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -228,21 +214,17 @@ body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-
       </div>
     </div>
     <div class="main" id="main-content">
-      <div class="no-data"><div class="no-data-icon">📋</div><div class="no-data-title">Select a date</div><div class="no-data-sub">Choose a Saturday from the sidebar<br>to view that week's feedback.</div></div>
+      <div class="no-data"><div class="no-data-icon">&#128203;</div><div class="no-data-title">Select a date</div><div class="no-data-sub">Choose a Saturday from the sidebar<br>to view that week's feedback.</div></div>
     </div>
-
-    
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════
 // DATA_START
 const REPORT_DATE = "2026-06-27";
 const UNIVERSITIES = ["AMET","ADYPU","Annamacharya","Aurora","BITS-Chevella","CDU","CITY & CIET","Crescent","KKH","Mallareddy","NIAT Chevella","NIU","NRI","NSRIT","S-VYASA","SGU","Takshashila","VGU","Yenepoya"];
-const HISTORY = {"2026-06-20":{"feedback":[{"student":"Rachamadugu Praisy ","email":"praisy515@gmail.com","university":"Aurora","classroom":"109","date":"6/20/2026","timestamp":"6/20/2026 11:05:18","tv":{"rating":"Good","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"internet":{"available":"No","speed":"Average","rating":"Average","issues":"Yes","suggestion":"Once check internet connection everytime "},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"."},"overall":4,"otherIssues":"Yes","additionalSuggestions":"."},{"student":"MUTHINA ABHILASH","email":"muthinaabhilash@gmail.com","university":"Aurora","classroom":"AIML-1D ,ROOM NO :- 210","date":"6/20/2026","timestamp":"6/20/2026 12:34:16","tv":{"rating":"Good","functioning":"Yes","suggestion":"Having HDMI Cable Issue"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"NO"},"internet":{"available":"Yes","speed":"Poor","rating":"Poor","issues":"Yes","suggestion":"Internet is very slow and having issue while writing the exam times and During Workshop time And Needed Constant High Speed Internet."},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"Ac's Cleaning and Servicing "},"benches":{"rating":"Good","sockets":"Yes","issues_text":"Major Repairs like screw fitting and needed Holes for benches for charging purpose "},"overall":3,"otherIssues":"Needed Chairs Fitting and Windows Issue and Room Cleaning Like Fans and Celling ","additionalSuggestions":"Wanted Door Close Hinge door closer and Wanted Robotic Lab and Robotic Instructor and also Internet Improvement."},{"student":"Devalla Leela Karthikeya ","email":"devallakarthik3@gmail.com","university":"KKH","classroom":"5","date":"6/20/2026","timestamp":"6/20/2026 12:44:56","tv":{"rating":"Good","functioning":"Yes","suggestion":"Sometimes , problem occurs with screening "},"audio":{"rating":"Good","functioning":"Yes","suggestion":"Nooo \n"},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"Sometimes faces issue with speed if WIFI"},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"No , Ac works good "},"benches":{"rating":"Good","sockets":"Yes","issues_text":"Not not issue till now "},"overall":4,"otherIssues":"Tv in my classroom had screeening issue this week ","additionalSuggestions":"Working on the complaints raised and noting the issue will help a lot ."},{"student":"Kadiyala Sama Kruthika ","email":"samakadiyala@gmail.com","university":"Aurora","classroom":"207","date":"6/20/2026","timestamp":"6/20/2026 13:47:33","tv":{"rating":"Good","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"No proper signal in the classroom "},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"Sometimes ac's aren't ON on time and it doesn't work sometimes "},"benches":{"rating":"Good","sockets":"Yes","issues_text":"No"},"overall":4,"otherIssues":"Yea our classroom door doesn't have door handle ","additionalSuggestions":"-"},{"student":"Rishitha Reddy ","email":"rishithareddy1900@gmail.com","university":"Aurora","classroom":"106","date":"6/20/2026","timestamp":"6/20/2026 13:48:08","tv":{"rating":"Good","functioning":"Yes","suggestion":"Not much actually the tv is turning off sometimes so yeah u can see about that "},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"Yes","suggestion":"Sometimes the wifi doesn't work properly "},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"Sometimes ac's doesn't work"},"benches":{"rating":"Good","sockets":"Yes","issues_text":"Nothing"},"overall":4,"otherIssues":"No","additionalSuggestions":"No"},{"student":"SADU VISHAL","email":"vishalsadu2007@gmail.com","university":"Aurora","classroom":"110","date":"6/20/2026","timestamp":"6/20/2026 13:52:12","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"No It is perfectly all right"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"Provide more backup battries so that it will not take more time for us change it and use the mic"},"internet":{"available":"Yes","speed":"Excellent","rating":"Excellent","issues":"No","suggestion":"Try to keep more Wifi boosters"},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"No It is perfectly all right"},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"No It is perfectly all right"},"overall":5,"otherIssues":"No It is perfectly all right","additionalSuggestions":"Try to manage in the same way making your selves more better day by day"},{"student":"K. Cherish reddy ","email":"cherishreddy862@gmail.com","university":"Aurora","classroom":"311","date":"6/20/2026","timestamp":"6/20/2026 13:52:37","tv":{"rating":"Excellent","functioning":"No","suggestion":"Replacement of HDMI cable "},"audio":{"rating":"Poor","functioning":"No","suggestion":"IDK"},"internet":{"available":"No","speed":"Very poor ","rating":"Very poor ","issues":"Yes","suggestion":"Try to increase the speed "},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"NA"},"benches":{"rating":"Good","sockets":"Yes","issues_text":"NA"},"overall":3,"otherIssues":"No","additionalSuggestions":"Proper and suitable environment to study and build ourselves "},{"student":"Sylada Sai Manikanta Bharadwaj","email":"bharathwajssm@gmIl.com","university":"Aurora","classroom":"223","date":"6/20/2026","timestamp":"6/20/2026 14:03:32","tv":{"rating":"Excellent","functioning":"No","suggestion":"No"},"audio":{"rating":"Some time's the speaker connecting to other classes it's to irritating middle in the class ","functioning":"No","suggestion":"Some time it is too loud to listen "},"internet":{"available":"Yes","speed":"I never see such type of worst network any where ","rating":"I never see such type of worst network any where ","issues":"Yes","suggestion":"Increaseing the wifi speed and firstly change the current routers of bsnl it is poor in network and we are facing many issues "},"ac":{"rating":"Poor","comfortable":"No","suggestion":"On and off the ac in right time  and there is no proper mantaince for that "},"benches":{"rating":"Average","sockets":"No","issues_text":"The socket were placed is very bad place and the quality is also too bad and facing many issues "},"overall":3,"otherIssues":"No ","additionalSuggestions":"Better mantaince and to encourage student activity's and improve architecture "},{"student":"Badugu Nikhil ","email":"9d.nikhil2007b@gmail.com","university":"Aurora","classroom":"203","date":"6/20/2026","timestamp":"6/20/2026 14:13:21","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"The speed is normal and it doesn't work properly during main exams. And sometimes it's off. "},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"No problem "},"overall":4,"otherIssues":"Yes the sir beside Naresh sir cabin (i don't know his name) he is a bit arrogent he is not treating students properly. And College is not even providing A4 sheets like they are not giving Xerox of the documents and telling students to get it from home. I don't understand what is there to give A4 sheets. That's it ","additionalSuggestions":"No"},{"student":"Pappula Saividhathri ","email":"saividhathri1103@gmail.com","university":"Aurora","classroom":"113","date":"6/20/2026","timestamp":"6/20/2026 14:34:10","tv":{"rating":"Good","functioning":"Yes","suggestion":"Yess somewhat"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"Noo"},"internet":{"available":"No","speed":"Average","rating":"Average","issues":"Yes","suggestion":"For Good network."},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Good","sockets":"Yes","issues_text":" No"},"overall":4,"otherIssues":" Noo","additionalSuggestions":"No"},{"student":"BYSANI SATISH KUMAR REDDY ","email":"satishbisani094@gmail.com","university":"Aurora","classroom":"205","date":"6/20/2026","timestamp":"6/20/2026 14:34:50","tv":{"rating":"Average","functioning":"No","suggestion":"No"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"No"},"internet":{"available":"No","speed":"Poor","rating":"Poor","issues":"Yes","suggestion":"Increase band width"},"ac":{"rating":"Average","comfortable":"No","suggestion":"Yes "},"benches":{"rating":"Good","sockets":"Yes","issues_text":"No"},"overall":2,"otherIssues":"Greenary Ground","additionalSuggestions":"No"},{"student":"Eramoni Sumanth ","email":"eramonisumanth@gmail.com","university":"Aurora","classroom":"212","date":"6/20/2026","timestamp":"6/20/2026 14:34:52","tv":{"rating":"Good","functioning":"Yes","suggestion":"No\n"},"audio":{"rating":"Average","functioning":"No","suggestion":"Fix the audio system, the audio is not clear."},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"Improve internet speed "},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"Switch on AC's all the time when students are present in class"},"benches":{"rating":"Good","sockets":"Yes","issues_text":"No"},"overall":3,"otherIssues":"No","additionalSuggestions":"No"},{"student":"Kothuri Jeevan Krishna Kumar","email":"krishnajeevan67@gmail.com","university":"Aurora","classroom":"104","date":"6/20/2026","timestamp":"6/20/2026 14:43:21","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"no"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"no"},"internet":{"available":"Yes","speed":"Poor","rating":"Poor","issues":"Yes","suggestion":"the thing is that we arent able to write the exams properly due to the network issues "},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"no"},"benches":{"rating":"Good","sockets":"Yes","issues_text":"no "},"overall":4,"otherIssues":"Nope","additionalSuggestions":"Nope"},{"student":"Pendem Suhas Ram ","email":"pendem.suhasram31@gmail.com","university":"NIAT ","classroom":"14","date":"6/20/2026","timestamp":"6/20/2026 15:50:52","tv":{"rating":"Good","functioning":"Yes","suggestion":"Na"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"Na"},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"Na"},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"Na"},"benches":{"rating":"Good","sockets":"Yes","issues_text":"Na"},"overall":4,"otherIssues":".","additionalSuggestions":"."},{"student":"Komire Mythili","email":"mythilikomire08@gmail.com","university":"Aurora","classroom":"208","date":"6/20/2026","timestamp":"6/20/2026 16:01:05","tv":{"rating":"Good","functioning":"Yes","suggestion":"Providing remote"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"Nothing "},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"Need to increase wifi speed"},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"Nothing "},"benches":{"rating":"Good","sockets":"Yes","issues_text":"Nothinh"},"overall":4,"otherIssues":"Nothing","additionalSuggestions":"Nothing"},{"student":"Metta Surya Sujith ","email":"mettasuryasujith09@gmail.com","university":"KKH","classroom":"IB1","date":"6/20/2026","timestamp":"6/20/2026 16:26:10","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"Try to make touch boards too it would feasible for explaining "},"audio":{"rating":"Good","functioning":"No","suggestion":"Yeah it needs a lot improvement cuz it’s always eithers echo or it gives a keen sound"},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"The speeed for individual shoukd be greater "},"ac":{"rating":"Average","comfortable":"Yes","suggestion":"The acs for each class should be adjustable "},"benches":{"rating":"Average","sockets":"No","issues_text":"Sharp edges "},"overall":4,"otherIssues":"Drinking water Maintance ","additionalSuggestions":"Proper cleaning and service of water purifiers  and the hand wash basins around cafeteria and campus. "},{"student":"Chidvilas Guguloth ","email":"chidvilas32@gmail.com","university":"BITS-Chevella","classroom":"IB1 -  HALL 7","date":"6/20/2026","timestamp":"6/20/2026 16:27:22","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"No nothing everything is good "},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No nothing "},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"No","suggestion":"Some more speed wifi could be better but still it is good to manage all things like portal and coding platforms "},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"It's good but it'd be even better with some cool additions"},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"no issues with benches and power sockets "},"overall":5,"otherIssues":"No nothing ","additionalSuggestions":"Everything is perfect in NIAT "},{"student":"Varma","email":"krishnasaivarma06@gmail.com","university":"KKH","classroom":"S011","date":"6/20/2026","timestamp":"6/20/2026 16:43:50","tv":{"rating":"Good","functioning":"Yes","suggestion":" "},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"  "},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"Yes","suggestion":"   "},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"  "},"benches":{"rating":"Good","sockets":"Yes","issues_text":"   "},"overall":3,"otherIssues":"No","additionalSuggestions":"While the current facility is good, having a dedicated venue for conducting events would be a significant improvement. The existing facility has numerous restrictions that make it difficult to organize activities effectively.\nAdditionally, having an open ground for sports and recreational activities without excessive conditions would greatly benefit students."},{"student":"KUSHAL SUTTARAI ","email":"koushikkushal3@gmail.com","university":"Aurora","classroom":"204","date":"6/20/2026","timestamp":"6/20/2026 21:55:56","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"NA"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"NA"},"internet":{"available":"No","speed":"Poor","rating":"Poor","issues":"Yes","suggestion":"Improve wifi speed and remove login system"},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":" Provide ac remote"},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"Some of the sockets are not working properly "},"overall":5,"otherIssues":"No power BackUP, Low WIFI SPEED, No proper hygine in the Wash Room, Leakage of the Pipes in the Washroom and extreme bad smell, ","additionalSuggestions":"1. Remove Login system for WIFI (Poor Wi-Fi bandwidth)(No Restrictions to use)\n2. Projector Picture focus \n3. Dustbins In the corridor\n4.No Fan in the sick room, change bedsheets on time\n5.Fix the broken windows (glassess)\n6.Ensure markers and dusters are readily available in all classrooms before lectures begin.\n7.Install and maintain dedicated notice boards.\n8.provide better fire safety for emergency"},{"student":"Varun Kumar ","email":"varungunti06@gmail.com","university":"KKH","classroom":"Hall 3","date":"6/20/2026","timestamp":"6/20/2026 22:24:15","tv":{"rating":"Good","functioning":"Yes","suggestion":"Ntg"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"Ntg"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"No","suggestion":"Ntg"},"ac":{"rating":"Good","comfortable":"No","suggestion":"In classroom their is too cold i am not able to seat in class because of that much of cold and also even we informed to decrease also they are not doing."},"benches":{"rating":"Good","sockets":"Yes","issues_text":"Ntg"},"overall":5,"otherIssues":"No ","additionalSuggestions":"NTG just one thing if a student is suffering from ac plz try to do something we facing to much problem with that"},{"student":"PATAN ANJUM","email":"PHATAN436@GMAIL.COM","university":"Aurora","classroom":"204","date":"6/20/2026","timestamp":"6/20/2026 23:25:04","tv":{"rating":"Poor","functioning":"No","suggestion":"The classroom currently depends on a projector and projection screen for presentations. However, frequent projector malfunctions, poor display quality, and unreliable HDMI/VGA cable connections often disrupt lectures and student presentations. These technical issues cause delays, reduce teaching effectiveness, and negatively impact the overall learning experience. To ensure seamless and effective classroom presentations, the display infrastructure should be upgraded with reliable equipment and connectivity solutions."},"audio":{"rating":"Good","functioning":"Yes","suggestion":"The audio system is satisfactory; however, periodic maintenance and volume calibration can further improve sound clarity and consistency across the classroom."},"internet":{"available":"No","speed":"Poor","rating":"Poor","issues":"Yes","suggestion":"The campus Wi-Fi connectivity requires significant improvement, as internet access is frequently unavailable or unreliable. This creates difficulties during examinations, presentations, project work, and other academic activities. In addition, poor network coverage often prevents students from accessing mobile signals and sending important messages. Despite multiple reports, the issue persists. Strengthening the campus network infrastructure and ensuring consistent internet availability would greatly enhance the learning experience and academic productivity of students."},"ac":{"rating":"Average","comfortable":"Yes","suggestion":"The air conditioning system requires improvement, as it frequently turns off due to power fluctuations and does not operate consistently. As a result, the classroom temperature often becomes uncomfortable, affecting students' concentration and overall learning experience. Regular maintenance and a reliable power backup system would help ensure a comfortable classroom environment."},"benches":{"rating":"Good","sockets":"Yes","issues_text":"The classroom benches are generally in good condition. However, the availability and functionality of power sockets need improvement, as many students rely on laptops for academic work and presentations. Ensuring sufficient and properly functioning power outlets would enhance productivity and convenience."},"overall":2,"otherIssues":"Yes. The most significant issue this week has been the unreliable internet connectivity on campus. Frequent network disruptions made it difficult to access online resources, complete assignments, and deliver presentations effectively. During presentations, the lack of a stable internet connection caused delays and affected our ability to demonstrate project work properly. Improving campus internet reliability would greatly support students' academic activities.","additionalSuggestions":"The overall campus infrastructure requires significant improvement. Many facilities are poorly maintained, which affects the comfort, productivity, and overall experience of students. Greater attention should be given to maintenance, cleanliness, internet connectivity, classroom facilities, and student amenities to create a better learning environment.\nInsufficient chairs are available for students, causing inconvenience during classes and academic activities. Additional seating should be provided.\n "}],"participation":[],"stats":{"totalResponses":21,"uniCount":4,"avgOverall":3.8,"flagCount":31,"totalStudents":0,"submitted":0,"untracked":0,"categories":{"tv":{"avgRating":3.2,"functioning":81,"poorCount":4},"audio":{"avgRating":3.3,"functioning":81,"poorCount":4},"internet":{"avgRating":2.1,"functioning":71,"poorCount":18},"ac":{"avgRating":3.1,"functioning":86,"poorCount":3},"benches":{"avgRating":3.1,"functioning":90,"poorCount":2}}},"resolved":[{"date":"2026-06-26","weekDate":"2026-06-20","studentName":"K. Cherish reddy","studentEmail":"cherishreddy862@gmail.com","university":"Aurora","category":"TV","issueText":"Replacement of HDMI cable","resolutionNote":"Replaced HDMI"},{"date":"2026-06-26","weekDate":"2026-06-20","studentName":"K. Cherish reddy","studentEmail":"cherishreddy862@gmail.com","university":"Aurora","category":"Internet/Wi-Fi","issueText":"Try to increase the speed","resolutionNote":"Wifi Speed Increased"},{"date":"2026-06-26","weekDate":"2026-06-20","studentName":"Rachamadugu Praisy","studentEmail":"praisy515@gmail.com","university":"Aurora","category":"Internet/Wi-Fi","issueText":"Once check internet connection everytime","resolutionNote":"As informed by the admin, Aurora Teams Wi-Fi is connected. Please connect to your respective floor-wise SSID to get up to 40 Mbps speed."},{"date":"2026-06-26","weekDate":"2026-06-20","studentName":"Varun Kumar","studentEmail":"varungunti06@gmail.com","university":"KKH","category":"AC","issueText":"In classroom their is too cold, even we informed to decrease also they are not doing.","resolutionNote":"The classroom temperature has been adjusted."},{"date":"2026-06-27","weekDate":"2026-06-20","studentName":"Kadiyala Sama Kruthika","studentEmail":"samakadiyala@gmail.com","university":"Aurora","category":"Internet/Wi-Fi","issueText":"No proper signal in the classroom","resolutionNote":"The admin has confirmed that Aurora Teams Wi-Fi is now connected. Please connect to your specific floor SSID to achieve speeds of up to 40 Mbps."},{"date":"2026-06-27","weekDate":"2026-06-20","studentName":"Sylada Sai Manikanta Bharadwaj","studentEmail":"pondu487@gmail.com","university":"Aurora","category":"Internet/Wi-Fi","issueText":"Increaseing the wifi speed and firstly change the current routers of bsnl","resolutionNote":"The admin has confirmed that Aurora Teams Wi-Fi is now connected. Please connect to your specific floor SSID to achieve speeds of up to 40 Mbps."}]},"2026-06-27":{"feedback":[{"student":"Rachamadugu Praisy ","email":"praisy515@gmail.com","university":"Aurora","classroom":"109","date":"6/27/2026","timestamp":"6/27/2026 11:03:38","tv":{"rating":"Good","functioning":"Yes","suggestion":"."},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"."},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"Low wifi service"},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"."},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"."},"overall":4,"otherIssues":".","additionalSuggestions":"."},{"student":"KUSHAL SUTTARAI ","email":"koushikkushal3@gmail.com","university":"Aurora","classroom":"111","date":"6/27/2026","timestamp":"6/27/2026 11:35:10","tv":{"rating":"Good","functioning":"Yes","suggestion":"NA"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"NA"},"internet":{"available":"No","speed":"Poor","rating":"Poor","issues":"Yes","suggestion":"Improve speed and bandwidth and more connections \nAnd remove login system on wifi"},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"NA"},"benches":{"rating":"Excellent","sockets":"No","issues_text":"Some of the power sockets are not working properly "},"overall":4,"otherIssues":"AS SUBMITTED IN BEFORE GOOLE FORM","additionalSuggestions":"AS SUBMITTED IN BEFORE GOOGLE FORM "},{"student":"Archit Chitlangia","email":"chitlangia.archit@gmail.com","university":"ADYPU","classroom":"S03","date":"6/27/2026","timestamp":"6/27/2026 16:04:17","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"The visibility and functionality of TV is at terms with student needs. The facility is pretty good."},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"The audio system has no faults and works well. A small suggestion however would be if we could facilitate more than one mic on days we house any sort of event in a class so that the hosting and crowd interaction could be smoother."},"internet":{"available":"Yes","speed":"Excellent","rating":"Excellent","issues":"No","suggestion":"The WiFi facility is sufficient and supportive usually. The topintech website sometimes isn’t that stable during tests causing delay in submission of answers; it would be of utmost help if this small concern be resolved."},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"Sometimes there is a hustle bustle regarding the classroom temperature, some students want a cooler temperature and some comparatively warmer, this constant confusion sometimes causes chaos, we need to regulate the temperature effectively to avoid this."},"benches":{"rating":"Good","sockets":"Yes","issues_text":"Benches are of good quality, however a few of the power sockets has turned loose."},"overall":4,"otherIssues":"Not really.","additionalSuggestions":"The infrastructure is undoubtedly very good, however we could improve on announcements of accountable dates like exams, holidays, etc so that students could plan accordingly. \n\nIt would be very helpful if the students could receive a monthly plan of workshops, so that they can plan their schedule accordingly."},{"student":"Anurag Sunil Jadhav","email":"anuragjadhav375@gmail.com","university":"ADYPU","classroom":"S04","date":"6/27/2026","timestamp":"6/27/2026 16:12:42","tv":{"rating":"Good","functioning":"Yes","suggestion":"Its good but for back benches sometimes the lights does reflect so maybe adjusting the lights"},"audio":{"rating":"Average","functioning":"Yes","suggestion":"the batteries die out pretty soon and sometimes audio messes up "},"internet":{"available":"Yes","speed":"Excellent","rating":"Excellent","issues":"Yes","suggestion":"sometimes we face issues but yeah the wifi is pretty good"},"ac":{"rating":"Average","comfortable":"Yes","suggestion":"AC was off for a few times but on the other days its good \nI think the AC should be serviced timely so that no issues are faced like sometimes it does not cool the room properly "},"benches":{"rating":"Average","sockets":"Yes","issues_text":"benches make squeech sounds  for some chairs and some power sockets pass current which is risky "},"overall":3,"otherIssues":"No","additionalSuggestions":"Just checking with the things even if they work rest the issues do get resolved "},{"student":"Amisha Patel ","email":"amishapatel792834@gmail.com","university":"ADYPU","classroom":"1","date":"6/27/2026","timestamp":"6/27/2026 16:24:19","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Excellent","rating":"Excellent","issues":"No","suggestion":"No"},"ac":{"rating":"Average","comfortable":"No","suggestion":"The AC is effective only on one side of the classroom, while students seated at the front and on the opposite side often feel warm and uncomfortable due to insufficient cooling and poor air circulation. It would be helpful if the cooling could be distributed more evenly across the classroom. Additionally, the AC temperature should remain consistent throughout the day rather than being changed based on the preference of only a few students. If some students feel cold, they can use a jacket or change there places, while maintaining a stable temperature would ensure a comfortable environment for the majority of the class."},"benches":{"rating":"Good","sockets":"Yes","issues_text":"No "},"overall":4,"otherIssues":"No","additionalSuggestions":"No"},{"student":"CHIDVILAS GUGULOTH ","email":"chidvilas32@gmail.com","university":"KKH","classroom":"IB1","date":"6/27/2026","timestamp":"6/27/2026 16:33:50","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Excellent","rating":"Excellent","issues":"No","suggestion":"Nothing "},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"Nothing "},"overall":5,"otherIssues":"No","additionalSuggestions":"Everything this fine "},{"student":"Akhila Sirumalle ","email":"akhilasirumalle@gmail.com ","university":"KKH","classroom":"Ib2","date":"6/27/2026","timestamp":"6/27/2026 16:38:23","tv":{"rating":"Good","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Excellent","rating":"Excellent","issues":"No","suggestion":"No"},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"No"},"overall":5,"otherIssues":"No","additionalSuggestions":"No"},{"student":"Kalidindi Krishna Sai Varma ","email":"krishnasaivarma06@gmail.com","university":"KKH","classroom":"S011","date":"6/27/2026","timestamp":"6/27/2026 16:47:39","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"  "},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"   "},"internet":{"available":"Yes","speed":"Excellent","rating":"Excellent","issues":"No","suggestion":"  "},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"     "},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"    "},"overall":5,"otherIssues":"  ","additionalSuggestions":"   "},{"student":"G.Varun Kumar","email":"varungunti06@gmail.com","university":"KKH","classroom":"Hall 3","date":"6/27/2026","timestamp":"6/27/2026 17:18:25","tv":{"rating":"Good","functioning":"Yes","suggestion":"Ntg"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"Ntg"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"No","suggestion":"Ntg"},"ac":{"rating":"It's working but it's cold","comfortable":"No","suggestion":"It's very cold expecialy in hall 3 it's very cold i am suffering to much with this ac"},"benches":{"rating":"Good","sockets":"Yes","issues_text":"Ntg"},"overall":3,"otherIssues":"Ntg","additionalSuggestions":"Ntg"},{"student":"Jillela Gagan ","email":"gaganjillela04@gmail.com","university":"CDU","classroom":"6","date":"6/27/2026","timestamp":"6/27/2026 17:35:37","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"The TV is excellent no issues with it "},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No suggestions ."},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"Yes","suggestion":"Some times the students are not able to get stable internet "},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Average","sockets":"Yes","issues_text":"Most of the chairs screws are loose and chairs are also bend.Most are uncomfortable to sit on the chair . It should be resolved as soon as possible "},"overall":3,"otherIssues":"Most of the students face is not getting detected for the Attendance and the in the niat app it is showing as absent.It should be resolved fastly because so many people's attendance is getting decreased.","additionalSuggestions":"No"},{"student":"Saibhargav Kanikicharla ","email":"sai811320@gmail.com","university":"CDU","classroom":"Hall-04","date":"6/27/2026","timestamp":"6/27/2026 17:35:54","tv":{"rating":"Poor","functioning":"Yes","suggestion":"The TV screen is insufficient for a class of 95 students, as students seated in the last few rows cannot view the displayed content clearly."},"audio":{"rating":"Poor","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"No","suggestion":"No"},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Average","sockets":"No","issues_text":"Some chairs in the classroom are damaged and not functioning properly. Additionally, several power sockets are not working, making it difficult for students to charge their devices during class."},"overall":3,"otherIssues":"No","additionalSuggestions":"Two desks in the classroom do not have power sockets, and several other sockets are not functioning properly."},{"student":"C RAM CHARAN REDDY ","email":"ramcharan2874@gmail.com","university":"CDU","classroom":"Hall-11","date":"6/27/2026","timestamp":"6/27/2026 17:52:56","tv":{"rating":"Good","functioning":"Yes","suggestion":"Students sitting from the 5th row, especially on the first bench, are unable to see the TV clearly because the podium blocks the view. Repositioning the TV or podium would improve visibility for everyone."},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"Yes","suggestion":"The Wi-Fi connection occasionally stops working or becomes unstable. Please improve the network stability and ensure a consistent internet connection throughout the classroom."},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"Please keep the AC on at a comfortable temperature (around 24°C) throughout the class and two fans are not working "},"benches":{"rating":"Poor","sockets":"Yes","issues_text":"Many chairs are bent to one side, making them uncomfortable to use. Some chairs also make noise because the screws are loose. Please repair or replace the damaged chairs and tighten the loose screws."},"overall":3,"otherIssues":"No","additionalSuggestions":"Overall, the classroom facilities are good. However, improving Wi-Fi stability, maintaining a comfortable AC temperature, repairing or replacing damaged chairs, and adjusting the TV position for better visibility would create a better learning environment for all students."},{"student":"Spandan sahu","email":"spandansahu07@gmail.com","university":"BITS-Chevella","classroom":"S-03","date":"6/27/2026","timestamp":"6/27/2026 17:53:34","tv":{"rating":"Good","functioning":"Yes","suggestion":"If the lights near the back tv's can be off the it will be good for the students to see the back side tv's"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"Yes","suggestion":"Sometimes the wifi gets off and it makes us difficult during our work in the class"},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Poor","sockets":"Yes","issues_text":"Not at all comfortable chairs to sit in the class for long periods very uncomfortable "},"overall":3,"otherIssues":"No ","additionalSuggestions":"Change the chair in the class room "},{"student":"Aaliya ","email":"aaliyaniat@gmail.com","university":"BITS-Chevella","classroom":"S3","date":"6/27/2026","timestamp":"6/27/2026 17:58:54","tv":{"rating":"Good","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"N9"},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"No","suggestion":"More wifi routers "},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Poor","sockets":"No","issues_text":"They are not comfortable we are getting back pain by sitting in those benches "},"overall":4,"otherIssues":"No","additionalSuggestions":"No"},{"student":"Karthik Chalamala ","email":"karthik.chalamala07@gmail.com","university":"CDU","classroom":"Hall 15 ","date":"6/27/2026","timestamp":"6/27/2026 18:02:43","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"Some wiring issue"},"audio":{"rating":"Average","functioning":"No","suggestion":"Audio flow disturbance fix it"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"Yes","suggestion":"Low wifi signals sometimes compared to other classrooms"},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Average","sockets":"Yes","issues_text":"Some sockets are getting shock and some benches are repair "},"overall":4,"otherIssues":"No ","additionalSuggestions":"Solve problems as soon as possible, very quickly "},{"student":"Leela Karthikeya Devalla ","email":"devallakarthik3@gmail.com","university":"CDU","classroom":"Hall 5","date":"6/27/2026","timestamp":"6/27/2026 18:03:32","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"Everting works fine now "},"audio":{"rating":"Good","functioning":"Yes","suggestion":"Keeping observation on mic would be better "},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"No","suggestion":"Keeping observation in different places at campus would help "},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"Everthing looks fine "},"benches":{"rating":"Good","sockets":"Yes","issues_text":"No issues "},"overall":4,"otherIssues":"No ","additionalSuggestions":"Keeping observations on all the issues raised would really help solving all the problems "},{"student":"M SRISOWMYA CHAITANYA ","email":"sschaitaya2566@gmail.com","university":"BITS-Chevella","classroom":"Hall 1","date":"6/27/2026","timestamp":"6/27/2026 18:04:23","tv":{"rating":"Good","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"No","suggestion":"No"},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Poor","sockets":"Yes","issues_text":"Benches are to hard"},"overall":4,"otherIssues":"No","additionalSuggestions":"No"},{"student":"Niranjan Reddy ","email":"niranjanreddy.n7981@gmail.com","university":"CDU","classroom":"3","date":"6/27/2026","timestamp":"6/27/2026 18:05:57","tv":{"rating":"Average","functioning":"Yes","suggestion":"Nothing "},"audio":{"rating":"Good","functioning":"Yes","suggestion":"Nothing "},"internet":{"available":"No","speed":"Average","rating":"Average","issues":"Yes","suggestion":"Lot of powercut due to it Internet is also not properly working "},"ac":{"rating":"Poor","comfortable":"No","suggestion":"Frequent the ac is not working "},"benches":{"rating":"Very Bad , worst in comfort ","sockets":"No","issues_text":"Power sockets are not working in ⅓ of the class\nBenches are in very bad condition, not rotate able,  seats are turn 30° back side"},"overall":1,"otherIssues":"Just complete the pending issues and queries ","additionalSuggestions":"Please replace all the benches, kindly don't implement same benches to upcoming junior classes \nAlready we are placing a lots of issues "},{"student":"Mohammad Naseer ","email":"afridmohd1988@gmail.com","university":"CDU","classroom":"12","date":"6/27/2026","timestamp":"6/27/2026 18:20:28","tv":{"rating":"Good","functioning":"Yes","suggestion":"No "},"audio":{"rating":"Good","functioning":"Yes","suggestion":"Sometimes  bad "},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"Yes"},"ac":{"rating":"Average","comfortable":"Yes","suggestion":"Yes"},"benches":{"rating":"Poor","sockets":"Yes","issues_text":"A lot "},"overall":3,"otherIssues":"No","additionalSuggestions":"Mid exams time morning classes lectures effect entire subjects"},{"student":"Yasasvini ","email":"yashh27200707@gmail.com","university":"CDU","classroom":"Hall 8","date":"6/27/2026","timestamp":"6/27/2026 18:25:00","tv":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No."},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"No","suggestion":"No"},"ac":{"rating":"Excellent","comfortable":"No","suggestion":"No but ac was so high and getting too coll for all"},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"No"},"overall":5,"otherIssues":"Hall getting too cool and suffering with sleepy problem and getting shiver about it","additionalSuggestions":"No"},{"student":"T. Sai Ram","email":"thannerusairam9@gmail.com","university":"CDU","classroom":"Hall-7","date":"6/27/2026","timestamp":"6/27/2026 18:26:27","tv":{"rating":"Good","functioning":"No","suggestion":"Change the socket of the TV so that the wire of connecting it to the laptops will be easier "},"audio":{"rating":"Good","functioning":"Yes","suggestion":"N/A"},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"The signals of the internet is low to use in some times  increase the speed of internet and backup of current "},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"N/A"},"benches":{"rating":"Poor","sockets":"No","issues_text":"For benches the bolts and screws are came out some chairs are to bended to downward getting irritating sound while standing and rotating "},"overall":3,"otherIssues":"Socket and benches issues only ","additionalSuggestions":"N/A"},{"student":"Sai Rohan Kunapareddy","email":"sairohankunapareddy@gmail.com","university":"CDU","classroom":"1","date":"6/27/2026","timestamp":"6/27/2026 18:33:01","tv":{"rating":"Good","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"We are experiencing outages frequently.","rating":"We are experiencing outages frequently.","issues":"Yes","suggestion":"Please ensure continuous optimal internet functionality, as we are experiencing frequent issues with internet speed. Intermittent outages, particularly during classroom quizzes, pose significant challenges for students."},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"No"},"benches":{"rating":"Good","sockets":"Yes","issues_text":"Two of the benches in the Hall-1 does not have a power sockets, which is a main issue for the students of that specific benches."},"overall":4,"otherIssues":"The bathroom conditions on campus are gradually declining. Many of the boys' washrooms do not have proper hand jets, which is a major concern. This is a basic hygiene requirement, and its absence is causing significant inconvenience to students.\n\nI had already raised this issue in the Student Representative group, where several senior staff members, including the Manager, are present. Unfortunately, I have not received any response or update, which is quite disappointing considering the seriousness of the issue.\n\nAs the Class Representative, several students have approached me with complaints regarding the poor condition of the washrooms. I request the concerned authorities to treat this as a priority and resolve the issue at the earliest.","additionalSuggestions":"NA"},{"student":"Pendem Suhas Ram ","email":"pendem.suhasram31@gmail.com","university":"KKH","classroom":"14","date":"6/27/2026","timestamp":"6/27/2026 18:41:03","tv":{"rating":"Good","functioning":"Yes","suggestion":"."},"audio":{"rating":"Good","functioning":"Yes","suggestion":"."},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"Yes","suggestion":"."},"ac":{"rating":"Average","comfortable":"Yes","suggestion":"."},"benches":{"rating":"Good","sockets":"Yes","issues_text":"."},"overall":4,"otherIssues":".","additionalSuggestions":"."},{"student":"Meghana MG ","email":"meghana27mg@gmail.com","university":"BITS-Chevella","classroom":"Hall 8","date":"7/27/2006","timestamp":"6/27/2026 19:06:59","tv":{"rating":"Good","functioning":"Yes","suggestion":"For now no "},"audio":{"rating":"Good","functioning":"Yes","suggestion":"For now no"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"No","suggestion":"Na"},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"For now no "},"benches":{"rating":"Average","sockets":"No","issues_text":"Some are not working "},"overall":3,"otherIssues":"Na","additionalSuggestions":"Please fix the seats in the classroom "},{"student":" Anish Thumu","email":"Thoomuanishpatel@gmail.com","university":"CDU","classroom":"Hall-16","date":"6/27/2026","timestamp":"6/27/2026 21:56:35","tv":{"rating":"For back benches it needs improvement","functioning":"Yes","suggestion":"TV should be mounted higher or *screen size* increased for better visibility from the back rows.\nBUT FONT SIZE is clear in ppts , but not in urls"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"nope"},"internet":{"available":"Yes","speed":"some times we are having low speed","rating":"some times we are having low speed","issues":"No","suggestion":"Stabilize connection and increase bandwidth for smoother access."},"ac":{"rating":"Excellent","comfortable":"Yes","suggestion":"no"},"benches":{"rating":"some beches chairs are down and tight . we complained so many time but no responce in that","sockets":"Yes","issues_text":"no issues"},"overall":4,"otherIssues":"Many day scholars and hostel students need a proper canteen to eat their meals. In the CDU canteens, we are not getting rice and full meals.\n\nSince many day scholars arrive in the morning, it is often difficult for them to bring lunch boxes. Therefore, we need a proper canteen facility to ensure everyone has access to meals","additionalSuggestions":"canteen and sports "},{"student":"B Sahasra","email":"e25b001823@adypu.edu.in","university":"ADYPU","classroom":"SO2","date":"6/28/2026","timestamp":"6/28/2026 10:02:44","tv":{"rating":"Tv is clearly visible from all seats but From the back seats there is light reflection on the back tv which makes the back benchers uncomfortable to see the content.","functioning":"Yes","suggestion":"Please do something with the light reflection on the back tv , its disturbing."},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Excellent","rating":"Excellent","issues":"No","suggestion":"No"},"ac":{"rating":"Average","comfortable":"Yes","suggestion":"In SO2 AC conditions are average in compared to other classes. It always feels a bit suffocating at front, teachers also used to notice it and make a point but at back it is working properly."},"benches":{"rating":"Excellent","sockets":"Yes","issues_text":"No, but 1-2 benches are broken at the back and also few sockets are not working."},"overall":4,"otherIssues":"No","additionalSuggestions":"No"},{"student":"Basani Varun","email":"varun.niat@gmail.com","university":"CDU","classroom":"Hall-14","date":"6/28/2026","timestamp":"6/28/2026 12:16:36","tv":{"rating":"Good","functioning":"Yes","suggestion":"no"},"audio":{"rating":"Excellent","functioning":"Yes","suggestion":"no"},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"No","suggestion":"nothing"},"ac":{"rating":"everytime it gets power cut this is not fair like we need to have the powwer generator as we all are paying this much fees atleast you cant pay for the installation of the generator like in intermediate we would have a generator which can run acs smart tvs and all the stuff without the generator in this college we cannot survive with all the interruptions for the college academic and also we are getting to stressful throughout the day the immediate thing i request is to install the generator asap like when the current goes offf anything is not working like wifi router and tv and also the fans and lights ","comfortable":"No","suggestion":"everytime it gets power cut this is not fair like we need to have the powwer generator as we all are paying this much fees atleast you cant pay for the installation of the generator like in intermediate we would have a generator which can run acs smart tvs and all the stuff without the generator in this college we cannot survive with all the interruptions for the college academic and also we are getting to stressful throughout the day the immediate thing i request is to install the generator asap like when the current goes offf anything is not working like wifi router and tv and also the fans and lights "},"benches":{"rating":"few benches are getting very disturbing squeezy noise","sockets":"No","issues_text":"benches are not so good quality and alsways gets the squeezy sounds and some of the switch boards are also not working properply"},"overall":3,"otherIssues":"the college management is simply giving the time for the co curricular activities but there is no use for us like there are no proper courts and no proper games management teams the only reason of co curricular activities is to go to home/hostel 2hours early but thats not the point of having the co curricular activities so please check and note all these concerns properly and make sure to complete all of them properly","additionalSuggestions":"i have lot of suggestion just read all the above concerns then when you implement then changes will automatically takes place..."},{"student":"M.H.V.N.S.S. Harideep","email":"manideep0192@gmail.com","university":"CDU","classroom":"9","date":"6/28/2026","timestamp":"6/28/2026 15:29:29","tv":{"rating":"Good","functioning":"Yes","suggestion":"N/A"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"N/A"},"internet":{"available":"No","speed":"Poor","rating":"Poor","issues":"Yes","suggestion":"The wifi randomly stops provinding internet"},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"N/A"},"benches":{"rating":"Poor","sockets":"Yes","issues_text":"Many benches are bent and some of them lost their screws "},"overall":3,"otherIssues":"N/A","additionalSuggestions":"N/A"},{"student":"P dhanushmanth reddy","email":"dhanushmath218@gmail.com","university":"CDU","classroom":"5","date":"6/27/2026","timestamp":"6/28/2026 20:57:52","tv":{"rating":"Good","functioning":"Yes","suggestion":"As our hall is a big hall after the 4-5 row the tv becomes less visible "},"audio":{"rating":"Average","functioning":"Yes","suggestion":"Something mix is not working "},"internet":{"available":"Yes","speed":"Good","rating":"Good","issues":"Yes","suggestion":"Could be better if the backup be increased when power is unavailable "},"ac":{"rating":"Good","comfortable":"Yes","suggestion":"We would request to the access to control the temperature our self because it is added to cool or too hot most of the time "},"benches":{"rating":"Poor","sockets":"No","issues_text":"There are few benchs without power sockets and few bench are broken and unstable and they are creating weird noises "},"overall":2,"otherIssues":"Maths-> nabeel couldn't take the attendance properly \nAi in finance -> the lecturers was slow and sometimes software didn't work so practically we didn't do anything ","additionalSuggestions":"Attendance system could be more efficient"},{"student":"Rishitha reddy","email":"Mukudamrishithareddy@gmail.com","university":"CDU","classroom":"Hall 02","date":"2/4/2008","timestamp":"6/29/2026 12:39:58","tv":{"rating":"Average","functioning":"Yes","suggestion":"No"},"audio":{"rating":"Good","functioning":"Yes","suggestion":"No"},"internet":{"available":"Yes","speed":"Average","rating":"Average","issues":"No","suggestion":"No"},"ac":{"rating":"Average","comfortable":"No","suggestion":"No"},"benches":{"rating":"Poor","sockets":"No","issues_text":"Some chairs are loss we can’t seat in it and and sockets are not working "},"overall":4,"otherIssues":"Ai for finance and logical reasoning and analytical skills ","additionalSuggestions":"Change the staff for that 2 subjects in hall 2 "}],"participation":[],"stats":{"totalResponses":30,"uniCount":5,"avgOverall":3.6,"flagCount":38,"totalStudents":0,"submitted":0,"untracked":0,"categories":{"tv":{"avgRating":3.1,"functioning":97,"poorCount":2},"audio":{"avgRating":3.2,"functioning":97,"poorCount":2},"internet":{"avgRating":2.9,"functioning":90,"poorCount":14},"ac":{"avgRating":3.2,"functioning":80,"poorCount":6},"benches":{"avgRating":2.4,"functioning":70,"poorCount":14}}},"resolved":[{"date":"2026-07-01","weekDate":"2026-06-27","studentName":"Karthik Chalamala","studentEmail":"karthik.chalamala07@gmail.com","university":"CDU","category":"Audio","issueText":"Audio flow disturbance fix it","resolutionNote":"solved"},{"date":"2026-07-01","weekDate":"2026-06-27","studentName":"KUSHAL SUTTARAI","studentEmail":"koushikkushal3@gmail.com","university":"Aurora","category":"Benches & Power","issueText":"Some of the power sockets are not working properly","resolutionNote":"Resolved. The power sockets are now working properly."},{"date":"2026-07-01","weekDate":"2026-06-27","studentName":"Niranjan Reddy","studentEmail":"niranjanreddy.n7981@gmail.com","university":"CDU","category":"AC","issueText":"Frequent the ac is not working","resolutionNote":"The AC has been repaired and is working properly."},{"date":"2026-07-01","weekDate":"2026-06-27","studentName":"Anurag Sunil Jadhav","studentEmail":"anuragjadhav375@gmail.com","university":"ADYPU","category":"Internet/Wi-Fi","issueText":"sometimes we face issues but yeah the wifi is pretty good","resolutionNote":"we will talk with admin"},{"date":"2026-07-01","weekDate":"2026-06-27","studentName":"T. Sai Ram","studentEmail":"thannerusairam9@gmail.com","university":"CDU","category":"Internet/Wi-Fi","issueText":"The signals of the internet is low to use in some times  increase the speed of internet and backup of current","resolutionNote":"The internet issue has been resolved, and network stability has improved."},{"date":"2026-07-01","weekDate":"2026-06-27","studentName":"Jillela Gagan","studentEmail":"gaganjillela04@gmail.com","university":"CDU","category":"Internet/Wi-Fi","issueText":"Some times the students are not able to get stable internet","resolutionNote":"The issue has been addressed. Internet connectivity is now stable."},{"date":"2026-07-01","weekDate":"2026-06-27","studentName":"Rachamadugu Praisy","studentEmail":"praisy515@gmail.com","university":"Aurora","category":"Internet/Wi-Fi","issueText":"Low wifi service","resolutionNote":"we will talk with Admin and resolve, this issue."}]}};
+const HISTORY = {};
 // DATA_END
-// ══════════════════════════════════════════════════════
 
 const CAT_NAMES={tv:'TV',audio:'Audio',internet:'Internet/Wi-Fi',ac:'AC',benches:'Benches & Power'};
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -250,11 +232,10 @@ const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov',
 let currentDate = null;
 let currentFeedback = [];
 
-// ── Data validation — filters out junk/test entries ───────────────
 function isValidFeedback(f) {
-  if (!f.student || f.student.trim().length < 2) return false;       // single char names like "a"
-  if (!f.university || f.university.trim().length < 2) return false; // single char universities
-  if (!f.email || !f.email.includes('@')) return false;              // missing or invalid email
+  if (!f.student || f.student.trim().length < 2) return false;
+  if (!f.university || f.university.trim().length < 2) return false;
+  if (!f.email || !f.email.includes('@')) return false;
   return true;
 }
 
@@ -264,12 +245,10 @@ function isValidParticipation(p) {
   return true;
 }
 
-// ── Helpers ───────────────────────────────────────────────────────
 function ratingColor(v){return v>=3.5?'var(--green)':v>=2.5?'var(--amber)':'var(--red)'}
 function chipCls(v){const l=String(v||'').toLowerCase();return l==='excellent'?'chip-e':l==='good'?'chip-g':l==='average'?'chip-a':l==='poor'?'chip-p':'chip-g'}
 function ratingNumD(v){return ({excellent:4,good:3,average:2,poor:1})[String(v||'').toLowerCase().trim()]||0;}
 
-// ── Late-submission helpers (submitted after the week's Saturday) ──
 function subDate(f){
   const ts=String((f&&(f.timestamp||f.date))||'').trim();
   let m=ts.match(/^(\d{4})-(\d{2})-(\d{2})/); if(m) return m[1]+'-'+m[2]+'-'+m[3];
@@ -290,7 +269,6 @@ function toggleLate(){
   filterResponses();
 }
 
-// ── Cross-week series: avg overall, per-category avg, flags per week ──
 function weeklySeries(){
   const ff={tv:'functioning',audio:'functioning',internet:'available',ac:'comfortable',benches:'sockets'};
   return Object.keys(HISTORY)
@@ -309,12 +287,11 @@ function weeklySeries(){
     });
 }
 
-// ── Week-over-week delta badges for the KPI cards ──
 function deltaBadge(diff, goodUp, fmt){
   const r=Math.round(diff*10)/10;
-  if(!isFinite(r)||r===0) return `<span style="font-size:9px;color:var(--dim);margin-left:5px">—</span>`;
+  if(!isFinite(r)||r===0) return '<span style="font-size:9px;color:var(--dim);margin-left:5px">\u2014</span>';
   const up=r>0, good = goodUp?up:!up;
-  return `<span style="font-size:9px;font-weight:700;color:${good?'var(--green)':'var(--red)'};margin-left:5px">${up?'▲':'▼'}${fmt(Math.abs(r))}</span>`;
+  return '<span style="font-size:9px;font-weight:700;color:'+(good?'var(--green)':'var(--red)')+';margin-left:5px">'+(up?'\u25B2':'\u25BC')+fmt(Math.abs(r))+'</span>';
 }
 function wkDelta(date, STATS){
   const s=weeklySeries(), idx=s.findIndex(w=>w.date===date), prev = idx>0 ? s[idx-1] : null;
@@ -326,147 +303,88 @@ function wkDelta(date, STATS){
   };
 }
 
-// ── University × Category heatmap (current week) ──
 function buildHeatmap(FEEDBACK){
   const unis=[...new Set(FEEDBACK.map(f=>f.university).filter(Boolean))].sort();
   if(!unis.length) return '';
   const cats=Object.keys(CAT_NAMES);
   const cell=v=>{
-    if(!v) return `<td style="text-align:center;padding:7px 4px;color:var(--dim);font-size:11px;background:var(--surface2)">—</td>`;
+    if(!v) return '<td style="text-align:center;padding:7px 4px;color:var(--dim);font-size:11px;background:var(--surface2)">\u2014</td>';
     const bg=v>=3.5?'var(--green-bg)':v>=2.5?'var(--amber-bg)':'var(--red-bg)';
-    return `<td style="text-align:center;padding:7px 4px;font-size:11px;font-weight:700;color:${ratingColor(v)};background:${bg}">${v.toFixed(1)}</td>`;
+    return '<td style="text-align:center;padding:7px 4px;font-size:11px;font-weight:700;color:'+ratingColor(v)+';background:'+bg+'">'+v.toFixed(1)+'</td>';
   };
-  const heads=cats.map(k=>`<th style="padding:7px 4px;font-size:9px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.03em">${CAT_NAMES[k]}</th>`).join('');
+  const heads=cats.map(k=>'<th style="padding:7px 4px;font-size:9px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.03em">'+CAT_NAMES[k]+'</th>').join('');
   const rows=unis.map(u=>{
     const ufb=FEEDBACK.filter(f=>f.university===u);
     const tds=cats.map(k=>{ const rs=ufb.map(f=>ratingNumD(f[k]?.rating)).filter(x=>x>0); return cell(rs.length?rs.reduce((a,b)=>a+b,0)/rs.length:0); }).join('');
-    return `<tr><td style="padding:7px 10px;font-size:11px;font-weight:600;color:var(--text);white-space:nowrap">${esc(u)} <span style="color:var(--dim);font-weight:400">(${ufb.length})</span></td>${tds}</tr>`;
+    return '<tr><td style="padding:7px 10px;font-size:11px;font-weight:600;color:var(--text);white-space:nowrap">'+esc(u)+' <span style="color:var(--dim);font-weight:400">('+ufb.length+')</span></td>'+tds+'</tr>';
   }).join('');
-  return `<div style="background:#fff;border:1px solid var(--border);border-radius:14px;overflow-x:auto;box-shadow:var(--shadow)">
-    <table style="width:100%;border-collapse:collapse;min-width:520px">
-      <tr style="background:#faf9ff"><th style="text-align:left;padding:7px 10px;font-size:9px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.03em">University</th>${heads}</tr>
-      ${rows}
-    </table></div>`;
+  return '<div style="background:#fff;border:1px solid var(--border);border-radius:14px;overflow-x:auto;box-shadow:var(--shadow)"><table style="width:100%;border-collapse:collapse;min-width:520px"><tr style="background:#faf9ff"><th style="text-align:left;padding:7px 10px;font-size:9px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.03em">University</th>'+heads+'</tr>'+rows+'</table></div>';
 }
 function initials(n){return(n||'?').split(' ').filter(Boolean).map(w=>w[0]).join('').slice(0,2).toUpperCase()}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
-// ── Sidebar ───────────────────────────────────────────────────────
 function buildSidebar(){
-  // Only show dates that have at least 1 valid feedback response
-  const dates = Object.keys(HISTORY)
-    .filter(d => {
-      const h = HISTORY[d];
-      return h && (h.feedback||[]).filter(isValidFeedback).length > 0;
-    })
-    .sort().reverse();
-
-  if(!dates.length){
-    document.getElementById('sidebar-nav').innerHTML='<div class="sb-empty">No reports yet.<br>Run the workflow on Saturday to generate one.</div>';
-    return;
-  }
-
+  const dates = Object.keys(HISTORY).filter(d => { const h = HISTORY[d]; return h && (h.feedback||[]).filter(isValidFeedback).length > 0; }).sort().reverse();
+  if(!dates.length){ document.getElementById('sidebar-nav').innerHTML='<div class="sb-empty">No reports yet.<br>Run the workflow on Saturday to generate one.</div>'; return; }
   const tree = {};
-  dates.forEach(d => {
-    const [y,m] = d.split('-');
-    if(!tree[y]) tree[y]={};
-    const mName = MONTHS[parseInt(m)-1];
-    if(!tree[y][mName]) tree[y][mName]=[];
-    tree[y][mName].push(d);
-  });
-
+  dates.forEach(d => { const [y,m] = d.split('-'); if(!tree[y]) tree[y]={}; const mName = MONTHS[parseInt(m)-1]; if(!tree[y][mName]) tree[y][mName]=[]; tree[y][mName].push(d); });
   let html = '';
   Object.keys(tree).sort().reverse().forEach(year => {
-    html += `<div class="sb-section">`;
-    html += `<div class="sb-year open" onclick="toggleSbYear(this)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>${year}</div>`;
-    html += `<div class="sb-months" style="display:block">`;
+    html += '<div class="sb-section">';
+    html += '<div class="sb-year open" onclick="toggleSbYear(this)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>'+year+'</div>';
+    html += '<div class="sb-months" style="display:block">';
     Object.keys(tree[year]).forEach(month => {
-      html += `<div class="sb-month open" onclick="toggleSbMonth(this)">${month}</div>`;
-      html += `<div class="sb-dates" style="display:block">`;
+      html += '<div class="sb-month open" onclick="toggleSbMonth(this)">'+month+'</div>';
+      html += '<div class="sb-dates" style="display:block">';
       tree[year][month].forEach(d => {
         const day = parseInt(d.split('-')[2]);
         const count = (HISTORY[d].feedback||[]).filter(isValidFeedback).length;
-        html += `<div class="sb-date" onclick="loadDate('${d}')"><span>Sat ${day}</span><span class="sb-date-count">${count}</span></div>`;
+        html += '<div class="sb-date" onclick="loadDate(\''+d+'\')"><span>Sat '+day+'</span><span class="sb-date-count">'+count+'</span></div>';
       });
-      html += `</div>`;
+      html += '</div>';
     });
-    html += `</div></div>`;
+    html += '</div></div>';
   });
   document.getElementById('sidebar-nav').innerHTML = html;
 }
 
-function toggleSbYear(el){
-  el.classList.toggle('open');
-  const months = el.nextElementSibling;
-  if(months) months.style.display = el.classList.contains('open') ? 'block' : 'none';
-}
-function toggleSbMonth(el){
-  el.classList.toggle('open');
-  const dates = el.nextElementSibling;
-  if(dates) dates.style.display = el.classList.contains('open') ? 'block' : 'none';
-}
-function toggleSidebar(){
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebar-overlay').classList.toggle('show');
-}
+function toggleSbYear(el){ el.classList.toggle('open'); const months = el.nextElementSibling; if(months) months.style.display = el.classList.contains('open') ? 'block' : 'none'; }
+function toggleSbMonth(el){ el.classList.toggle('open'); const dates = el.nextElementSibling; if(dates) dates.style.display = el.classList.contains('open') ? 'block' : 'none'; }
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('show'); }
 
-// ── Load date ─────────────────────────────────────────────────────
 function loadDate(date){
   currentDate = date;
-  if(window.innerWidth <= 768){
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebar-overlay').classList.remove('show');
-  }
-  // Update active state
-  document.querySelectorAll('.sb-date').forEach(el => {
-    el.classList.toggle('active', el.getAttribute('onclick') === `loadDate('${date}')`);
-  });
-
+  if(window.innerWidth <= 768){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebar-overlay').classList.remove('show'); }
+  document.querySelectorAll('.sb-date').forEach(el => { el.classList.toggle('active', el.getAttribute('onclick') === "loadDate('"+date+"')"); });
   const raw = HISTORY[date];
   if(!raw){ showNoData('No data found for this date.'); return; }
-
-  // Validate and filter data before rendering
-  const feedback     = (raw.feedback||[]).filter(isValidFeedback);
+  const feedback = (raw.feedback||[]).filter(isValidFeedback);
   const participation = (raw.participation||[]).filter(isValidParticipation);
-
-  // Recalculate stats from validated feedback (don't trust stored stats if data was dirty)
   const stats = recalcStats(feedback, participation, raw.stats||{});
-
   document.getElementById('hdr-date').textContent = date;
   const dlBtn = document.getElementById('dl-btn'); if(dlBtn) dlBtn.style.display='flex';
-  // Load resolved items from HISTORY into resolvedItems array
-  resolvedItems = (raw.resolved||[]).map(r => ({
-    cat: r.category,
-    text: r.issueText,
-    who: `${r.studentName} · ${r.university}`,
-    note: r.resolutionNote,
-    date: r.date ? r.date.slice(5) : '—'
-  }));
+  resolvedItems = (raw.resolved||[]).map(r => ({ cat: r.category, text: r.issueText, who: r.studentName+' \u00B7 '+r.university, note: r.resolutionNote, date: r.date ? r.date.slice(5) : '\u2014' }));
   renderReport(feedback, participation, stats);
   renderResolvedSection();
   hideResolvedFlags();
 }
 
-// ── Hide flagged issues already resolved this week (match by cat+text) ──
+// FIX 2 APPLIED: uses setAttribute('data-resolved') instead of style.display
 function hideResolvedFlags(){
   if(!resolvedItems.length) return;
-  const keys = new Set(resolvedItems.map(r =>
-    (r.cat||'').toLowerCase().trim() + '|' + (r.text||'').toLowerCase().trim()
-  ));
+  const keys = new Set(resolvedItems.map(r => (r.cat||'').toLowerCase().trim() + '|' + (r.text||'').toLowerCase().trim()));
   document.querySelectorAll('.flag-item').forEach(el => {
     const cat = (el.querySelector('.flag-cat')?.textContent||'').toLowerCase().trim();
     const text = (el.querySelector('.flag-text')?.textContent||'').toLowerCase().trim();
-    if(keys.has(cat + '|' + text)) el.style.display = 'none';
+    if(keys.has(cat + '|' + text)) el.setAttribute('data-resolved', 'true');
   });
 }
 
-// ── Recalculate stats from clean data ────────────────────────────
 function recalcStats(feedback, participation, storedStats) {
-  if(feedback.length === 0) return storedStats; // no responses, keep stored (zeros)
+  if(feedback.length === 0) return storedStats;
   const catKeys = ['tv','audio','internet','ac','benches'];
   const funcFields = {tv:'functioning',audio:'functioning',internet:'available',ac:'comfortable',benches:'sockets'};
   const ratingNum = v => ({excellent:4,good:3,average:2,poor:1}[String(v||'').toLowerCase()]||0);
-
   const categories = {};
   let flagCount = 0;
   catKeys.forEach(k => {
@@ -475,64 +393,28 @@ function recalcStats(feedback, participation, storedStats) {
     const ff = funcFields[k];
     const funcResp = feedback.filter(f => f[k]?.[ff]);
     const funcPct = funcResp.length ? Math.round(funcResp.filter(f=>String(f[k][ff]).trim()==='Yes').length/funcResp.length*100) : 0;
-    const poor = feedback.filter(f =>
-      String(f[k]?.rating||'').trim()==='Poor' ||
-      String(f[k]?.[ff]||'').trim()==='No' ||
-      (k==='internet' && String(f[k]?.issues||'').trim()==='Yes')
-    ).length;
+    const poor = feedback.filter(f => String(f[k]?.rating||'').trim()==='Poor' || String(f[k]?.[ff]||'').trim()==='No' || (k==='internet' && String(f[k]?.issues||'').trim()==='Yes')).length;
     flagCount += poor;
     categories[k] = {avgRating: Math.round(avg*10)/10, functioning: funcPct, poorCount: poor};
   });
-
   const overalls = feedback.map(f=>f.overall).filter(v=>v>0);
-  return {
-    totalResponses: feedback.length,
-    uniCount: [...new Set(feedback.map(f=>f.university))].length,
-    avgOverall: overalls.length ? Math.round(overalls.reduce((a,b)=>a+b,0)/overalls.length*10)/10 : 0,
-    flagCount,
-    totalStudents: participation.length,
-    submitted: participation.filter(p=>p.status==='Submitted').length,
-    notOpened: participation.filter(p=>p.status==='Untracked').length,
-    categories
-  };
+  return { totalResponses: feedback.length, uniCount: [...new Set(feedback.map(f=>f.university))].length, avgOverall: overalls.length ? Math.round(overalls.reduce((a,b)=>a+b,0)/overalls.length*10)/10 : 0, flagCount, totalStudents: participation.length, submitted: participation.filter(p=>p.status==='Submitted').length, notOpened: participation.filter(p=>p.status==='Untracked').length, categories };
 }
 
-function showNoData(msg){
-  document.getElementById('hdr-date').textContent = '—';
-  document.getElementById('main-content').innerHTML = `<div class="no-data"><div class="no-data-icon">📭</div><div class="no-data-title">No data</div><div class="no-data-sub">${msg}</div></div>`;
-}
+function showNoData(msg){ document.getElementById('hdr-date').textContent = '\u2014'; document.getElementById('main-content').innerHTML = '<div class="no-data"><div class="no-data-icon">\uD83D\uDCED</div><div class="no-data-title">No data</div><div class="no-data-sub">'+msg+'</div></div>'; }
 
-// ── Render report ─────────────────────────────────────────────────
 function renderReport(FEEDBACK, PARTICIPATION, STATS){
   currentFeedback = FEEDBACK;
-
-  if(FEEDBACK.length === 0){
-    document.getElementById('main-content').innerHTML = `
-      <div class="no-data" style="padding-top:60px">
-        <div class="no-data-icon">📭</div>
-        <div class="no-data-title">No responses this week</div>
-        <div class="no-data-sub">Either the workflow hasn't run yet,<br>or no valid submissions were received.</div>
-      </div>`;
-    return;
-  }
-
+  if(FEEDBACK.length === 0){ document.getElementById('main-content').innerHTML = '<div class="no-data" style="padding-top:60px"><div class="no-data-icon">\uD83D\uDCED</div><div class="no-data-title">No responses this week</div><div class="no-data-sub">Either the workflow hasn\'t run yet,<br>or no valid submissions were received.</div></div>'; return; }
   const cats = STATS.categories || {};
   const catCards = Object.keys(CAT_NAMES).map(k => {
     const c = cats[k]||{avgRating:0,functioning:0,poorCount:0};
     const col = c.avgRating > 0 ? ratingColor(c.avgRating) : 'var(--dim)';
     const pct = Math.round((c.avgRating/4)*100);
     const funcCol = c.functioning>=80?'var(--green)':c.functioning>=50?'var(--amber)':'var(--red)';
-    return `<div class="cat-card" data-cat="${k}" onclick="filterByCategory('${k}')">
-      <div class="cat-name" style="color:${col}">${CAT_NAMES[k]}</div>
-      <div class="cat-row"><span class="cat-label">Avg Rating</span><span class="cat-value" style="color:${col}">${c.avgRating||'—'}</span></div>
-      <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${col}"></div></div>
-      <div class="cat-row"><span class="cat-label">Functioning</span><span class="cat-value" style="color:${funcCol}">${c.functioning}%</span></div>
-      ${c.poorCount?`<div class="cat-row"><span class="cat-label">Issues</span><span class="cat-value" style="color:var(--red)">${c.poorCount}</span></div>`:''}
-
-    </div>`;
+    return '<div class="cat-card" data-cat="'+k+'" onclick="filterByCategory(\''+k+'\')"><div class="cat-name" style="color:'+col+'">'+CAT_NAMES[k]+'</div><div class="cat-row"><span class="cat-label">Avg Rating</span><span class="cat-value" style="color:'+col+'">'+(c.avgRating||'\u2014')+'</span></div><div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%;background:'+col+'"></div></div><div class="cat-row"><span class="cat-label">Functioning</span><span class="cat-value" style="color:'+funcCol+'">'+c.functioning+'%</span></div>'+(c.poorCount?'<div class="cat-row"><span class="cat-label">Issues</span><span class="cat-value" style="color:var(--red)">'+c.poorCount+'</span></div>':'')+'</div>';
   }).join('');
 
-  // Flags — only show if suggestion/text is meaningful (not "NA", not single char)
   const flags = [];
   FEEDBACK.forEach(f => {
     Object.keys(CAT_NAMES).forEach(k => {
@@ -543,73 +425,30 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
       if(isPoor || notWorking || hasIssue){
         const rawText = c.suggestion || c.issues_text || (isPoor?'Rated Poor':'Not functioning');
         const text = String(rawText).trim();
-        // Skip meaningless flag text
         if(text.length < 2 || /^(na|n\/a|none|no|yes|ok|fine|good|nothing|nope|noo|nah|not|nil|null|-|\.)$/i.test(text)) return;
-        flags.push({cat:CAT_NAMES[k], text: esc(text), who:`${esc(f.student)} · ${esc(f.university)} · Room ${esc(f.classroom)}`});
+        flags.push({cat:CAT_NAMES[k], text: esc(text), who:esc(f.student)+' \u00B7 '+esc(f.university)+' \u00B7 Room '+esc(f.classroom)});
       }
     });
   });
 
   const flagCats = [...new Set(flags.map(f=>f.cat))];
-  const flagFilterBtns = flagCats.map(c=>`<button class="flag-filter-btn" onclick="filterFlags('${c}',this)">${c} <span style="opacity:.6">${flags.filter(f=>f.cat===c).length}</span></button>`).join('');
+  const flagFilterBtns = flagCats.map(c=>'<button class="flag-filter-btn" onclick="filterFlags(\''+c+'\',this)">'+c+' <span style="opacity:.6">'+flags.filter(f=>f.cat===c).length+'</span></button>').join('');
   const flagsHtml = flags.length === 0
-    ? `<div class="empty-state"><div class="empty-state-icon">✅</div><div class="empty-state-title">No issues flagged</div>All facilities rated satisfactorily this week.</div>`
-    : `<div class="flag-wrap">
-        <div class="flag-filters"><button class="flag-filter-btn active" onclick="filterFlags('all',this)">All <span style="opacity:.6">${flags.length}</span></button>${flagFilterBtns}</div>
-        <div class="flag-list">${flags.map((f,i)=>`<div class="flag-item" data-cat="${f.cat}" id="flag-${i}" data-idx="${i}"><span class="flag-cat">${f.cat}</span><span class="flag-text">${f.text}</span><span class="flag-who">${f.who}</span><button class="resolve-btn" onclick="openResolveModal(this)">Resolve</button></div>`).join('')}</div>
-      </div>
-      <div class="resolve-overlay" id="resolve-overlay" style="display:none" onclick="if(event.target===this)closeResolveModal()">
-        <div class="resolve-modal">
-          <div class="resolve-modal-hdr">
-            <div class="resolve-modal-title">Resolve Issue</div>
-            <button class="resolve-modal-close" onclick="closeResolveModal()">✕</button>
-          </div>
-          <div class="resolve-modal-body">
-            <div class="resolve-label">Issue Reported</div>
-            <div class="resolve-issue-box" id="resolve-issue-box"></div>
-            <div class="resolve-label">Resolution Note <span style="font-weight:400;color:#a78bfa;font-size:9px">(sent to student)</span></div>
-            <textarea class="resolve-input" id="resolve-note" rows="3" placeholder="e.g. New WiFi router installed in Room 207..."></textarea>
-          </div>
-          <div class="resolve-modal-footer">
-            <button class="resolve-cancel" onclick="closeResolveModal()">Cancel</button>
-            <button class="resolve-send" id="resolve-send-btn" onclick="sendResolution()">Send Resolution Email →</button>
-          </div>
-        </div>
-      </div>`;
+    ? '<div class="empty-state"><div class="empty-state-icon">\u2705</div><div class="empty-state-title">No issues flagged</div>All facilities rated satisfactorily this week.</div>'
+    : '<div class="flag-wrap"><div class="flag-filters"><button class="flag-filter-btn active" onclick="filterFlags(\'all\',this)">All <span style="opacity:.6">'+flags.length+'</span></button>'+flagFilterBtns+'</div><div class="flag-list">'+flags.map((f,i)=>'<div class="flag-item" data-cat="'+f.cat+'" id="flag-'+i+'" data-idx="'+i+'"><span class="flag-cat">'+f.cat+'</span><span class="flag-text">'+f.text+'</span><span class="flag-who">'+f.who+'</span><button class="resolve-btn" onclick="openResolveModal(this)">Resolve</button></div>').join('')+'</div></div><div class="resolve-overlay" id="resolve-overlay" style="display:none" onclick="if(event.target===this)closeResolveModal()"><div class="resolve-modal"><div class="resolve-modal-hdr"><div class="resolve-modal-title">Resolve Issue</div><button class="resolve-modal-close" onclick="closeResolveModal()">\u2715</button></div><div class="resolve-modal-body"><div class="resolve-label">Issue Reported</div><div class="resolve-issue-box" id="resolve-issue-box"></div><div class="resolve-label">Resolution Note <span style="font-weight:400;color:#a78bfa;font-size:9px">(sent to student)</span></div><textarea class="resolve-input" id="resolve-note" rows="3" placeholder="e.g. New WiFi router installed in Room 207..."></textarea></div><div class="resolve-modal-footer"><button class="resolve-cancel" onclick="closeResolveModal()">Cancel</button><button class="resolve-send" id="resolve-send-btn" onclick="sendResolution()">Send Resolution Email \u2192</button></div></div></div>';
 
-  // University filter — only unis that actually have responses this week
   const activeUnis = [...new Set(FEEDBACK.map(f=>f.university).filter(Boolean))].sort();
-  const uniOptions = activeUnis.map(u=>`<option value="${u}">${esc(u)}</option>`).join('');
+  const uniOptions = activeUnis.map(u=>'<option value="'+u+'">'+esc(u)+'</option>').join('');
+  const respHtml = '<div class="filter-row"><select class="uni-select" id="uni-filter" onchange="filterResponses()"><option value="all">All Universities ('+activeUnis.length+')</option>'+uniOptions+'</select><button class="uni-select" id="late-toggle" onclick="toggleLate()" style="cursor:pointer;white-space:nowrap;color:var(--sub)" title="Show only responses submitted after Saturday">\u23F1 Late only</button><div class="search-wrap"><span class="search-ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input class="search-input" id="search" placeholder="Search student, classroom\u2026" oninput="filterResponses()"/></div></div><div id="resp-out"></div>';
 
-  const respHtml = `
-    <div class="filter-row">
-      <select class="uni-select" id="uni-filter" onchange="filterResponses()">
-        <option value="all">All Universities (${activeUnis.length})</option>
-        ${uniOptions}
-      </select>
-      <button class="uni-select" id="late-toggle" onclick="toggleLate()" style="cursor:pointer;white-space:nowrap;color:var(--sub)" title="Show only responses submitted after Saturday">⏱ Late only</button>
-      <div class="search-wrap"><span class="search-ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><input class="search-input" id="search" placeholder="Search student, classroom…" oninput="filterResponses()"/></div>
-    </div>
-    <div id="resp-out"></div>`;
-
-  // Build participation grouped by university
   let partHtml = '';
   if(PARTICIPATION.length === 0){
-    partHtml = `<div class="empty-state"><div class="empty-state-icon">📧</div><div class="empty-state-title">No tracking data</div>Email tracking data will appear here after the 11 AM workflow runs.</div>`;
+    partHtml = '<div class="empty-state"><div class="empty-state-icon">\uD83D\uDCE7</div><div class="empty-state-title">No tracking data</div>Email tracking data will appear here after the 11 AM workflow runs.</div>';
   } else {
-    // Group by university
     const uniGroups = {};
-    PARTICIPATION.forEach(p => {
-      const u = p.university || 'Unknown';
-      if(!uniGroups[u]) uniGroups[u] = [];
-      uniGroups[u].push(p);
-    });
-    // For each student, count how many times they submitted
+    PARTICIPATION.forEach(p => { const u = p.university || 'Unknown'; if(!uniGroups[u]) uniGroups[u] = []; uniGroups[u].push(p); });
     const submissionCounts = {};
-    FEEDBACK.forEach(f => {
-      const key = normaliseKey(f.email || f.student);
-      submissionCounts[key] = (submissionCounts[key]||0) + 1;
-    });
+    FEEDBACK.forEach(f => { const key = normaliseKey(f.email || f.student); submissionCounts[key] = (submissionCounts[key]||0) + 1; });
     partHtml = Object.entries(uniGroups).sort(([a],[b])=>a.localeCompare(b)).map(([uni, students]) => {
       const total = students.length;
       const submitted = students.filter(s=>s.status==='Submitted').length;
@@ -618,38 +457,11 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
         const scls = p.status==='Submitted'?'st-sub':p.status==='Opened only'?'st-op':'st-no';
         const key = normaliseKey(p.email||p.name);
         const subCount = submissionCounts[key]||0;
-        const sentTime = p.sentAt || '—';
-        // Find feedback for this student
         const studentFeedback = FEEDBACK.filter(f => normaliseKey(f.email||f.student) === normaliseKey(p.email||p.name));
         const hasFeedback = studentFeedback.length > 0;
-        return `<div class="p-row" onclick="showStudentDetail(${JSON.stringify(JSON.stringify({name:p.name,uni,sentAt:p.sentAt||'—',openedAt:p.openedAt,status:p.status,subCount,feedback:studentFeedback}))})">
-          <div class="p-av" style="background:${hasFeedback?'var(--green-bg)':'var(--surface2)'};color:${hasFeedback?'var(--green)':'var(--dim)'}">${initials(p.name)}</div>
-          <div class="p-info">
-            <div class="p-name">${esc(p.name)}</div>
-            <div class="p-meta">
-              <span>📧 Sent ${esc(p.sentAt||'—')}</span>
-              ${p.openedAt&&p.openedAt!=='—'?`<span>👁 Opened ${esc(p.openedAt)}</span>`:''}
-              ${subCount>0?`<span>📝 ${subCount} submission${subCount>1?' (duplicate)':''}</span>`:''}
-            </div>
-          </div>
-          <span class="st ${scls}">${p.status}</span>
-        </div>`;
+        return '<div class="p-row" onclick="showStudentDetail('+JSON.stringify(JSON.stringify({name:p.name,uni,sentAt:p.sentAt||'\u2014',openedAt:p.openedAt,status:p.status,subCount,feedback:studentFeedback}))+')">'+'<div class="p-av" style="background:'+(hasFeedback?'var(--green-bg)':'var(--surface2)')+';color:'+(hasFeedback?'var(--green)':'var(--dim)')+'">'+initials(p.name)+'</div>'+'<div class="p-info"><div class="p-name">'+esc(p.name)+'</div><div class="p-meta"><span>\uD83D\uDCE7 Sent '+esc(p.sentAt||'\u2014')+'</span>'+(p.openedAt&&p.openedAt!=='\u2014'?'<span>\uD83D\uDC41 Opened '+esc(p.openedAt)+'</span>':'')+(subCount>0?'<span>\uD83D\uDCDD '+subCount+' submission'+(subCount>1?' (duplicate)':'')+'</span>':'')+'</div></div><span class="st '+scls+'">'+p.status+'</span></div>';
       }).join('');
-      return `<div class="uni-group">
-        <div class="uni-group-header" onclick="toggleUniGroup(this)">
-          <div class="uni-group-title">
-            <span class="uni-group-chevron">▶</span>
-            ${esc(uni)}
-          </div>
-          <div class="uni-group-stats">
-            <span style="color:var(--green)">${submitted} submitted</span>
-            <span>·</span>
-            <span>${total} total</span>
-            ${notOpened>0?`<span>· <span style="color:var(--amber)">${notOpened} not opened</span></span>`:''}
-          </div>
-        </div>
-        <div class="uni-group-body">${rows}</div>
-      </div>`;
+      return '<div class="uni-group"><div class="uni-group-header" onclick="toggleUniGroup(this)"><div class="uni-group-title"><span class="uni-group-chevron">\u25B6</span>'+esc(uni)+'</div><div class="uni-group-stats"><span style="color:var(--green)">'+submitted+' submitted</span><span>\u00B7</span><span>'+total+' total</span>'+(notOpened>0?'<span>\u00B7 <span style="color:var(--amber)">'+notOpened+' not opened</span></span>':'')+'</div></div><div class="uni-group-body">'+rows+'</div></div>';
     }).join('');
   }
 
@@ -657,32 +469,26 @@ function renderReport(FEEDBACK, PARTICIPATION, STATS){
   const wd = wkDelta(currentDate, STATS);
   const heatmapHtml = buildHeatmap(FEEDBACK);
 
-  document.getElementById('main-content').innerHTML = `
-    <div class="sec-label">Overview</div>
-    <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-ico" style="background:var(--blue-bg)"><svg viewBox="0 0 24 24" stroke="var(--blue)" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="kpi-val" style="color:var(--blue)">${STATS.totalResponses}${wd.responses}</div><div class="kpi-lbl">Responses</div></div></div>
-      <div class="kpi"><div class="kpi-ico" style="background:var(--green-bg)"><svg viewBox="0 0 24 24" stroke="var(--green)" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div><div class="kpi-val" style="color:var(--green)">${STATS.avgOverall?STATS.avgOverall.toFixed(1)+'/5':'—'}${wd.avg}</div><div class="kpi-lbl">Avg Rating</div></div></div>
-      <div class="kpi"><div class="kpi-ico" style="background:var(--red-bg)"><svg viewBox="0 0 24 24" stroke="var(--red)" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div><div class="kpi-val" style="color:var(--red)">${STATS.flagCount}${wd.flags}</div><div class="kpi-lbl">Issues Flagged</div></div></div>
-      <div class="kpi"><div class="kpi-ico" style="background:var(--amber-bg)"><svg viewBox="0 0 24 24" stroke="var(--amber)" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="kpi-val" style="color:var(--amber)">${STATS.notOpened}</div><div class="kpi-lbl">Untracked</div></div></div>
-      <div class="kpi" id="resolved-kpi"><div class="kpi-ico" style="background:var(--green-bg)"><svg viewBox="0 0 24 24" stroke="var(--green)" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div><div class="kpi-val" style="color:var(--green)" id="resolved-kpi-val">0</div><div class="kpi-lbl">Resolved</div></div></div>
-    </div>
-    <div class="sec-label">Category Ratings</div>
-    <div class="cat-grid">${catCards}</div>
-    ${heatmapHtml?`<div class="sec-label">Ratings by University</div>${heatmapHtml}`:''}
-    <div class="sec-label">Flagged Issues</div>
-    ${flagsHtml}
-    <div class="sec-label" id="resolved-sec-label" style="display:none">Resolved Issues</div>
-    <div id="resolved-inline"></div>
-    <div class="sec-label" id="resp-section" style="display:flex;align-items:center;justify-content:space-between;">
-      <span>Individual Responses</span>
-      <div id="cat-filter-label" style="display:none;align-items:center;gap:6px;font-size:10px;background:var(--blue-bg);color:var(--blue);padding:3px 10px;border-radius:6px;font-weight:600">
-        <span></span>
-        <span onclick="filterByCategory(activeCatFilter)" style="cursor:pointer;opacity:.7">✕ clear</span>
-      </div>
-    </div>
-    ${respHtml}
-    <div class="sec-label">Student Participation</div>
-    ${partHtml}`;
+  document.getElementById('main-content').innerHTML =
+    '<div class="sec-label">Overview</div>'+
+    '<div class="kpi-grid">'+
+      '<div class="kpi"><div class="kpi-ico" style="background:var(--blue-bg)"><svg viewBox="0 0 24 24" stroke="var(--blue)" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><div class="kpi-val" style="color:var(--blue)">'+STATS.totalResponses+wd.responses+'</div><div class="kpi-lbl">Responses</div></div></div>'+
+      '<div class="kpi"><div class="kpi-ico" style="background:var(--green-bg)"><svg viewBox="0 0 24 24" stroke="var(--green)" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div><div class="kpi-val" style="color:var(--green)">'+(STATS.avgOverall?STATS.avgOverall.toFixed(1)+'/5':'\u2014')+wd.avg+'</div><div class="kpi-lbl">Avg Rating</div></div></div>'+
+      '<div class="kpi"><div class="kpi-ico" style="background:var(--red-bg)"><svg viewBox="0 0 24 24" stroke="var(--red)" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div><div class="kpi-val" style="color:var(--red)">'+STATS.flagCount+wd.flags+'</div><div class="kpi-lbl">Issues Flagged</div></div></div>'+
+      '<div class="kpi"><div class="kpi-ico" style="background:var(--amber-bg)"><svg viewBox="0 0 24 24" stroke="var(--amber)" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="kpi-val" style="color:var(--amber)">'+STATS.notOpened+'</div><div class="kpi-lbl">Untracked</div></div></div>'+
+      '<div class="kpi" id="resolved-kpi"><div class="kpi-ico" style="background:var(--green-bg)"><svg viewBox="0 0 24 24" stroke="var(--green)" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div><div class="kpi-val" style="color:var(--green)" id="resolved-kpi-val">0</div><div class="kpi-lbl">Resolved</div></div></div>'+
+    '</div>'+
+    '<div class="sec-label">Category Ratings</div>'+
+    '<div class="cat-grid">'+catCards+'</div>'+
+    (heatmapHtml?'<div class="sec-label">Ratings by University</div>'+heatmapHtml:'')+
+    '<div class="sec-label">Flagged Issues</div>'+
+    flagsHtml+
+    '<div class="sec-label" id="resolved-sec-label" style="display:none">Resolved Issues</div>'+
+    '<div id="resolved-inline"></div>'+
+    '<div class="sec-label" id="resp-section" style="display:flex;align-items:center;justify-content:space-between;"><span>Individual Responses</span><div id="cat-filter-label" style="display:none;align-items:center;gap:6px;font-size:10px;background:var(--blue-bg);color:var(--blue);padding:3px 10px;border-radius:6px;font-weight:600"><span></span><span onclick="filterByCategory(activeCatFilter)" style="cursor:pointer;opacity:.7">\u2715 clear</span></div></div>'+
+    respHtml+
+    '<div class="sec-label">Student Participation</div>'+
+    partHtml;
 
   setTimeout(filterResponses, 0);
 }
@@ -692,11 +498,9 @@ let activeCatFilter = null;
 function filterByCategory(cat){
   const cards = document.querySelectorAll('.cat-card');
   if(activeCatFilter === cat){
-    // Clicking same card again clears highlight
     activeCatFilter = null;
     cards.forEach(c => c.classList.remove('active'));
     document.getElementById('cat-filter-label').style.display = 'none';
-    // Remove all highlights from response items
     document.querySelectorAll('.resp-item').forEach(el => el.classList.remove('resp-item-highlight'));
   } else {
     activeCatFilter = cat;
@@ -705,22 +509,19 @@ function filterByCategory(cat){
     const label = document.getElementById('cat-filter-label');
     label.style.display = 'flex';
     label.querySelector('span').textContent = 'Highlighting: ' + catNames[cat];
-    // Highlight matching category in every response card
-    document.querySelectorAll('.resp-item').forEach(el => {
-      const itemCat = el.dataset.cat;
-      el.classList.toggle('resp-item-highlight', itemCat === cat);
-    });
-    // Scroll to individual responses
+    document.querySelectorAll('.resp-item').forEach(el => { el.classList.toggle('resp-item-highlight', el.dataset.cat === cat); });
     document.getElementById('resp-section').scrollIntoView({behavior:'smooth', block:'start'});
   }
 }
 
+// FIX 3 APPLIED: hideResolvedFlags() called after filter toggle
 function filterFlags(cat, btn){
   document.querySelectorAll('.flag-filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.flag-item').forEach(item => {
     item.classList.toggle('hidden', cat !== 'all' && item.dataset.cat !== cat);
   });
+  hideResolvedFlags();
 }
 
 function filterResponses(){
@@ -728,305 +529,72 @@ function filterResponses(){
   const q   = ((document.getElementById('search')||{}).value||'').toLowerCase();
   const out = document.getElementById('resp-out');
   if(!out) return;
-
-  const filtered = currentFeedback.filter(f =>
-    (uni==='all' || f.university===uni) &&
-    (!q || [f.student,f.university,f.classroom].some(v=>String(v||'').toLowerCase().includes(q))) &&
-    (!lateOnly || isLate(f))
-  );
-
-  if(!filtered.length){
-    out.innerHTML=`<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-title">No matches</div>Try a different filter or search term.</div>`;
-    return;
-  }
-
+  const filtered = currentFeedback.filter(f => (uni==='all' || f.university===uni) && (!q || [f.student,f.university,f.classroom].some(v=>String(v||'').toLowerCase().includes(q))) && (!lateOnly || isLate(f)));
+  if(!filtered.length){ out.innerHTML='<div class="empty-state"><div class="empty-state-icon">\uD83D\uDD0D</div><div class="empty-state-title">No matches</div>Try a different filter or search term.</div>'; return; }
   out.innerHTML = filtered.map(f => {
-    const cats = Object.keys(CAT_NAMES).map(k=>{
-      const c=f[k]; if(!c) return '';
-      return `<div class="resp-item" data-cat="${k}"><span>${CAT_NAMES[k]}</span><span class="chip ${chipCls(c.rating)}">${c.rating||'—'}</span></div>`;
-    }).join('');
+    const cats = Object.keys(CAT_NAMES).map(k=>{ const c=f[k]; if(!c) return ''; return '<div class="resp-item" data-cat="'+k+'"><span>'+CAT_NAMES[k]+'</span><span class="chip '+chipCls(c.rating)+'">'+(c.rating||'\u2014')+'</span></div>'; }).join('');
     const oc = f.overall>=4?'chip-e':f.overall>=3?'chip-g':f.overall>=2?'chip-a':'chip-p';
-    const sub = subDate(f) ? ` · <span style="color:${isLate(f)?'var(--amber)':'var(--dim)'};font-weight:${isLate(f)?'600':'400'}">${isLate(f)?'⏱ Late · ':''}${fmtSub(f)}</span>` : '';
-    return `<div class="resp-card"><div class="resp-top"><div><div class="resp-name">${esc(f.student)}</div><div class="resp-meta">${esc(f.university)} · Room ${esc(f.classroom)}${sub}</div></div><span class="chip ${oc}">${f.overall}/5</span></div><div class="resp-grid">${cats}</div></div>`;
+    const sub = subDate(f) ? ' \u00B7 <span style="color:'+(isLate(f)?'var(--amber)':'var(--dim)')+';font-weight:'+(isLate(f)?'600':'400')+'">'+(isLate(f)?'\u23F1 Late \u00B7 ':'')+fmtSub(f)+'</span>' : '';
+    return '<div class="resp-card"><div class="resp-top"><div><div class="resp-name">'+esc(f.student)+'</div><div class="resp-meta">'+esc(f.university)+' \u00B7 Room '+esc(f.classroom)+sub+'</div></div><span class="chip '+oc+'">'+f.overall+'/5</span></div><div class="resp-grid">'+cats+'</div></div>';
   }).join('');
-  // Re-apply category highlight if one is active
-  if(activeCatFilter){
-    document.querySelectorAll('.resp-item').forEach(el => {
-      el.classList.toggle('resp-item-highlight', el.dataset.cat === activeCatFilter);
-    });
-  }
+  if(activeCatFilter){ document.querySelectorAll('.resp-item').forEach(el => { el.classList.toggle('resp-item-highlight', el.dataset.cat === activeCatFilter); }); }
   renderResolvedSection();
 }
 
 function normaliseKey(s){ return String(s||'').toLowerCase().trim(); }
 
-function toggleUniGroup(header){
-  const body = header.nextElementSibling;
-  const chevron = header.querySelector('.uni-group-chevron');
-  body.classList.toggle('open');
-  chevron.classList.toggle('open');
-}
+function toggleUniGroup(header){ const body = header.nextElementSibling; const chevron = header.querySelector('.uni-group-chevron'); body.classList.toggle('open'); chevron.classList.toggle('open'); }
 
 function showStudentDetail(jsonStr){
   const d = JSON.parse(jsonStr);
   const CAT_NAMES_M = {tv:'TV',audio:'Audio',video:'Video',internet:'Internet/Wi-Fi',ac:'AC',benches:'Benches & Power',washrooms:'Washrooms'};
   const chipC = v => {const l=String(v||'').toLowerCase();return l==='excellent'?'var(--green)':l==='good'?'var(--blue)':l==='average'?'var(--amber)':'var(--red)'};
-
-  const feedbackSections = d.feedback.length === 0 ? `<div style="text-align:center;color:var(--dim);padding:20px;font-size:12px;">No feedback submitted this week.</div>` :
+  const feedbackSections = d.feedback.length === 0 ? '<div style="text-align:center;color:var(--dim);padding:20px;font-size:12px;">No feedback submitted this week.</div>' :
     d.feedback.map((f,i) => {
-      const catGrid = Object.keys(CAT_NAMES_M).map(k => {
-        const c = f[k]; if(!c) return '';
-        const ratingCol = chipC(c.rating);
-        const suggestion = c.suggestion || c.issues_text || '';
-        return `<div class="modal-cat">
-          <div class="modal-cat-name">${CAT_NAMES_M[k]}</div>
-          <div class="modal-cat-rating" style="color:${ratingCol}">${c.rating||'—'}</div>
-          ${suggestion && suggestion.length>1 && !/^(na|n\/a|no|none|\.)$/i.test(suggestion.trim()) ? `<div class="modal-cat-note">${esc(suggestion)}</div>` : ''}
-        </div>`;
-      }).join('');
+      const catGrid = Object.keys(CAT_NAMES_M).map(k => { const c = f[k]; if(!c) return ''; const ratingCol = chipC(c.rating); const suggestion = c.suggestion || c.issues_text || ''; return '<div class="modal-cat"><div class="modal-cat-name">'+CAT_NAMES_M[k]+'</div><div class="modal-cat-rating" style="color:'+ratingCol+'">'+(c.rating||'\u2014')+'</div>'+(suggestion && suggestion.length>1 && !/^(na|n\/a|no|none|\.)$/i.test(suggestion.trim()) ? '<div class="modal-cat-note">'+esc(suggestion)+'</div>' : '')+'</div>'; }).join('');
       const oc = f.overall>=4?'var(--green)':f.overall>=3?'var(--blue)':f.overall>=2?'var(--amber)':'var(--red)';
-      return `
-        ${d.feedback.length>1?`<div style="font-size:10px;font-weight:700;color:var(--sub);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">Submission ${i+1} · Room ${esc(f.classroom)}</div>`:`<div style="font-size:11px;color:var(--sub);margin-bottom:10px;">Room ${esc(f.classroom)}</div>`}
-        <div class="modal-overall">
-          <div class="modal-overall-num" style="color:${oc}">${f.overall}/5</div>
-          <div style="font-size:11px;color:var(--sub)">Overall Rating</div>
-        </div>
-        <div class="modal-cat-grid">${catGrid}</div>
-        ${f.otherIssues&&f.otherIssues.length>1?`<div style="margin-top:10px;padding:8px 10px;background:var(--red-bg);border-radius:8px;font-size:11px;color:var(--red)"><strong>Other issues:</strong> ${esc(f.otherIssues)}</div>`:''}
-        ${f.additionalSuggestions&&f.additionalSuggestions.length>1?`<div style="margin-top:6px;padding:8px 10px;background:var(--surface2);border-radius:8px;font-size:11px;color:var(--sub)"><strong>Suggestions:</strong> ${esc(f.additionalSuggestions)}</div>`:''}
-        ${i<d.feedback.length-1?'<hr style="border:none;border-top:1px solid var(--border);margin:14px 0">':''}`;
+      return (d.feedback.length>1?'<div style="font-size:10px;font-weight:700;color:var(--sub);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">Submission '+(i+1)+' \u00B7 Room '+esc(f.classroom)+'</div>':'<div style="font-size:11px;color:var(--sub);margin-bottom:10px;">Room '+esc(f.classroom)+'</div>')+'<div class="modal-overall"><div class="modal-overall-num" style="color:'+oc+'">'+f.overall+'/5</div><div style="font-size:11px;color:var(--sub)">Overall Rating</div></div><div class="modal-cat-grid">'+catGrid+'</div>'+(f.otherIssues&&f.otherIssues.length>1?'<div style="margin-top:10px;padding:8px 10px;background:var(--red-bg);border-radius:8px;font-size:11px;color:var(--red)"><strong>Other issues:</strong> '+esc(f.otherIssues)+'</div>':'')+(f.additionalSuggestions&&f.additionalSuggestions.length>1?'<div style="margin-top:6px;padding:8px 10px;background:var(--surface2);border-radius:8px;font-size:11px;color:var(--sub)"><strong>Suggestions:</strong> '+esc(f.additionalSuggestions)+'</div>':'')+(i<d.feedback.length-1?'<hr style="border:none;border-top:1px solid var(--border);margin:14px 0">':'');
     }).join('');
-
   const scls = d.status==='Submitted'?'st-sub':d.status==='Opened only'?'st-op':'st-no';
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
   modal.onclick = e => { if(e.target===modal) modal.remove(); };
-  modal.innerHTML = `<div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-title">${esc(d.name)}</div>
-        <div style="font-size:10px;color:var(--sub);margin-top:2px">${esc(d.uni)}</div>
-      </div>
-      <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-section">
-        <div class="modal-section-title">Email Tracking</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-          <div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px">
-            <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Sent At</div>
-            <div style="font-size:12px;font-weight:600;margin-top:2px;font-family:'JetBrains Mono',monospace">${esc(d.sentAt||'—')}</div>
-          </div>
-          <div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px">
-            <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Opened At</div>
-            <div style="font-size:12px;font-weight:600;margin-top:2px;font-family:'JetBrains Mono',monospace">${d.openedAt&&d.openedAt!=='—'?esc(d.openedAt):'Untracked'}</div>
-          </div>
-          <div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px">
-            <div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Submissions</div>
-            <div style="font-size:12px;font-weight:600;margin-top:2px"><span class="st ${scls}">${d.status}</span>${d.subCount>1?` <span style="color:var(--amber);font-size:10px">(${d.subCount}x)</span>`:''}</div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">Feedback</div>
-        ${feedbackSections}
-      </div>
-    </div>
-  </div>`;
+  modal.innerHTML = '<div class="modal"><div class="modal-header"><div><div class="modal-title">'+esc(d.name)+'</div><div style="font-size:10px;color:var(--sub);margin-top:2px">'+esc(d.uni)+'</div></div><button class="modal-close" onclick="this.closest(\'.modal-overlay\').remove()">\u2715</button></div><div class="modal-body"><div class="modal-section"><div class="modal-section-title">Email Tracking</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px"><div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Sent At</div><div style="font-size:12px;font-weight:600;margin-top:2px;font-family:\'JetBrains Mono\',monospace">'+esc(d.sentAt||'\u2014')+'</div></div><div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px"><div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Opened At</div><div style="font-size:12px;font-weight:600;margin-top:2px;font-family:\'JetBrains Mono\',monospace">'+(d.openedAt&&d.openedAt!=='\u2014'?esc(d.openedAt):'Untracked')+'</div></div><div style="flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px"><div style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em">Submissions</div><div style="font-size:12px;font-weight:600;margin-top:2px"><span class="st '+scls+'">'+d.status+'</span>'+(d.subCount>1?' <span style="color:var(--amber);font-size:10px">('+d.subCount+'x)</span>':'')+'</div></div></div></div><div class="modal-section"><div class="modal-section-title">Feedback</div>'+feedbackSections+'</div></div></div>';
   document.body.appendChild(modal);
 }
 
 function downloadReport(){
-  const d = HISTORY[currentDate];
-  if(!d) return;
+  const d = HISTORY[currentDate]; if(!d) return;
   const feedback = (d.feedback||[]).filter(isValidFeedback);
   const stats = recalcStats(feedback, d.participation||[], d.stats||{});
   const catKeys = ['tv','audio','internet','ac','benches'];
   const catNames = {tv:'TV',audio:'Audio',internet:'Internet / Wi-Fi',ac:'AC',benches:'Benches & Power'};
   const funcFields = {tv:'functioning',audio:'functioning',internet:'available',ac:'comfortable',benches:'sockets'};
   const rn = v => ({excellent:4,good:3,average:2,poor:1}[String(v||'').toLowerCase()]||0);
-
-  // Group by university
-  const uniGroups = {};
-  feedback.forEach(f => {
-    const u = f.university||'Unknown';
-    if(!uniGroups[u]) uniGroups[u] = [];
-    uniGroups[u].push(f);
-  });
-
-  // Per-uni cat stats
-  function uniCatStats(ufb){
-    const res = {};
-    catKeys.forEach(k => {
-      const ratings = ufb.map(f=>rn(f[k]?.rating)).filter(v=>v>0);
-      const avg = ratings.length ? Math.round(ratings.reduce((a,b)=>a+b,0)/ratings.length*10)/10 : 0;
-      const ff = funcFields[k];
-      const fr = ufb.filter(f=>f[k]?.[ff]);
-      const fp = fr.length ? Math.round(fr.filter(f=>String(f[k][ff]).trim()==='Yes').length/fr.length*100) : 0;
-      const poor = ufb.filter(f=>String(f[k]?.rating||'').trim()==='Poor'||String(f[k]?.[ff]||'').trim()==='No'||(k==='internet'&&String(f[k]?.issues||'').trim()==='Yes')).length;
-      res[k] = {avg, fp, poor};
-    });
-    return res;
-  }
-
-  // Per-uni flags
-  function uniFlags(ufb){
-    const flags = [];
-    ufb.forEach(f => {
-      catKeys.forEach(k => {
-        const c = f[k]; if(!c) return;
-        const ff = funcFields[k];
-        const isPoor = String(c.rating||'').trim()==='Poor';
-        const notWorking = String(c[ff]||'').trim()==='No';
-        const hasIssue = k==='internet' && String(c.issues||'').trim()==='Yes';
-        if(isPoor||notWorking||hasIssue){
-          // Mirror the dashboard: fall back to a descriptive label when the
-          // student left the suggestion blank, so poor/non-working items still flag.
-          const raw = c.suggestion || c.issues_text || (isPoor?'Rated Poor':notWorking?'Not functioning':'Issue reported');
-          const clean = String(raw).trim();
-          if(clean.length>=2 && !/^(na|n\/a|none|no|yes|ok|fine|good|nothing|nope|noo|nah|not|nil|null|-|\.)$/i.test(clean)){
-            flags.push({cat:catNames[k], text:clean, who:`${f.student} · Room ${f.classroom}`, len:clean.length});
-          }
-        }
-      });
-    });
-    // Sort by length descending (written suggestions first), dedupe per student+category
-    const seen = new Set();
-    return flags.sort((a,b)=>b.len-a.len).filter(f=>{
-      const key = f.who + '|' + f.cat;
-      if(seen.has(key)) return false;
-      seen.add(key); return true;
-    });
-  }
-
-  // Auto-generate summary sentence per university
-  function uniSummary(uni, ufb, uStats){
-    const overalls = ufb.map(f=>f.overall).filter(v=>v>0);
-    const avg = overalls.length ? Math.round(overalls.reduce((a,b)=>a+b,0)/overalls.length*10)/10 : 0;
-    const worst = catKeys.reduce((a,b) => {
-      const pa = uStats[a]?.poor||0, pb = uStats[b]?.poor||0;
-      if(pb !== pa) return pb > pa ? b : a;                       // most flags wins
-      return (uStats[b]?.avg||4) < (uStats[a]?.avg||4) ? b : a;   // tiebreak: lower avg
-    });
-    const best = catKeys.reduce((a,b) => (uStats[a]?.avg||0) > (uStats[b]?.avg||0) ? a : b);
-    const worstFlags = uStats[worst]?.poor||0;
-    return `${ufb.length} responses this week. ${catNames[worst]} is the most critical concern with ${worstFlags} flag${worstFlags!==1?'s':''} and an avg rating of ${uStats[worst]?.avg||'—'}/4. ${catNames[best]} is performing best at ${uStats[best]?.avg||'—'}/4. Overall student satisfaction is ${avg}/5.`;
-  }
-
-  // Build uni sections
-  const uniSections = Object.entries(uniGroups).sort().map(([uni, ufb]) => {
-    const uStats = uniCatStats(ufb);
-    const flags = uniFlags(ufb);
-    const summary = uniSummary(uni, ufb, uStats);
-
-    const catRows = catKeys.map(k => {
-      const cs = uStats[k];
-      return `<tr>
-        <td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">${catNames[k]}</td>
-        <td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">${cs.avg||'—'} / 4</td>
-        <td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">${cs.fp}%</td>
-        <td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">${cs.poor||'—'}</td>
-      </tr>`;
-    }).join('');
-
-    const flagRows = flags.length === 0
-      ? `<p style="font-size:12px;color:#9ca3af;padding:8px 0">No issues flagged.</p>`
-      : flags.map((f,i) => `<div style="display:flex;gap:14px;padding:10px 0;border-bottom:0.5px solid #f3f4f6;font-size:12px;line-height:1.5">
-          <span style="color:#9ca3af;min-width:16px;font-weight:500">${i+1}</span>
-          <span style="font-weight:500;min-width:100px;color:#111827">${f.cat}</span>
-          <div style="flex:1"><div style="color:#111827">${f.text}</div><div style="font-size:11px;color:#9ca3af;margin-top:2px">${f.who}</div></div>
-        </div>`).join('');
-
-    return `
-      <div style="margin-bottom:32px">
-        <div style="font-size:17px;font-weight:500;color:#111827;margin-bottom:8px">${uni}</div>
-        <div style="font-size:12px;color:#6b7280;line-height:1.6;padding:10px 14px;background:#f9fafb;border-radius:8px;margin-bottom:16px">${summary}</div>
-        <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:6px">Category Ratings</div>
-        <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
-          <tr style="background:#f9fafb">
-            <th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Category</th>
-            <th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Avg Rating</th>
-            <th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Functioning</th>
-            <th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Issues</th>
-          </tr>
-          ${catRows}
-        </table>
-        <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:6px">Flagged Issues</div>
-        <div style="margin-bottom:8px">${flagRows}</div>
-      </div>`;
-  }).join('<hr style="border:none;border-top:1px solid #e5e7eb;margin:4px 0 28px"/>');
-
-  const overallAvg = stats.avgOverall||'—';
-  const today = new Date().toLocaleDateString('en-IN',{timeZone:'Asia/Calcutta',day:'numeric',month:'long',year:'numeric'});
-
-  const reportHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
-<title>Facilities Feedback Report - ${currentDate}</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:Arial,sans-serif;background:#fff;color:#111827;padding:40px 48px;max-width:720px;margin:0 auto;line-height:1.5}
-  @media print{body{padding:20mm} @page{margin:20mm} .no-print{display:none}}
-</style>
-</head><body>
-<div style="display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:20px;border-bottom:2px solid #111827;margin-bottom:28px">
-  <div>
-    <div style="font-size:22px;font-weight:500;color:#111827;margin-bottom:6px">Facilities Feedback Report</div>
-    <div style="font-size:13px;color:#6b7280;line-height:1.8">
-      Saturday, ${currentDate}<br>
-      NIAT Program Operations<br>
-      Generated automatically
-    </div>
-  </div>
-  <img src="https://raw.githubusercontent.com/programopscentral-art/infra-reports/main/niat-logo.png" style="width:48px;height:48px;border-radius:8px;object-fit:cover"/>
-</div>
-
-<div style="display:grid;grid-template-columns:repeat(4,1fr);border:0.5px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:36px">
-  <div style="padding:14px 12px;text-align:center;border-right:0.5px solid #e5e7eb"><div style="font-size:22px;font-weight:500;color:#111827">${stats.totalResponses}</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Responses</div></div>
-  <div style="padding:14px 12px;text-align:center;border-right:0.5px solid #e5e7eb"><div style="font-size:22px;font-weight:500;color:#111827">${overallAvg}/5</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Avg Rating</div></div>
-  <div style="padding:14px 12px;text-align:center;border-right:0.5px solid #e5e7eb"><div style="font-size:22px;font-weight:500;color:#111827">${stats.flagCount}</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Issues</div></div>
-  <div style="padding:14px 12px;text-align:center"><div style="font-size:22px;font-weight:500;color:#111827">${stats.uniCount}</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Universities</div></div>
-</div>
-
-${uniSections}
-
-<div style="text-align:center;font-size:10px;color:#9ca3af;padding-top:16px;border-top:0.5px solid #e5e7eb;margin-top:8px">
-  NIAT Facilities Feedback &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; ${currentDate}
-</div>
-</body></html>`;
-
-  const win = window.open('', '_blank');
-  win.document.write(reportHtml);
-  win.document.close();
-  setTimeout(() => win.print(), 800);
+  const uniGroups = {}; feedback.forEach(f => { const u = f.university||'Unknown'; if(!uniGroups[u]) uniGroups[u] = []; uniGroups[u].push(f); });
+  function uniCatStats(ufb){ const res = {}; catKeys.forEach(k => { const ratings = ufb.map(f=>rn(f[k]?.rating)).filter(v=>v>0); const avg = ratings.length ? Math.round(ratings.reduce((a,b)=>a+b,0)/ratings.length*10)/10 : 0; const ff = funcFields[k]; const fr = ufb.filter(f=>f[k]?.[ff]); const fp = fr.length ? Math.round(fr.filter(f=>String(f[k][ff]).trim()==='Yes').length/fr.length*100) : 0; const poor = ufb.filter(f=>String(f[k]?.rating||'').trim()==='Poor'||String(f[k]?.[ff]||'').trim()==='No'||(k==='internet'&&String(f[k]?.issues||'').trim()==='Yes')).length; res[k] = {avg, fp, poor}; }); return res; }
+  function uniFlags(ufb){ const flags = []; ufb.forEach(f => { catKeys.forEach(k => { const c = f[k]; if(!c) return; const ff = funcFields[k]; const isPoor = String(c.rating||'').trim()==='Poor'; const notWorking = String(c[ff]||'').trim()==='No'; const hasIssue = k==='internet' && String(c.issues||'').trim()==='Yes'; if(isPoor||notWorking||hasIssue){ const raw = c.suggestion || c.issues_text || (isPoor?'Rated Poor':notWorking?'Not functioning':'Issue reported'); const clean = String(raw).trim(); if(clean.length>=2 && !/^(na|n\/a|none|no|yes|ok|fine|good|nothing|nope|noo|nah|not|nil|null|-|\.)$/i.test(clean)){ flags.push({cat:catNames[k], text:clean, who:f.student+' \u00B7 Room '+f.classroom, len:clean.length}); } } }); }); const seen = new Set(); return flags.sort((a,b)=>b.len-a.len).filter(f=>{ const key = f.who + '|' + f.cat; if(seen.has(key)) return false; seen.add(key); return true; }); }
+  function uniSummary(uni, ufb, uStats){ const overalls = ufb.map(f=>f.overall).filter(v=>v>0); const avg = overalls.length ? Math.round(overalls.reduce((a,b)=>a+b,0)/overalls.length*10)/10 : 0; const worst = catKeys.reduce((a,b) => { const pa = uStats[a]?.poor||0, pb = uStats[b]?.poor||0; if(pb !== pa) return pb > pa ? b : a; return (uStats[b]?.avg||4) < (uStats[a]?.avg||4) ? b : a; }); const best = catKeys.reduce((a,b) => (uStats[a]?.avg||0) > (uStats[b]?.avg||0) ? a : b); const worstFlags = uStats[worst]?.poor||0; return ufb.length+' responses this week. '+catNames[worst]+' is the most critical concern with '+worstFlags+' flag'+(worstFlags!==1?'s':'')+' and an avg rating of '+(uStats[worst]?.avg||'\u2014')+'/4. '+catNames[best]+' is performing best at '+(uStats[best]?.avg||'\u2014')+'/4. Overall student satisfaction is '+avg+'/5.'; }
+  const uniSections = Object.entries(uniGroups).sort().map(([uni, ufb]) => { const uStats = uniCatStats(ufb); const flags = uniFlags(ufb); const summary = uniSummary(uni, ufb, uStats); const catRows = catKeys.map(k => { const cs = uStats[k]; return '<tr><td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">'+catNames[k]+'</td><td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">'+(cs.avg||'\u2014')+' / 4</td><td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">'+cs.fp+'%</td><td style="padding:10px;border-bottom:0.5px solid #e5e7eb;font-size:12px">'+(cs.poor||'\u2014')+'</td></tr>'; }).join(''); const flagRows = flags.length === 0 ? '<p style="font-size:12px;color:#9ca3af;padding:8px 0">No issues flagged.</p>' : flags.map((f,i) => '<div style="display:flex;gap:14px;padding:10px 0;border-bottom:0.5px solid #f3f4f6;font-size:12px;line-height:1.5"><span style="color:#9ca3af;min-width:16px;font-weight:500">'+(i+1)+'</span><span style="font-weight:500;min-width:100px;color:#111827">'+f.cat+'</span><div style="flex:1"><div style="color:#111827">'+f.text+'</div><div style="font-size:11px;color:#9ca3af;margin-top:2px">'+f.who+'</div></div></div>').join(''); return '<div style="margin-bottom:32px"><div style="font-size:17px;font-weight:500;color:#111827;margin-bottom:8px">'+uni+'</div><div style="font-size:12px;color:#6b7280;line-height:1.6;padding:10px 14px;background:#f9fafb;border-radius:8px;margin-bottom:16px">'+summary+'</div><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:6px">Category Ratings</div><table style="width:100%;border-collapse:collapse;margin-bottom:20px"><tr style="background:#f9fafb"><th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Category</th><th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Avg Rating</th><th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Functioning</th><th style="text-align:left;padding:8px 10px;font-size:10px;font-weight:500;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid #e5e7eb">Issues</th></tr>'+catRows+'</table><div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:6px">Flagged Issues</div><div style="margin-bottom:8px">'+flagRows+'</div></div>'; }).join('<hr style="border:none;border-top:1px solid #e5e7eb;margin:4px 0 28px"/>');
+  const overallAvg = stats.avgOverall||'\u2014';
+  const reportHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Facilities Feedback Report - '+currentDate+'</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fff;color:#111827;padding:40px 48px;max-width:720px;margin:0 auto;line-height:1.5}@media print{body{padding:20mm} @page{margin:20mm} .no-print{display:none}}</style></head><body><div style="display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:20px;border-bottom:2px solid #111827;margin-bottom:28px"><div><div style="font-size:22px;font-weight:500;color:#111827;margin-bottom:6px">Facilities Feedback Report</div><div style="font-size:13px;color:#6b7280;line-height:1.8">Saturday, '+currentDate+'<br>NIAT Program Operations<br>Generated automatically</div></div><img src="https://raw.githubusercontent.com/programopscentral-art/infra-reports/main/niat-logo.png" style="width:48px;height:48px;border-radius:8px;object-fit:cover"/></div><div style="display:grid;grid-template-columns:repeat(4,1fr);border:0.5px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:36px"><div style="padding:14px 12px;text-align:center;border-right:0.5px solid #e5e7eb"><div style="font-size:22px;font-weight:500;color:#111827">'+stats.totalResponses+'</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Responses</div></div><div style="padding:14px 12px;text-align:center;border-right:0.5px solid #e5e7eb"><div style="font-size:22px;font-weight:500;color:#111827">'+overallAvg+'/5</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Avg Rating</div></div><div style="padding:14px 12px;text-align:center;border-right:0.5px solid #e5e7eb"><div style="font-size:22px;font-weight:500;color:#111827">'+stats.flagCount+'</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Issues</div></div><div style="padding:14px 12px;text-align:center"><div style="font-size:22px;font-weight:500;color:#111827">'+stats.uniCount+'</div><div style="font-size:10px;color:#9ca3af;margin-top:5px;text-transform:uppercase;letter-spacing:.06em">Universities</div></div></div>'+uniSections+'<div style="text-align:center;font-size:10px;color:#9ca3af;padding-top:16px;border-top:0.5px solid #e5e7eb;margin-top:8px">NIAT Facilities Feedback \u00A0\u00B7\u00A0 Confidential \u00A0\u00B7\u00A0 '+currentDate+'</div></body></html>';
+  const win = window.open('', '_blank'); win.document.write(reportHtml); win.document.close(); setTimeout(() => win.print(), 800);
 }
+
 const RESOLVE_WEBHOOK = 'https://niat2026.app.n8n.cloud/webhook/resolve';
 let currentResolveFlag = null;
 let currentResolveFeedback = null;
 let resolvedItems = [];
 
 function renderResolvedSection(){
-  // Update KPI count
   const kpiVal = document.getElementById('resolved-kpi-val');
   if(kpiVal) kpiVal.textContent = resolvedItems.length;
   const label  = document.getElementById('resolved-sec-label');
   const inline = document.getElementById('resolved-inline');
   if(!inline) return;
-  if(resolvedItems.length === 0){
-    if(label) label.style.display = 'none';
-    inline.innerHTML = '';
-    return;
-  }
+  if(resolvedItems.length === 0){ if(label) label.style.display = 'none'; inline.innerHTML = ''; return; }
   if(label) label.style.display = 'block';
-  inline.innerHTML = `<div class="resolved-section">
-      <div class="resolved-section-header">✅ Resolved Issues</div>
-      <div id="resolved-items-list">${resolvedItems.map(item => `
-        <div class="resolved-item">
-          <span class="resolved-cat-tag">${item.cat}</span>
-          <span class="flag-text" style="flex:1">${item.text}</span>
-          <span class="resolved-date">✅ ${item.date}</span>
-          <span class="flag-who" style="width:100%">${item.who}</span>
-          <span style="font-size:10px;color:#059669;width:100%;margin-top:2px">Resolution: ${item.note}</span>
-        </div>`).join('')}</div>
-    </div>`;
+  inline.innerHTML = '<div class="resolved-section"><div class="resolved-section-header">\u2705 Resolved Issues</div><div id="resolved-items-list">'+resolvedItems.map(item => '<div class="resolved-item"><span class="resolved-cat-tag">'+item.cat+'</span><span class="flag-text" style="flex:1">'+item.text+'</span><span class="resolved-date">\u2705 '+item.date+'</span><span class="flag-who" style="width:100%">'+item.who+'</span><span style="font-size:10px;color:#059669;width:100%;margin-top:2px">Resolution: '+item.note+'</span></div>').join('')+'</div></div>';
 }
 
 function openResolveModal(btn){
@@ -1036,89 +604,52 @@ function openResolveModal(btn){
   const cat = flagEl.querySelector('.flag-cat').textContent;
   const text = flagEl.querySelector('.flag-text').textContent;
   const who = flagEl.querySelector('.flag-who').textContent;
-  // Parse who: "StudentName · University · Room X"
-  const parts = who.split(' · ');
+  const parts = who.split(' \u00B7 ');
   const studentName = parts[0]||'';
   const university = parts[1]||'';
   const room = parts[2]||'';
-  // Find student email from currentFeedback
-  const student = currentFeedback.find(f =>
-    (f.student||'').toLowerCase().trim() === studentName.toLowerCase().trim()
-  );
-  currentResolveFeedback = {
-    studentName, university, room,
-    studentEmail: student?.email||'',
-    category: cat, issueText: text,
-    weekDate: currentDate
-  };
-  document.getElementById('resolve-issue-box').innerHTML =
-    `<strong>${cat}</strong> — ${text}<br><span style="font-size:10px;color:#9ca3af;margin-top:4px;display:block">${who}</span>`;
+  const student = currentFeedback.find(f => (f.student||'').toLowerCase().trim() === studentName.toLowerCase().trim());
+  currentResolveFeedback = { studentName, university, room, studentEmail: student?.email||'', category: cat, issueText: text, weekDate: currentDate };
+  document.getElementById('resolve-issue-box').innerHTML = '<strong>'+cat+'</strong> \u2014 '+text+'<br><span style="font-size:10px;color:#9ca3af;margin-top:4px;display:block">'+who+'</span>';
   document.getElementById('resolve-note').value = '';
   document.getElementById('resolve-overlay').style.display = 'flex';
 }
 
-function closeResolveModal(){
-  document.getElementById('resolve-overlay').style.display = 'none';
-  currentResolveFlag = null;
-  currentResolveFeedback = null;
-}
+function closeResolveModal(){ document.getElementById('resolve-overlay').style.display = 'none'; currentResolveFlag = null; currentResolveFeedback = null; }
 
 async function sendResolution(){
   const note = document.getElementById('resolve-note').value.trim();
   if(!note){ document.getElementById('resolve-note').style.borderColor='#dc2626'; return; }
   document.getElementById('resolve-note').style.borderColor='#ede9fe';
   const btn = document.getElementById('resolve-send-btn');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
+  btn.disabled = true; btn.textContent = 'Sending...';
   try {
-    const payload = {
-      ...currentResolveFeedback,
-      resolutionNote: note
-    };
-    const res = await fetch(RESOLVE_WEBHOOK, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    });
-    // n8n may return non-200 even on success, so proceed if not network error
+    const payload = { ...currentResolveFeedback, resolutionNote: note };
+    const res = await fetch(RESOLVE_WEBHOOK, { method: 'POST', mode: 'cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
     const flagEl = document.getElementById('flag-' + currentResolveFlag);
     if(true){
       if(flagEl){
         const now = new Date();
-          const dateStr = now.toLocaleDateString('en-IN', {day:'numeric',month:'short',timeZone:'Asia/Calcutta'});
-          flagEl.style.display = 'none';
-          // Add to resolved section
-          const rCat = flagEl.querySelector('.flag-cat').textContent;
-          const rText = flagEl.querySelector('.flag-text').textContent;
-          const rWho = flagEl.querySelector('.flag-who').textContent;
-          resolvedItems.push({cat:rCat, text:rText, who:rWho, note:note, date:dateStr});
-          renderResolvedSection();
-        }
-        closeResolveModal();
-    } else {
-      btn.textContent = 'Failed — Retry';
-      btn.disabled = false;
-    }
-  } catch(e) {
-    btn.textContent = 'Failed — Retry';
-    btn.disabled = false;
-  }
+        const dateStr = now.toLocaleDateString('en-IN', {day:'numeric',month:'short',timeZone:'Asia/Calcutta'});
+        flagEl.style.display = 'none';
+        const rCat = flagEl.querySelector('.flag-cat').textContent;
+        const rText = flagEl.querySelector('.flag-text').textContent;
+        const rWho = flagEl.querySelector('.flag-who').textContent;
+        resolvedItems.push({cat:rCat, text:rText, who:rWho, note:note, date:dateStr});
+        renderResolvedSection();
+      }
+      closeResolveModal();
+    } else { btn.textContent = 'Failed \u2014 Retry'; btn.disabled = false; }
+  } catch(e) { btn.textContent = 'Failed \u2014 Retry'; btn.disabled = false; }
 }
 
 function toggleTheme(){
   const dark = document.documentElement.dataset.theme==='dark';
   document.documentElement.dataset.theme = dark?'light':'dark';
-  document.getElementById('theme-ico').innerHTML = dark
-    ?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
-    :'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
 }
 
 buildSidebar();
-// Auto-load most recent date that has valid data
-const validDates = Object.keys(HISTORY)
-  .filter(d => (HISTORY[d].feedback||[]).filter(isValidFeedback).length > 0)
-  .sort().reverse();
+const validDates = Object.keys(HISTORY).filter(d => (HISTORY[d].feedback||[]).filter(isValidFeedback).length > 0).sort().reverse();
 if(validDates.length) loadDate(validDates[0]);
 </script>
 </body>
