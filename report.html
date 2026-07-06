@@ -404,7 +404,7 @@ function fetchLiveResolved(forDate){
     } catch(e){ /* live resolved fetch failed; static snapshot stays as-is */ }
   };
   script.onerror = () => { delete window[cbName]; script.remove(); };
-  script.src = 'https://docs.google.com/spreadsheets/d/'+RESOLVED_SHEET_ID+'/gviz/tq?tqx=out:json;responseHandler='+cbName+'&sheet=Resolved';
+  script.src = 'https://docs.google.com/spreadsheets/d/'+RESOLVED_SHEET_ID+'/gviz/tq?tqx=out:json;responseHandler:'+cbName+'&sheet=Resolved';
   document.body.appendChild(script);
 }
 
