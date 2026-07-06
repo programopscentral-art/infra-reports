@@ -367,6 +367,45 @@ function loadDate(date){
   renderReport(feedback, participation, stats);
   renderResolvedSection();
   hideResolvedFlags();
+  fetchLiveResolved(date);
+}
+
+const RESOLVED_SHEET_ID = '1yxLOjVkFM1lb1pnDPoA95yWberCQNsttHXRdmDa2oCg';
+let liveResolvedSeq = 0;
+function gvizDateToISO(v){
+  const m = /^Date\((\d+),(\d+),(\d+)/.exec(v||'');
+  if(!m) return v||'';
+  return m[1]+'-'+String(parseInt(m[2])+1).padStart(2,'0')+'-'+m[3].padStart(2,'0');
+}
+function fetchLiveResolved(forDate){
+  const cbName = 'gvizResolvedCb'+(liveResolvedSeq++);
+  const script = document.createElement('script');
+  window[cbName] = function(resp){
+    delete window[cbName];
+    script.remove();
+    try {
+      const cols = resp.table.cols.map(c => c.label);
+      const idx = name => cols.indexOf(name);
+      const iDate=idx('Date Resolved'), iWeek=idx('Week Date'), iName=idx('Student Name'), iUni=idx('University'), iCat=idx('Category'), iIssue=idx('Issue Text'), iNote=idx('Resolution Note');
+      const val = (row,i) => (i>=0 && row.c[i] && row.c[i].v!=null) ? String(row.c[i].v) : '';
+      const dateVal = (row,i) => (i>=0 && row.c[i]) ? (row.c[i].f ? String(row.c[i].f) : gvizDateToISO(row.c[i].v)) : '';
+      const rows = (resp.table.rows||[]).map(row => ({
+        dateResolved: dateVal(row,iDate), weekDate: dateVal(row,iWeek),
+        studentName: val(row,iName), university: val(row,iUni), category: val(row,iCat), issueText: val(row,iIssue), resolutionNote: val(row,iNote)
+      })).filter(r => r.weekDate === forDate && r.category && r.issueText);
+      if(!rows.length || forDate !== currentDate) return;
+      const seen = new Set(resolvedItems.map(r => (r.cat||'').toLowerCase().trim()+'|'+(r.text||'').toLowerCase().trim()));
+      rows.forEach(r => {
+        const key = (r.category||'').toLowerCase().trim()+'|'+(r.issueText||'').toLowerCase().trim();
+        if(!seen.has(key)){ seen.add(key); resolvedItems.push({ cat:r.category, text:r.issueText, who:r.studentName+' \u00B7 '+r.university, note:r.resolutionNote, date: r.dateResolved ? r.dateResolved.slice(5) : '\u2014' }); }
+      });
+      renderResolvedSection();
+      hideResolvedFlags();
+    } catch(e){ /* live resolved fetch failed; static snapshot stays as-is */ }
+  };
+  script.onerror = () => { delete window[cbName]; script.remove(); };
+  script.src = 'https://docs.google.com/spreadsheets/d/'+RESOLVED_SHEET_ID+'/gviz/tq?tqx=out:json;responseHandler='+cbName+'&sheet=Resolved';
+  document.body.appendChild(script);
 }
 
 // FIX 2 APPLIED: uses setAttribute('data-resolved') instead of style.display
@@ -627,7 +666,7 @@ async function sendResolution(){
     const payload = { ...currentResolveFeedback, resolutionNote: note };
     const res = await fetch(RESOLVE_WEBHOOK, { method: 'POST', mode: 'cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
     const flagEl = document.getElementById('flag-' + currentResolveFlag);
-    if(true){
+    if(res.ok){
       if(flagEl){
         const now = new Date();
         const dateStr = now.toLocaleDateString('en-IN', {day:'numeric',month:'short',timeZone:'Asia/Calcutta'});
